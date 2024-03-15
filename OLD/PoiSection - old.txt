@@ -1,0 +1,36 @@
+import * as React from "react";
+import Box from "@mui/joy/Box";
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import AspectRatio from '@mui/joy/AspectRatio';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Typography from "@mui/joy/Typography";
+import locations from "./locationsExamples";
+import Textarea from '@mui/joy/Textarea';
+function PoiSection(props) {
+  return (
+    <Box sx={{ display: "flex", justifyContent: "space-evenly", gap: 2, flexWrap: "wrap" }}>
+      {locations.map((location, index) => (
+        <Card key={index} variant="outlined"  sx={{ width: "46%", mb: 4 , minWidth: ""}}>
+          <CardOverflow>
+            <AspectRatio ratio="2">
+              <img
+                src={location.pic}
+                loading="lazy"
+                alt={location.name}
+              />
+            </AspectRatio>
+          </CardOverflow>
+          <CardContent>
+            <Typography level="h4">
+              {location.name}
+            </Typography>
+            <Textarea placeholder="Description: " defaultValue={location.desc} variant="plain" />
+          </CardContent>
+        </Card>
+      ))}
+    </Box>
+  );
+}
+
+export default PoiSection;

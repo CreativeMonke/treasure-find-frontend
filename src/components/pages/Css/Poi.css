@@ -1,0 +1,7 @@
+.poiPage
+{
+    display: flex;
+    flex-direction: column;
+    flex:9 1;
+}
+    

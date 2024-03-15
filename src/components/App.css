@@ -1,0 +1,29 @@
+iframe#webpack-dev-server-client-overlay{display:none!important}
+
+.App {
+  text-align: center;
+  display: flex;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+
+.App-link {
+  color: #61dafb;
+}
+
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex:0.2 0;
+  flex-flow: column;
+  text-align: center;
+  width: 100%;
+}
+
+

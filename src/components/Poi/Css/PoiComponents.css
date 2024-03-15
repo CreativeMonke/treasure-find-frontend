@@ -1,0 +1,56 @@
+.poiList
+{
+    display: flex;
+    flex: 5 1;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.cardDesk{
+    display: flex;
+    flex-basis: 25%;
+    min-height: min-content;
+    height: max-content;
+    margin:1%;
+    min-width: 300px;
+}
+.mobileView
+{
+    display: flex;
+    flex-flow: row;
+    width: 100vw;
+    position: relative;
+    margin-bottom: 4%;
+}
+.sideSection{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    
+    z-index: 2;
+}
+.sideLeft {
+    position: absolute;
+    top: 18%;
+    left: 0;
+}
+
+.sideRight{
+    rotate: 180deg;
+    position: absolute;
+    top: 18%;
+    left: 95.5vw;
+}
+.sideButton{
+    writing-mode:vertical-lr;
+    text-orientation:sideways;
+}
+.sideButton{
+
+    display: flex;    
+    flex-basis: 50%;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    width: 4.5vw;
+}

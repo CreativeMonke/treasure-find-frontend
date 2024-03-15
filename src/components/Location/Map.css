@@ -1,0 +1,7 @@
+#map{
+    box-sizing: border-box;
+    min-width: 100%;
+    min-height: 100%;
+    border: 2px solid grey;
+    border-radius: 16px;
+}

@@ -1,0 +1,6 @@
+.cardMob{
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    flex-basis: 100vw;
+}

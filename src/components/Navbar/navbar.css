@@ -1,0 +1,12 @@
+.navButton {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.8 1;
+  margin-bottom: 10px;
+  max-height: 70px;
+}
