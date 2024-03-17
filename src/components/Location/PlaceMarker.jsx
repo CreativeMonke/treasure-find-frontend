@@ -1,37 +1,44 @@
-import { MapContainer, TileLayer , useMap, Popup , Marker } from "react-leaflet";
-import L from "leaflet"
-import {React , useState , useEffect} from "react"
-function PlaceMarker(props)
-{
-    const [position, setPosition] = useState(null);
-    const [bbox, setBbox] = useState([]);
+import { useMap, Popup, Marker } from "react-leaflet";
+import L from "leaflet";
+import { React, useState, useEffect } from "react";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
-    const map = useMap();
-    
-    useEffect(() => {
-      map.locate().on("locationfound", function (e) {
-        console.log(e);
-        setPosition(e.latlng);
-        map.flyTo(e.latlng, map.getZoom());
-        const radius = props.radius;
-        const circle = L.circle(e.latlng, radius);
-        circle.addTo(map);
-        setBbox(e.bounds.toBBoxString().split(","));
-      });
-    }, [map]);
+function PlaceMarker(props) {
+  const [marker, setMarker] = useState(null);
 
+  const map = useMap();
 
-    return position === null ? null : (
-        <Marker position={position}>
-          <Popup>
-            You are here. <br />
-            Map bbox: <br />
-            <b>Southwest lng</b>: {bbox[0]} <br />
-            <b>Southwest lat</b>: {bbox[1]} <br />
-            <b>Northeast lng</b>: {bbox[2]} <br />
-            <b>Northeast lat</b>: {bbox[3]}
-          </Popup>
-        </Marker>
+  useEffect(() => {
+    const geocoder = new L.Control.Geocoder.Nominatim();
+
+    function OnMapClick(evt) {
+      geocoder.reverse(
+        evt.latlng,
+        map.options.crs.scale(map.getZoom()),
+        (results) => {
+          const r = results[0];
+          if (r) {
+            if (marker) {
+              marker.remove();
+            }
+          }
+          const newMarker = L.marker(evt.latlng)
+            .addTo(map)
+            .bindPopup(`${r.name}`)
+            .openPopup();
+
+          setMarker(newMarker);
+
+          console.log(`Clicked location: Latitude ${evt.latlng.lat}, Longitude ${evt.latlng.lng}`);
+        }
       );
     }
+
+    map.on("click", OnMapClick);
+    return () => {
+      map.off("click", OnMapClick);
+    };
+  }, [map, marker]);
+  return null;
+}
 export default PlaceMarker;

@@ -1,36 +1,17 @@
-import React from "react";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import React , {useState} from "react";
 import locations from "../locationsExamples";
 import PoiCardMob from "./PoiCardMobile";
-import { Box } from "@mui/joy";
-
+import "./Css/PoiComponents.css"
 function PoiMobileMenu(props) {
-  const MenuItem = ({ text, itemId }) => {
-    const visibility = React.useContext(VisibilityContext);
-    return (
-      <Box
-        className="menu-item"
-        tabIndex={0}
-        role="button"
-        style={{
-          display: "inline-block",
-          backgroundColor: visibility.isItemVisible(itemId) ? "lightgrey" : "",
-        }}
-      >
-        <PoiCardMob {...text} />
-      </Box>
-    );
-  };
-
-  const menuItems = locations.map((location, index) => (
-    <MenuItem
-      text={{ pic: location.pic, name: location.name, desc: location.desc }}
-      itemId={`item-${index}`}
-      key={index}
-    />
-  ));
-
-  return <ScrollMenu>{menuItems}</ScrollMenu>;
+  ///location[0] to props.startIndex
+  const [cardData, updateCardData] = useState(locations[0]);
+  console.log(cardData);
+  function handleChange(props)
+{
+  cardData = updateCardData(props);
 }
-
+return (
+  <PoiCardMob name = {cardData.name} pic = {cardData.pic} desc = {cardData.desc} />
+);
+}
 export default PoiMobileMenu;

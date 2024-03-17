@@ -1,7 +1,7 @@
-import { MapContainer, TileLayer , useMap, Popup , Marker } from "react-leaflet";
-import L from "leaflet"
-import {React , useState , useEffect} from "react"
+import { MapContainer, TileLayer} from "react-leaflet";
+import {React} from "react"
 import PlaceMarker from "./PlaceMarker";
+import LiveLocation from "./LiveLocation";
 function Map(props)
 {
     return(
@@ -13,6 +13,7 @@ function Map(props)
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <PlaceMarker radius = {100}/>
+            <LiveLocation />
           </MapContainer>
     );
 }

@@ -5,9 +5,12 @@ import POI from "./pages/POI";
 import AboutSupport from "./pages/About";
 import NavBar from "./Navbar/Navbar";
 import Footer from "./Footer";
+import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 
 function App() {
   return (
+    <CssVarsProvider
+    defaultMode="system">
     <BrowserRouter>
       <NavBar />
       <Routes>
@@ -38,6 +41,7 @@ function App() {
       </Routes>
       <Footer className="footer" />
     </BrowserRouter>
+    </CssVarsProvider>
   );
 }
 
