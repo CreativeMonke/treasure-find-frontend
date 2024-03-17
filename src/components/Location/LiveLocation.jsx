@@ -19,8 +19,8 @@ function LiveLocation()
     useEffect(() => {
         function updateLiveLocation() {
             navigator.geolocation.watchPosition((location) =>{
-                const {lat,lng} = location.coords;
-                const latlng = L.latlng(lat,lng);
+                const {latitude,longitude} = location.coords;
+                const latlng = L.latlng(latitude,longitude);
 
                 if(liveMarker)
                 {
@@ -35,7 +35,7 @@ function LiveLocation()
                     setLiveMarker(newLiveMarker);
                 }
             },(err)=>{
-                alert(err);
+                console.error(err);
             },{
                 enableHighAccuracy: true,
                 maximumAge: 10000,
