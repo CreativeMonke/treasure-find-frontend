@@ -9,12 +9,12 @@ function NavBar() {
   
   return (
     <Box className = "navBar"
-    boxShadow= "md"
     backgroundColor="background.body"
       sx={{
         "& .navButton": {
           margin: "1%",
           minWidth: "100px",
+          boxShadow: "md",
         },
       }}
     >
@@ -37,7 +37,7 @@ function NavBar() {
       <Button
         className="navButton"
         component={Link}
-        to="/about-support"
+        to="/about"
         variant={isCurrent("/about-support") ? "solid" : "plain"}
       >
         About

@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import POI from "./pages/POI";
-import AboutSupport from "./pages/About";
 import NavBar from "./Navbar/Navbar";
 import Footer from "./Footer";
-import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
+import About from "./pages/About"
+import { CssVarsProvider } from '@mui/joy/styles';
 
 function App() {
   return (
@@ -31,10 +31,10 @@ function App() {
           }
         />
         <Route
-          path="/about-support"
+          path="/about"
           element={
             <Layout>
-              <AboutSupport />
+              <About />
             </Layout>
           }
         />

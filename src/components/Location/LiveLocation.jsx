@@ -31,6 +31,7 @@ function LiveLocation() {
       navigator.geolocation.watchPosition(
         (location) => {
           const { latitude, longitude, heading } = location.coords;
+          console.log(`Current Heading is ${heading}`);
           const latlng = L.latLng(latitude, longitude);
 
           if (liveMarker) {

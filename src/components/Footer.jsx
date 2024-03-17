@@ -13,9 +13,9 @@ function Footer() {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
   return (
-    <Box className = "footer">
+    <Box className = "footer" backgroundColor="background.body">
       <Typography>Copyright @DRC {year}</Typography>
-      <Typography level="h5">{time}</Typography>
+      <Typography level="h4">{time}</Typography>
     </Box>
   );
 }

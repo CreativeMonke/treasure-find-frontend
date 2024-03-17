@@ -10,7 +10,7 @@ function handleClick(event) {
 }
 function POI() {
   return (
-    <Box className = "poiPage">
+    <Box className = "poiPage" backgroundColor="background.body">
       <PoiSection/>
       <Box display="flex" justifyContent="center" alignItems="center">
         <Button onClick={handleClick}>Add New</Button>
