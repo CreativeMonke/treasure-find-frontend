@@ -20,7 +20,7 @@ function LiveLocation()
         function updateLiveLocation() {
             navigator.geolocation.watchPosition((location) =>{
                 const {latitude,longitude} = location.coords;
-                const latlng = L.latlng(latitude,longitude);
+                const latlng = L.latLng(latitude,longitude);
 
                 if(liveMarker)
                 {
