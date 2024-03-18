@@ -13,7 +13,7 @@ function Map(props)
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <PlaceMarker radius = {100}/>
-            <LiveLocation />
+            <LiveLocation liveFocus = {props.liveFocus}/>
           </MapContainer>
     );
 }

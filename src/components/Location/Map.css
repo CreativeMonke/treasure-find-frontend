@@ -5,3 +5,8 @@
     border: 2px solid grey;
     border-radius: 16px;
 }
+
+.mapOption{
+    position: absolute;
+    z-index: 500;
+}

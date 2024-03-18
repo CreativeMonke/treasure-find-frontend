@@ -37,11 +37,20 @@ function NavBar() {
       <Button
         className="navButton"
         component={Link}
+        to="/HuntTimeline"
+        variant={isCurrent("/HuntTimeline") ? "solid" : "plain"}
+      >
+        My Hunt
+      </Button>
+      <Button
+        className="navButton"
+        component={Link}
         to="/about"
         variant={isCurrent("/about-support") ? "solid" : "plain"}
       >
         About
       </Button>
+      
     </Box>
   );
 }

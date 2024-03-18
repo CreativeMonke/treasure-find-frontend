@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     flex: 9 1;
+    flex-flow: column;
 }
 
 .roundCorners{
@@ -12,7 +13,6 @@
 .firstSection{
     display: flex;
     flex : 9 0;
-    width: 200px;
     margin: 1rem;
     align-items: center;
     justify-content: center;

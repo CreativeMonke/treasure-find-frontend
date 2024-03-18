@@ -22,7 +22,7 @@ const liveLocationIcon = new L.Icon({
   iconAngle: 0,
 });
 
-function LiveLocation() {
+function LiveLocation(props) {
   const [liveMarker, setLiveMarker] = useState(null);
   const map = useMap();
 
@@ -36,6 +36,7 @@ function LiveLocation() {
 
           if (liveMarker) {
             liveMarker.setLatLng(latlng);
+            if(props.liveFocus)
             map.flyTo(latlng, 16);
 
             liveMarker.setIcon(
@@ -53,6 +54,7 @@ function LiveLocation() {
               .bindPopup("You are here");
 
             setLiveMarker(newLiveMarker);
+            if(props.liveFocus)
             map.flyTo(latlng, 16);
           }
         },
