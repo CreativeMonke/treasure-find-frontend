@@ -6,6 +6,7 @@ import NavBar from "./Navbar/Navbar";
 import Footer from "./Footer";
 import About from "./pages/About"
 import HuntTimeline from "./pages/HuntTimeline";
+import LoginPage from "./pages/Login/Login"
 import { CssVarsProvider } from '@mui/joy/styles';
 
 function App() {
@@ -44,6 +45,14 @@ function App() {
           element={
             <Layout>
               <HuntTimeline />
+            </Layout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Layout>
+              <LoginPage />
             </Layout>
           }
         />

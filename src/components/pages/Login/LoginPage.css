@@ -1,0 +1,12 @@
+.loginSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 9 1;
+}
+.loginCard{
+    display: flex;
+    flex-basis: 70vw;
+    min-width: fit-content;
+    max-width: 400px;
+}
