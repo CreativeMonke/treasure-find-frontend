@@ -7,7 +7,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-flow: row;
   flex: 0.8 1;
   max-height: 70px;
   min-height: calc();
+}
+
+.accountAvatar{
+  display: flex;
+  margin-left: auto;
 }

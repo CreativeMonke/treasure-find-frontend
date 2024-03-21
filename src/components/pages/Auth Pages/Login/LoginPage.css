@@ -1,0 +1,36 @@
+/* AuthPage.css */
+.authSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.authCard {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 70vw;
+    min-width: fit-content;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin: auto; /* Center the card vertically */
+}
+
+.formControl {
+    margin-bottom: 16px;
+}
+
+.buttonSubmit {
+    margin-top: 20px;
+}
+
+
+
+.linkText {
+    display: block; /* Make the link take its own line */
+    text-align: center;
+    margin-top: 20px;
+}

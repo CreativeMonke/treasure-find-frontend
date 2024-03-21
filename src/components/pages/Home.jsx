@@ -1,9 +1,10 @@
-import React ,{useState} from "react";
+import React ,{ useState} from "react";
 import Box from "@mui/joy/Box";
 import "./Css/Home.css";
 import Map from "../Location/Map"
 import { Button } from "@mui/joy";
 function Home() {
+
   var [liveLocation,setLiveLocation] = useState(1);
   function toggleLiveLocation()
   {

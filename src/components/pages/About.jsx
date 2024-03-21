@@ -8,7 +8,6 @@ import screenfull from "screenfull";
 import Box from "@mui/joy/Box";
 import "./Css/About.css"
 
-import ShowDatabase from "../database"
 
 function About() {
   function handleClick() {
@@ -76,7 +75,6 @@ function About() {
           </Accordion>
         </AccordionGroup>
         <Button onClick={handleClick}>FullScreen</Button>
-        <ShowDatabase />
     </Box>
    
   );

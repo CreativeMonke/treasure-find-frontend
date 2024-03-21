@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, Link } from "react-router-dom";
 import Box from "@mui/joy/Box";
 import Button from "@mui/joy/Button";
+import { IconButton } from "@mui/joy";
 import "./navbar.css";
 function NavBar() {
   const location = useLocation();
@@ -16,6 +17,7 @@ function NavBar() {
           minWidth: "100px",
           boxShadow: "md",
         },
+        
       }}
     >
       <Button
@@ -50,7 +52,7 @@ function NavBar() {
       >
         About
       </Button>
-      
+      <IconButton className = "accountAvatar" variant="outlined" to="/account"/>
     </Box>
   );
 }
