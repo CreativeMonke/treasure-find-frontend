@@ -1,7 +1,6 @@
 import React from "react";
 import Card from "@mui/joy/Card";
 import CardContent from "@mui/joy/CardContent";
-import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import CardOverflow from "@mui/joy/CardOverflow";
 import MobileLayout from "./MobileLayout.tsx";

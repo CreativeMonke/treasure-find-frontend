@@ -14,11 +14,10 @@ export default function MobileLayout({
       sx={(theme) => ({
         position: "relative",
         minHeight: "100%",
-        maxWidth:"100vw",
         display: "flex",
         flexDirection: reversed ? "column-reverse" : "column",
         alignItems: "center",
-        justifyItems: "center",
+        justifyContent: "center",
         gap: 3,
         [theme.breakpoints.up(834)]: {
           flexDirection: "row",
@@ -35,11 +34,8 @@ export default function MobileLayout({
           flexDirection: "column",
           alignItems: "center",
           justifyContent:"center",
-          gap: "1rem",
           minWidth: "90vw",
-          minHeight: "45%",
           textAlign: "center",
-          flexShrink: 999,
           [theme.breakpoints.up(834)]: {
             minWidth: 420,
             alignItems: "flex-end",
@@ -68,7 +64,7 @@ export default function MobileLayout({
           },
           borderRadius: "sm",
           bgcolor: "background.level2",
-          flexBasis: "40%",
+          flexBasis: "45%",
         })}
       >
         <img src={pic} alt="" />

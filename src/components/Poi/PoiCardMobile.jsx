@@ -2,7 +2,7 @@
 import React from "react";
 import { Typography, Box, IconButton, Textarea, Card } from "@mui/joy";
 import { ArrowForwardRounded } from "@mui/icons-material";
-import MobileLayout from "./MobileLayout.tsx";
+import MobileLayout from "./MobileLayout1.tsx";
 
 // Using destructuring in function parameters for clarity
 const PoiCardMob = ({ pic, name, question, desc }) => (
