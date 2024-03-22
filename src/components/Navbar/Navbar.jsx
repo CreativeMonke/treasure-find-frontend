@@ -55,7 +55,7 @@ function NavBar() {
         </Button>
       </Box>
       <Box className = "profileMenu">
-        <Avatar>Test</Avatar>
+        <Avatar>UN</Avatar>
       </Box>
     </Box>
   );

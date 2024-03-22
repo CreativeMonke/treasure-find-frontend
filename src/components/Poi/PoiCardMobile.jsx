@@ -6,7 +6,7 @@ import MobileLayout from "./MobileLayout.tsx";
 
 // Using destructuring in function parameters for clarity
 const PoiCardMob = ({ pic, name, question, desc }) => (
-  <MobileLayout reversed pic={pic} backgroundColor="background.body">
+  <MobileLayout  pic={pic} backgroundColor="background.body">
     <Card>
       <Typography
         level="h1"

@@ -18,7 +18,6 @@ export default function MobileLayout({
         flexDirection: reversed ? "column-reverse" : "column",
         alignItems: "center",
         justifyItems: "center",
-        py: 10,
         gap: 3,
         [theme.breakpoints.up(834)]: {
           flexDirection: "row",
@@ -36,7 +35,7 @@ export default function MobileLayout({
           alignItems: "center",
           gap: "1rem",
           minWidth: "90vw",
-          maxHeight: "40vh",
+          minHeight: "40vh",
           textAlign: "center",
           flexShrink: 999,
           [theme.breakpoints.up(834)]: {
@@ -65,7 +64,7 @@ export default function MobileLayout({
           },
           borderRadius: "sm",
           bgcolor: "background.level2",
-          flexBasis: "50%",
+          flexBasis: "45%",
         })}
       >
         <img src={pic} alt="" />
