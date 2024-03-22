@@ -1,11 +1,18 @@
 .poiList
 {
     display: flex;
-    flex: 9 1;
+    height: 100vh;
+    width: 100vw;
     justify-content: space-evenly;
     flex-wrap: wrap;
-}
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
 
+}
+.poiList > div{
+    scroll-snap-align: center;
+
+}
 .cardDesk{
     display: flex;
     flex-basis: 25%;
@@ -17,39 +24,13 @@
 .mobileView
 {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    height: 100vh;
     width: 100vw;
     position: relative;
-    margin-bottom: 4%;
 }
-.sideSection{
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    z-index: 2;
-}
-.sideLeft {
-    position: absolute;
-    top: 18%;
-    left: 0;
-}
-
-.sideRight{
-    rotate: 180deg;
-    position: absolute;
-    top: 18%;
-    left: 95.5vw;
-}
-.sideButton{
-    writing-mode:vertical-lr;
-    text-orientation:sideways;
-}
-.sideButton{
-
-    display: flex;    
-    flex-basis: 50%;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    width: 4.5vw;
+.mobileView > div{
+    scroll-snap-align: center;
 }

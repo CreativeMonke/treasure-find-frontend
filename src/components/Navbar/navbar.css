@@ -1,19 +1,27 @@
 .navButton {
     transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    width: 20vw;
   }
 
 
 .navBar {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-flow: row;
-  flex: 0.8 1;
-  max-height: 70px;
-  min-height: calc();
+  flex: 0.7 1;
+  flex-wrap: nowrap;
+  max-height: 100px;
 }
-
-.accountAvatar{
+.pageLinks{
+  justify-content: center;
   display: flex;
-  margin-left: auto;
+  flex: 2 1;
+  column-gap: 0.2vw;
+}
+.profileMenu{
+  display: flex;
+  flex-flow: row-reverse;
+  justify-content: center;
+  align-items: center;
+  flex:1 1;
 }
