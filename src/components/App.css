@@ -1,8 +1,9 @@
-iframe#webpack-dev-server-client-overlay{display:none!important}
 
 .App {
   text-align: center;
   display: flex;
+  position: sticky;
+  min-height: 100dvh;
 }
 
 .App-logo {

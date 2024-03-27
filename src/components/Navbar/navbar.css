@@ -1,54 +1,43 @@
-.navButton {
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    width: 20vw;
-  }
-
-
-.navBar {
+.SidebarDrawer{
+  z-index: 10000;
+  height: 100dvh;
+  position: sticky;
+  width: 230px;
+}
+.Sidebar{
   display: flex;
+  height: 100%;
+  gap:0.2rem;
+  padding: 1rem;
+  flex-direction: column;
+  border-right: 1px solid;
+  min-width: max-content;
+  background-color: var(--joy-palette-background-surface);
+}
+.SidebarHeader{
+  display: flex;
+  gap:1rem;
+  padding: 0.3rem;
   align-items: center;
-  flex-flow: row;
-  flex: 0.7 1;
-  flex-wrap: nowrap;
-  max-height: 100px;
 }
-
-.pageLinks{
-  justify-content: center;
+.NavigationLinks{
+  min-height: 0;
+  overflow: hidden auto;
+  flex-grow: 1;
   display: flex;
-  flex: 2 1;
-  column-gap: 0.2vw;
+  flex-direction: column;
 }
-.profileMenu{
-  display: flex;
-  flex-flow: row-reverse;
-  justify-content: center;
-  align-items: center;
-  flex:1 1;
+.TopList{
+  size: "sm";
+  gap:0.5rem;
+  --ListnestedInsetStart : "30px";
 }
-.mobileTopIcon
+@media(min-width:900px)
 {
-  display: flex;
-}
-@media (max-width:830px)
-{
-  .pageLinks{
-    font-size: x-large;
-    padding-top: 20px;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: start;
-  }
-  .pageLinks > .navButton{
-    min-width: 100%;
-    display: flex;
-    
-  }
-  .mobileTopIcon{
-    padding: 2vw;
-  }
-  .navDrower{
-    display: flex;
+  .Sidebar{
+    z-index: 10000;
+    height: calc(100dvh - 2rem);
+    position: sticky;
+    width: 250px;
   }
 }

@@ -1,0 +1,54 @@
+.navButton {
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    width: 20vw;
+  }
+
+
+.navBar {
+  display: flex;
+  align-items: center;
+  flex-flow: row;
+  flex: 0.7 1;
+  flex-wrap: nowrap;
+  max-height: 100px;
+}
+
+.pageLinks{
+  justify-content: center;
+  display: flex;
+  flex: 2 1;
+  column-gap: 0.2vw;
+}
+.profileMenu{
+  display: flex;
+  flex-flow: row-reverse;
+  justify-content: center;
+  align-items: center;
+  flex:1 1;
+}
+.mobileTopIcon
+{
+  display: flex;
+}
+@media (max-width:830px)
+{
+  .pageLinks{
+    font-size: x-large;
+    padding-top: 20px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: start;
+  }
+  .pageLinks > .navButton{
+    min-width: 100%;
+    display: flex;
+    
+  }
+  .mobileTopIcon{
+    padding: 2vw;
+  }
+  .navDrower{
+    display: flex;
+  }
+}

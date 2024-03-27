@@ -1,8 +1,8 @@
 .poiList
 {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    height: 100dvh;
+    width: 100%;
     justify-content: space-evenly;
     flex-wrap: wrap;
     overflow-y: scroll;
@@ -19,7 +19,7 @@
     min-height: min-content;
     height: max-content;
     margin:1%;
-    min-width: 300px;
+    min-width: 220px;
 }
 .mobileView
 {
@@ -28,7 +28,7 @@
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: relative;
 }
 .mobileView > div{

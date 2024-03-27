@@ -7,7 +7,22 @@ import Drawer from "@mui/joy/Drawer";
 import IconButton from "@mui/joy/IconButton";
 import MenuIcon from "@mui/icons-material/Menu"; // Ensure you have @mui/icons-material installed
 import "./navbar.css";
+/*
+function Toggler({
+  defaultExpanded = false,
+  renderToggle,
+  children,
+} : {
+  defaultExpanded?: boolean;
+  children: React.ReactNode;
+  renderToggle: (params:{
+    open : boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  })=> React.ReactNode;
+}) {
 
+
+}*/
 function NavBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 834);
@@ -66,7 +81,7 @@ function NavBar() {
       </Box>
     </Drawer>
   );
-
+  
   const renderDesktopMenu = () => (
     <Box
       className="navBar"

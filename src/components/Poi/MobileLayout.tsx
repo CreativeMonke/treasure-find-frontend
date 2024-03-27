@@ -14,7 +14,7 @@ export default function MobileLayout({
       sx={(theme) => ({
         position: "relative",
         minHeight: "100%",
-        maxWidth:"100vw",
+        maxWidth:"100dvw",
         display: "flex",
         flexDirection: reversed ? "column-reverse" : "column",
         alignItems: "center",

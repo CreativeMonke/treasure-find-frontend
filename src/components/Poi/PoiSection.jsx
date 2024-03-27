@@ -5,7 +5,7 @@ import PoiCard from "./PoiCard";
 import { useMediaQuery } from "usehooks-ts";
 import PoiCardMob from "./PoiCardMobile";
 function PoiSection(props) {
-  const desktop = useMediaQuery("(min-width: 760px)");
+  const desktop = useMediaQuery("(min-width: 1200px)");
   return (
     <Box className="poiList">
       {desktop ? (

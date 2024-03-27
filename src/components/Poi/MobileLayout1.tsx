@@ -34,9 +34,9 @@ export default function MobileLayout({
           flexDirection: "column",
           alignItems: "center",
           justifyContent:"center",
-          minWidth: "90vw",
+          minWidth: "70vw",
           textAlign: "center",
-          [theme.breakpoints.up(834)]: {
+          [theme.breakpoints.up(900)]: {
             minWidth: 420,
             alignItems: "flex-end",
             textAlign: "initial",
@@ -64,7 +64,7 @@ export default function MobileLayout({
           },
           borderRadius: "sm",
           bgcolor: "background.level2",
-          flexBasis: "45%",
+          flexBasis: "45vw",
         })}
       >
         <img src={pic} alt="" />

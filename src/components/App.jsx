@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CssVarsProvider } from "@mui/joy/styles";
-import NavBar from "./Navbar/Navbar";
+import NavBar from "./Navbar/Navbar.tsx";
 import Footer from "./Footer";
 import ProtectedRoute from "./ProtectedRoute";
 import routeConfig from "./Routes/routeConfig.js"; // Adjust the path as necessary
@@ -9,6 +9,7 @@ import routeConfig from "./Routes/routeConfig.js"; // Adjust the path as necessa
 function App() {
   return (
     <CssVarsProvider defaultMode="system">
+      
       <BrowserRouter>
         <PageStructure>
           <Routes>
@@ -24,6 +25,7 @@ function App() {
 
               return (
                 <Route
+                
                   key={index}
                   path={route.path}
                   element={<Layout>{RouteComponent}</Layout>}
@@ -49,9 +51,9 @@ function PageStructure({ children }) {
     <>
       {!noNavBarFooterPages.includes(location.pathname) && <NavBar />}
       {children}
-      {!noNavBarFooterPages.includes(location.pathname) && (
+      {/*!noNavBarFooterPages.includes(location.pathname) && (
         <Footer className="footer" />
-      )}
+      )*/}
     </>
   );
 }
