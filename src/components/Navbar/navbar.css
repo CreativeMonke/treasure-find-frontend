@@ -1,14 +1,9 @@
 .SidebarDrawer{
-  z-index: 10000;
-  height: 100dvh;
   position: sticky;
-  width: 230px;
 }
 .Sidebar{
   display: flex;
   height: 100%;
-  gap:0.2rem;
-  padding: 1rem;
   flex-direction: column;
   border-right: 1px solid;
   min-width: max-content;
@@ -35,9 +30,9 @@
 @media(min-width:900px)
 {
   .Sidebar{
-    z-index: 10000;
-    height: calc(100dvh - 2rem);
     position: sticky;
-    width: 250px;
+  }
+  .SidebarDrawer{
+    position: fixed;
   }
 }

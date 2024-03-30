@@ -4,6 +4,7 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './components/AuthContext.js';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <AuthProvider className="Test">
