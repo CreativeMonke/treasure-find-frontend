@@ -19,7 +19,7 @@ export const LocationProvider = ({ children }) => {
     }
 
     try {
-      const res = await axios.get(`${apiUrl}/locations/all`, {
+      const res = await axios.get(`${apiUrl}locations/all`, {
         withCredentials: true,
       });
 
