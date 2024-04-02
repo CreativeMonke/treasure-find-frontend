@@ -14,17 +14,30 @@ export const LocationProvider = ({ children }) => {
   console.log(AuthContext);
   async function getLocationData() {
     if (!isLoggedIn) {
-      console.log("No Logged");
+      console.log("Not Logged In");
       return;
     }
 
     try {
-      const res = await axios.get(`${apiUrl}locations/all`, {
-        withCredentials: true, // Include this line in your request
+      const res = await axios.get(`${apiUrl}/locations/all`, {
+        withCredentials: true,
       });
-      console.log(res);
+
+      // Assuming res.data is the array of location objects
+      const locationDetails = res.data.map((location) => ({
+        id: location._id, // Replace '_id' with 'id' if your objects have 'id' field
+        name: location.name,
+        picture: location.picture,
+        question: location.question,
+        answer: location.answer,
+        lat: location.lat,
+        lng: location.lng,
+      }));
+
+      // Set the locations state with the newly mapped array
+      setLocations(locationDetails);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
   useEffect(() => {
