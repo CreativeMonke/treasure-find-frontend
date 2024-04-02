@@ -17,7 +17,7 @@ import "./LoginPage.css";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function LoginPage(props) {
-  const [isLoading,setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
@@ -26,10 +26,16 @@ function LoginPage(props) {
   async function CreatePost() {
     setIsLoading(true);
     try {
-      const res = await axios.post(apiUrl + "auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        apiUrl + "auth/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true, // Include this line in your request
+        }
+      );
 
       const status = res.data.status;
       setIsLoading(false);
@@ -41,7 +47,6 @@ function LoginPage(props) {
       } else {
         setErrorMsg(res.data.message);
         setIsLoading(false);
-
       }
     } catch (error) {
       console.log(error.data);
@@ -94,7 +99,7 @@ function LoginPage(props) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
-          <FormControl  className="formControl">
+          <FormControl className="formControl">
             <FormLabel htmlFor="password">Password</FormLabel>
             <Input
               id="password"
@@ -107,11 +112,10 @@ function LoginPage(props) {
             />
           </FormControl>
           <Button
-            loading = {isLoading}
+            loading={isLoading}
             type="submit"
             variant="solid"
             color="primary"
-            
             className="buttonSubmit"
           >
             Sign In

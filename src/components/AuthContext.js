@@ -11,7 +11,7 @@ export const AuthProvider = ({children}) => {
 
     },[]);
 
-    const login = (props) => {
+    const login = () => {
         setIsLoggedIn(true);
     }
 
