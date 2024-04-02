@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { default as dummyData } from "../../../locationsExamples";
 import axios from "axios";
 import { AuthContext } from "../../../AuthContext.js";
 
@@ -24,7 +23,7 @@ export const LocationProvider = ({ children }) => {
       });
 
       // Assuming res.data is the array of location objects
-      const locationDetails = res.data.map((location) => ({
+      const locationDetails = res.data.data.map((location) => ({
         id: location._id, // Replace '_id' with 'id' if your objects have 'id' field
         name: location.name,
         picture: location.picture,
@@ -44,7 +43,6 @@ export const LocationProvider = ({ children }) => {
     getLocationData();
     // Load location data here
     // dummyLocations is an array of locations
-    setLocations(dummyData);
   }, [isLoggedIn]);
 
   return (

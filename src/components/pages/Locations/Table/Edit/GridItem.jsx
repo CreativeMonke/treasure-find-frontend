@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Typography, Textarea, Button, Grid } from "@mui/joy";
 import axios from "axios";
-const GridItem = ({ label, value , databaseEntry}) => {
+const apiUrl = process.env.REACT_APP_API_BASE_URL;
+
+const GridItem = ({ label, value, fieldToUpdate, id }) => {
   const [newFieldText, setNewFieldTest] = useState(value);
   const [hasError, setHasError] = useState(false);
   const [wasModified, setWasModified] = useState(false);
@@ -21,6 +23,13 @@ const GridItem = ({ label, value , databaseEntry}) => {
   async function handleSave() {
     console.log(newFieldText);
     // Save the newLocationData to your database
+    try {
+      const res = await axios.put(`${apiUrl}locations/edit/${id}`, {
+        [fieldToUpdate]: newFieldText,
+      });
+    } catch (err) {
+      console.log(err);
+    }
     setWasModified(false);
   }
 

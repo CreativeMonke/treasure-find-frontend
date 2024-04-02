@@ -8,13 +8,13 @@ function LocationRow(props) {
   }
   return (
     <React.Fragment>
-      <EditLocationModal open={open} setOpen={setOpen} id={props.id} />
+      <EditLocationModal open={open} setOpen={setOpen} index={props.index} id = {props.id}/>
       <tr
         onClick={(evt) => {
           handleClick(evt);
         }}
       >
-        <td>{props.id + 1}</td>
+        <td>{props.index + 1}</td>
         <td>{props.name}</td>
         <td>{props.question}</td>
         <td>{props.answer}</td>

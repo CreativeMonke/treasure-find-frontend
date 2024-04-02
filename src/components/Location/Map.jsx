@@ -14,7 +14,7 @@ function Map(props)
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <PlaceMarkerAtClickedLocation radius = {100}/>
-            <LiveLocation liveFocus = {props.liveFocus}/>
+            {/*<LiveLocation/>*/}
           </MapContainer>
     );
 }

@@ -7,6 +7,7 @@ import { Typography } from "@mui/joy";
 
 function LocationsTable() {
   const { locations } = useLocations();
+  console.log(locations);
   return (
     <Sheet
       variant="soft"
@@ -23,7 +24,7 @@ function LocationsTable() {
       </Typography>
       <Table
         borderAxis="bothBetween"
-        size="sm"
+        size="md"
         stickyFooter={false}
         stickyHeader
         variant="plain"
@@ -40,7 +41,8 @@ function LocationsTable() {
           {locations.map((location, index) => (
             <LocationRow
               key={index}
-              id={index}
+              index = {index}
+              id={location.id}
               name={location.name}
               question={location.question}
               answer={location.answer}
