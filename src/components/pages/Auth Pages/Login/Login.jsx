@@ -33,7 +33,6 @@ function LoginPage(props) {
 
       const status = res.data.status;
       setIsLoading(false);
-
       if (status === "succes") {
         // Successful login, redirect to home page
         login();
