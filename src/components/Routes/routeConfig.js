@@ -6,6 +6,7 @@ import HuntTimeline from '../pages/HuntTimeline';
 import LoginPage from '../pages/Auth Pages/Login/Login';
 import RegisterPage from '../pages/Auth Pages/Register/Register';
 import AccountPage from '../pages/Account';
+import LocationsTable from '../pages/Locations/Table/LocationsTable.jsx';
 const routeConfig = [
   {
     path: '/account',
@@ -21,6 +22,11 @@ const routeConfig = [
     path: '/poi',
     element: POI,
     protected: true, // Assuming this is a protected route
+  },
+  {
+    path: '/locations/admin',
+    element: LocationsTable,
+    protected: true,
   },
   {
     path: '/about',

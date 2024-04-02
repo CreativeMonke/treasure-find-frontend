@@ -4,15 +4,6 @@ import L from "leaflet";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import { UNSAFE_DataRouterStateContext } from "react-router-dom";
 
-L.Icon.Rotated = L.Icon.extend({
-  _setIconStyles: function (img, name, anchor) {
-    L.Icon.prototype._setIconStyles.apply(this, arguments);
-    if (name === "icon" && this.options.iconAngle) {
-      img.style[L.DomUtil.TRANSFORM] +=
-        " rotate(" + this.options.iconAngle + "deg)";
-    }
-  },
-});
 
 const liveLocationIcon = new L.Icon({
   iconUrl: "./icons/GpsArrow.png", // URL to your custom icon image
@@ -30,8 +21,7 @@ function LiveLocation(props) {
     function updateLiveLocation() {
       navigator.geolocation.watchPosition(
         (location) => {
-          const { latitude, longitude, heading } = location.coords;
-          console.log(`Current Heading is ${heading}`);
+          const { latitude, longitude } = location.coords;
           const latlng = L.latLng(latitude, longitude);
 
           if (liveMarker) {
@@ -40,12 +30,11 @@ function LiveLocation(props) {
             map.flyTo(latlng, 16);
 
             liveMarker.setIcon(
-              new L.Icon.Rotated({
+              new L.Icon({
                 iconUrl: "/icons/GpsArrow.png",
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
-                iconAngle: heading,
               })
             );
           } else {

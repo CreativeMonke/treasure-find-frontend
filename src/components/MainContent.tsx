@@ -19,8 +19,8 @@ function MainContent() {
         backgroundColor: "background.body",
         px: { xs: 2, md: 6 },
         pt: {
-          xs: "calc(18px + var(--Header-height))",
-          sm: "calc(18px + var(--Header-height))",
+          xs: "calc(22px + var(--Header-height))",
+          sm: "calc(24px + var(--Header-height))",
           md: 3,
         },
         pb: { xs: 2, sm: 2, md: 3 },
@@ -28,7 +28,7 @@ function MainContent() {
         display: "flex",
         flexDirection: "column",
         minWidth: 0,
-        height: "100vh", // corrected from "100dvh" to "100vh"
+        height: "100dvh", // corrected from "100dvh" to "100vh"
         gap: 1,
       }}
     >

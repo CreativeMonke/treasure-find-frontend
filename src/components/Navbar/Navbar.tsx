@@ -24,10 +24,9 @@ import {
   MapOutlined,
 } from "@mui/icons-material";
 
-function NoNavbar()
-{
+function NoNavbar() {
   let location = useLocation();
-  const noNavbarPages = ["/login","/register"];
+  const noNavbarPages = ["/login", "/register"];
   return !noNavbarPages.includes(location.pathname);
 }
 
@@ -89,36 +88,36 @@ function NavBar() {
   function sidebarContents() {
     ///BorderSizing property for scrolling!!!
     return (
-      <Sheet className="Sidebar"
-
-      sx= {{
-        boxSizing : "border-box",
-        top: 0,
-        p: 2,
-        gap:2,
-        height: "100dvh",
-        width: "var(--Sidebar-width)",
-      }}>
-
-      <Box
-        className="Sidebar-overlay"
+      <Sheet
+        className="Sidebar"
         sx={{
-          position: "fixed",
-          zIndex: 9998,
+          boxSizing: "border-box",
           top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          opacity: "var(--SideNavigation-slideIn)",
-          backgroundColor: "var(--joy-palette-background-backdrop)",
-          transition: "opacity 0.4s",
-          transform: {
-            xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))",
-            lg: "translateX(-100%)",
-          },
+          p: 2,
+          gap: 2,
+          height: "100dvh",
+          width: "var(--Sidebar-width)",
         }}
-        onClick={closeDrawer}
-      />
+      >
+        <Box
+          className="Sidebar-overlay"
+          sx={{
+            position: "fixed",
+            zIndex: 9998,
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            opacity: "var(--SideNavigation-slideIn)",
+            backgroundColor: "var(--joy-palette-background-backdrop)",
+            transition: "opacity 0.4s",
+            transform: {
+              xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))",
+              lg: "translateX(-100%)",
+            },
+          }}
+          onClick={closeDrawer}
+        />
         <Box className="SidebarHeader">
           <Typography level="title-lg">VaultVoyage</Typography>
         </Box>
@@ -149,7 +148,7 @@ function NavBar() {
               </ListItemContent>
             </ListItemButton>
 
-            <ListItemButton
+            {/*<ListItemButton
               component={Link}
               to="/poi"
               selected={isCurrent("/poi")}
@@ -157,10 +156,48 @@ function NavBar() {
             >
               <HomeRounded />
               <ListItemContent>
-                <Typography level="title-sm">Locations</Typography>
+                <Typography level="title-sm">View Locations</Typography>
               </ListItemContent>
-            </ListItemButton>
+          </ListItemButton>*/}
 
+            <ListItem nested>
+              <Toggler
+                renderToggle={({ open, setOpen }) => (
+                  <ListItemButton onClick={() => setOpen(!open)}>
+                    <MapOutlined />
+                    <ListItemContent>
+                      <Typography level="title-sm">Locations</Typography>
+                    </ListItemContent>
+                    <KeyboardArrowDownOutlined
+                      sx={{ transform: open ? "rotate(180deg)" : "none" }}
+                    />
+                  </ListItemButton>
+                )}
+              >
+                <List sx={{ gap: 0.5 }}>
+                  <ListItem>
+                    <ListItemButton
+                      component={Link}
+                      to="/poi"
+                      selected={isCurrent("/poi")}
+                      onClick={toggleDrawer}
+                    >
+                      View
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton
+                      component={Link}
+                      to="/locations/admin"
+                      selected={isCurrent("/locations/admin")}
+                      onClick={toggleDrawer}
+                    >
+                      Edit
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </Toggler>
+            </ListItem>
             <ListItem nested>
               <Toggler
                 renderToggle={({ open, setOpen }) => (
@@ -239,7 +276,7 @@ function NavBar() {
         borderColor: "divider",
         zIndex: 10000,
         height: "100dvh",
-        width:"var(--Sidebar-width)",
+        width: "var(--Sidebar-width)",
       }}
     >
       {sidebarContents()}
@@ -251,7 +288,6 @@ function NavBar() {
         <>
           <Sheet
             className="Header"
-
             sx={{
               display: { xs: "flex", md: "none" },
               alignItems: "center",
@@ -268,7 +304,6 @@ function NavBar() {
               boxShadow: "sm",
             }}
           >
-
             <IconButton
               onClick={toggleDrawer}
               variant="outlined"

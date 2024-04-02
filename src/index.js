@@ -4,11 +4,13 @@ import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './components/AuthContext.js';
-
+import { LocationProvider } from './components/pages/Locations/Context/LocationContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <AuthProvider className="Test">
-        <App />
+        <LocationProvider>
+            <App />
+        </LocationProvider>
     </AuthProvider>
 );
 

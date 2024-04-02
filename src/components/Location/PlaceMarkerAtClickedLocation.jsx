@@ -3,7 +3,7 @@ import L from "leaflet";
 import { React, useState, useEffect } from "react";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
-function PlaceMarker(props) {
+function PlaceMarkerAtClickedLocation(props) {
   const [marker, setMarker] = useState(null);
 
   const map = useMap();
@@ -29,7 +29,8 @@ function PlaceMarker(props) {
 
           setMarker(newMarker);
 
-          console.log(`Clicked location: Latitude ${evt.latlng.lat}, Longitude ${evt.latlng.lng}`);
+          console.log(`Clicked location: ${evt.latlng}`);
+        
         }
       );
     }
@@ -41,4 +42,4 @@ function PlaceMarker(props) {
   }, [map, marker]);
   return null;
 }
-export default PlaceMarker;
+export default PlaceMarkerAtClickedLocation;
