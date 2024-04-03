@@ -26,6 +26,8 @@ const GridItem = ({ label, value, fieldToUpdate, id }) => {
     try {
       const res = await axios.put(`${apiUrl}locations/edit/${id}`, {
         [fieldToUpdate]: newFieldText,
+      },{
+        withCredentials: true,
       });
     } catch (err) {
       console.log(err);
