@@ -19,7 +19,7 @@ export const AuthProvider = ({children}) => {
         Cookies.remove("sessionid");
     }
 
-    const async autoLogin() =>{
+    const async autoLogin = () =>{
         const cookieUserId = Cookies.get("sessionid");
         setIsLoggedIn(!cookieUserId);
     }
