@@ -20,7 +20,12 @@ export const AuthProvider = ({children}) => {
         Cookies.remove("sessionid");
     }
 
-    const value = {isLoggedIn,login,logout};
+    const async autoLogin() =>{
+        const cookieUserId = Cookies.get("sessionid");
+        setIsLoggedIn(!cookieUserId);
+    }
+    
+    const value = {isLoggedIn,login,logout,autoLogin};
     return (
         <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     );
