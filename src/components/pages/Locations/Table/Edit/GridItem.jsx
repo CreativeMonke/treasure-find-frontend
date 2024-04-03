@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { Typography, Textarea, Button, Grid } from "@mui/joy";
 import axios from "axios";
+import {LocationContext} from "../../Context/LocationContext";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
-
 const GridItem = ({ label, value, fieldToUpdate, id }) => {
   const [newFieldText, setNewFieldTest] = useState(value);
   const [hasError, setHasError] = useState(false);
   const [wasModified, setWasModified] = useState(false);
-
+  const {setNeedUpdateLocations} = useContext(LocationContext);
   function handleFieldChange(evt) {
     const updatedValue = evt.target.value;
     if (!updatedValue) {
@@ -33,12 +33,13 @@ const GridItem = ({ label, value, fieldToUpdate, id }) => {
       console.log(err);
     }
     setWasModified(false);
+    setNeedUpdateLocations(true);
+
   }
 
   let placeholderText = value ? "" : "Enter a value";
 
   if (hasError) placeholderText = "Question field cannot be empty!";
-  console.log(hasError);
 
   return (
     <Grid item xs={12}>
@@ -47,7 +48,6 @@ const GridItem = ({ label, value, fieldToUpdate, id }) => {
       </Typography>
       <Textarea
         id={label.toLowerCase()}
-        label={label}
         minRows={2}
         defaultValue={value}
         placeholder={placeholderText}

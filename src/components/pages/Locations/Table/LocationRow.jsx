@@ -3,7 +3,6 @@ import EditLocationModal from "./Edit/EditLocationModal.jsx";
 function LocationRow(props) {
   const [open, setOpen] = useState(false);
   function handleClick(evt) {
-    console.log(evt);
     setOpen(true);
   }
   return (

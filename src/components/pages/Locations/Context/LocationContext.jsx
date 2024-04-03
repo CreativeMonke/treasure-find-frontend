@@ -2,15 +2,15 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../AuthContext.js";
 
-const LocationContext = createContext();
+export const LocationContext = createContext(null);
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const useLocations = () => useContext(LocationContext);
 
 export const LocationProvider = ({ children }) => {
   const [locations, setLocations] = useState([]);
+  const [needUpdateLocations,setNeedUpdateLocations] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
-  console.log(AuthContext);
   async function getLocationData() {
     if (!isLoggedIn) {
       console.log("Not Logged In");
@@ -22,9 +22,8 @@ export const LocationProvider = ({ children }) => {
         withCredentials: true,
       });
 
-      // Assuming res.data is the array of location objects
       const locationDetails = res.data.data.map((location) => ({
-        id: location._id, // Replace '_id' with 'id' if your objects have 'id' field
+        id: location._id,
         name: location.name,
         picture: location.picture,
         question: location.question,
@@ -32,21 +31,32 @@ export const LocationProvider = ({ children }) => {
         lat: location.lat,
         lng: location.lng,
       }));
-
-      // Set the locations state with the newly mapped array
       setLocations(locationDetails);
+      setNeedUpdateLocations(false);
     } catch (err) {
       console.error(err);
     }
   }
+
+ async function addNewLocation(props){
+    try{
+      const res = await axios.post(`${apiUrl}locations/create`, props, {
+        withCredentials: true,
+      });
+      console.log(res);
+    }catch(err){
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
     getLocationData();
-    // Load location data here
-    // dummyLocations is an array of locations
-  }, [isLoggedIn]);
-
+  }, [isLoggedIn,needUpdateLocations]);
+  const value = { locations, setLocations , setNeedUpdateLocations,
+    addNewLocation
+  };
   return (
-    <LocationContext.Provider value={{ locations, setLocations }}>
+    <LocationContext.Provider value={value}>
       {children}
     </LocationContext.Provider>
   );
