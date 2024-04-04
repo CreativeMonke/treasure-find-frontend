@@ -18,6 +18,8 @@ import InputField from "../../components/InputField";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [town, setTown] = useState(null);
@@ -28,6 +30,7 @@ function RegisterPage(props) {
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
+    setIsLoading(true);
     e.preventDefault();
     try {
       const response = await axios.post(`${apiUrl}auth/register`, {
@@ -39,8 +42,12 @@ function RegisterPage(props) {
       });
 
       if (response.data.status === "success") {
+        ///Sets a delay of 0.2 seconds
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
         // Redirect or show a success message
-        navigate("/login"); // Redirect to login page or home page as per your flow
+        // Redirect to login page or home page as per your flow
       } else {
         console.log(response);
         setErrorMsg(response.data.message);
@@ -53,6 +60,7 @@ function RegisterPage(props) {
           "An error occurred during registration."
       );
     }
+    setIsLoading(false);
   }
 
   return (
@@ -65,10 +73,14 @@ function RegisterPage(props) {
       }}
     >
       <Card className="registerCard" variant="outlined">
-        <Grid container spacing={3} sx={{
+        <Grid
+          container
+          spacing={3}
+          sx={{
             maxWidth: 600,
-          }}>
-          <Grid item xs={12} >
+          }}
+        >
+          <Grid item xs={12}>
             <Typography
               variant="h4"
               component="h1"
@@ -85,44 +97,60 @@ function RegisterPage(props) {
             </Grid>
           )}
           <Grid item xs={6}>
-            <InputField label = "First Name" id = "firstname" setValue = {setFirstName} type = "firstname"/>
+            <InputField
+              label="First Name"
+              id="firstname"
+              setValue={setFirstName}
+              type="firstname"
+            />
           </Grid>
           <Grid item xs={6}>
-          <InputField label = "Last Name" id = "lastname" setValue = {setLastName} type = "lastname"/>
-
+            <InputField
+              label="Last Name"
+              id="lastname"
+              setValue={setLastName}
+              type="lastname"
+            />
           </Grid>
           <Grid item xs={6}>
-          <InputField label = "Town" id = "town" setValue = {setTown} type = "town"/>
-
+            <InputField label="Town" id="town" setValue={setTown} type="town" />
           </Grid>
           <Grid item xs={12}>
-          <InputField label = "Email" id = "email" setValue = {setEmail} type = "email"/>
-
+            <InputField
+              label="Email"
+              id="email"
+              setValue={setEmail}
+              type="email"
+            />
           </Grid>
           <Grid item xs={12}>
-          <InputField label = "Password" id = "password" setValue = {setPassword} type = "password"/>
-
+            <InputField
+              label="Password"
+              id="password"
+              setValue={setPassword}
+              type="password"
+            />
           </Grid>
           <Grid item xs={12}>
-          <Button
-            onClick={(evt) => {
-              handleSubmit(evt);
-            }}
-            variant="solid"
-            color="primary"
-            sx={{ mt: 2 }}
-          >
-            Register
-          </Button>
+            <Button
+              onClick={(evt) => {
+                handleSubmit(evt);
+              }}
+              loading={isLoading}
+              variant="solid"
+              color="primary"
+              sx={{ mt: 2 }}
+            >
+              Register
+            </Button>
           </Grid>
           <Grid item xs={12}>
-
-          <Typography sx={{ textAlign: "center" }}>
-            Already have an account?{" "}
-            <Link component={RouterLink} to="/login">
-              Login
-            </Link>
-          </Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              Already have an account?{" "}
+              <Link component={RouterLink} to="/login">
+                Login
+              </Link>
+            </Typography>
           </Grid>
         </Grid>
       </Card>
