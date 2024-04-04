@@ -87,7 +87,11 @@ function CreateLocationModal(props) {
   }
   return (
     <Modal open={props.open} onClose={() => props.setOpen(false)}>
-      <ModalDialog layout="fullscreen">
+      <ModalDialog layout="center" sx = {{
+        mt:2,
+        height: "85dvh",
+        width: "95vw"
+      }}>
         <ModalClose variant="plain" />
         <DialogTitle id="modalTitle">
           <PlaceRounded />

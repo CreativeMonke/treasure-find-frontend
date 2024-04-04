@@ -30,8 +30,8 @@ function DeleteLocationModal(props) {
   };
 
   return (
-    <Modal open={props.open} onClose={() => props.setOpen(false)}>
-      <ModalDialog layout="center">
+    <Modal open={props.open} onClose={() => props.setOpen(false)} >
+      <ModalDialog layout="center" sx = {{position: "absolute"}}>
         <ModalClose variant="plain" />
         <DialogTitle id="modal-title">
           <DetailsRounded />
