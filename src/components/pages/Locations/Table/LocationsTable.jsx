@@ -36,7 +36,7 @@ function LocationsTable() {
               <th>Name</th>
               <th>Question</th>
               <th>Correct Answer</th>
-              <th width = "10%"></th>
+              <th width = "80px"></th>
             </tr>
           </thead>
           <tbody>
