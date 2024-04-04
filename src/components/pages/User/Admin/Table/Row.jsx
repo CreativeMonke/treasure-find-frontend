@@ -7,10 +7,11 @@ import axios from "axios";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
 function Row(props) {
+    console.log(`${apiUrl}users/edit/${props.id}`);
   const [role, setRole] = useState(props.role);
   async function updateUserRole() {
     try {
-      const response = await axios.put(`${apiUrl}users/edit`, {
+      const response = await axios.put(`${apiUrl}users/edit/${props.id}`, {
         role: role,
       },{
         withCredentials: true,

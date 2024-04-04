@@ -57,7 +57,8 @@ function UserRoleTable() {
           ) : (
             users.map((user, index) => (
               <Row
-                id={user._id}
+                id={user.id}
+                key = {user.id}
                 index={index}
                 firstName={user.firstName}
                 lastName={user.lastName}
