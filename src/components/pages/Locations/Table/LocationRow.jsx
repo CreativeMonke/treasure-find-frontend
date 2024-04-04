@@ -3,7 +3,7 @@ import EditLocationModal from "./Edit/EditLocationModal.jsx";
 import DeleteLocationModal from "./Delete/DeleteLocationModal.jsx";
 import { Box, IconButton } from "@mui/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { AddCircleRounded, EditNoteRounded } from "@mui/icons-material";
+import {  EditNoteRounded } from "@mui/icons-material";
 function LocationRow(props) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

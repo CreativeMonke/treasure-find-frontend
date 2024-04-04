@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../AuthContext.js";
 
@@ -11,7 +11,9 @@ export const LocationProvider = ({ children }) => {
   const [locations, setLocations] = useState([]);
   const [needUpdateLocations, setNeedUpdateLocations] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
-  async function getLocationData() {
+
+  // Use useCallback to memoize the function so its reference stays stable as long as isLoggedIn doesn't change
+  const getLocationData = useCallback(async () => {
     if (!isLoggedIn) {
       console.log("Not Logged In");
       return;
@@ -36,7 +38,11 @@ export const LocationProvider = ({ children }) => {
     } catch (err) {
       console.error(err);
     }
-  }
+  }, [isLoggedIn]); // Dependency array for useCallback
+
+  useEffect(() => {
+    getLocationData();
+  }, [isLoggedIn, needUpdateLocations, getLocationData]); // Now getLocationData's reference is stable
 
   async function addNewLocation(props) {
     try {
@@ -62,9 +68,6 @@ export const LocationProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => {
-    getLocationData();
-  }, [isLoggedIn, needUpdateLocations]);
   const value = {
     locations,
     setLocations,

@@ -246,14 +246,21 @@ function NavBar() {
                   <ListItem>
                     <ListItemButton
                       component={Link}
-                      to="/user/edit"
+                      to="/user"
+                      selected={isCurrent("/user")}
+
                       onClick={toggleDrawer}
                     >
                       My profile
                     </ListItemButton>
                   </ListItem>
                   <ListItem>
-                    <ListItemButton>Roles & permissions</ListItemButton>
+                    <ListItemButton
+                     component={Link}
+                     to="/user/roles"
+                     selected={isCurrent("/user/roles")}
+                     onClick={toggleDrawer}
+                    >Roles & permissions</ListItemButton>
                   </ListItem>
                 </List>
               </Toggler>

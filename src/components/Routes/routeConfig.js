@@ -7,10 +7,16 @@ import LoginPage from '../pages/Auth Pages/Login/Login';
 import RegisterPage from '../pages/Auth Pages/Register/Register';
 import AccountPage from '../pages/Account';
 import LocationsTable from '../pages/Locations/Table/LocationsTable.jsx';
+import UserRolesHomePage from '../pages/User/Admin/UserRolesHomePage.jsx';
 const routeConfig = [
   {
-    path: '/account',
+    path: '/user',
     element: AccountPage,
+    protected: true,
+  },
+  {
+    path: '/user/roles',
+    element: UserRolesHomePage,
     protected: true,
   },
   {

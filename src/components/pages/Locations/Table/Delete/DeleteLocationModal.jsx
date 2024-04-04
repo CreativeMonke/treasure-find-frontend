@@ -16,7 +16,6 @@ import {
 import { useLocations } from "../../Context/LocationContext";
 import {
   DeleteForeverOutlined,
-  PlaceRounded,
   DetailsRounded,
 } from "@mui/icons-material";
 
