@@ -8,12 +8,14 @@ import {
   Alert,
   FormControl,
   FormLabel,
+  Grid,
 } from "@mui/joy";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../AuthContext.js";
 import "./LoginPage.css";
+import InputField from "../../components/InputField.jsx";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function LoginPage(props) {
@@ -74,59 +76,65 @@ function LoginPage(props) {
       }}
     >
       <Card className="authCard" variant="outlined">
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{ mb: 3, textAlign: "center" }}
+        <Grid
+          container
+          spacing={3}
+          sx={{
+            maxWidth: 400,
+          }}
         >
-          Login
-        </Typography>
-        {errorMsg && (
-          <Alert severity="error" color="danger" sx={{ mb: 2 }}>
-            {errorMsg}
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <FormControl className="formControl">
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{textAlign: "center" }}
+            >
+              Login
+            </Typography>
+          </Grid>
+          {errorMsg && (
+            <Grid item xs={12}>
+              <Alert severity="error" color="danger">
+                {errorMsg}
+              </Alert>
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <InputField
+              label="Email"
               type="email"
               placeholder="Email"
-              variant="outlined"
-              my={2}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              setValue={setEmail}
             />
-          </FormControl>
-          <FormControl className="formControl">
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              id="password"
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              label="Password"
               type="password"
               placeholder="Password"
-              variant="outlined"
-              my={2}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              setValue={setPassword}
             />
-          </FormControl>
-          <Button
-            loading={isLoading}
-            type="submit"
-            variant="solid"
-            color="primary"
-            className="buttonSubmit"
-          >
-            Sign In
-          </Button>
-        </form>
-        <Typography className="linkText">
-          Don't have an account?{" "}
-          <Link component={RouterLink} to="/register">
-            Register
-          </Link>
-        </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              loading={isLoading}
+              onClick={(evt) => handleSubmit(evt)}
+              variant="solid"
+              color="primary"
+              className="buttonSubmit"
+            >
+              Sign In
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography className="linkText">
+              Don't have an account?{" "}
+              <Link component={RouterLink} to="/register">
+                Register
+              </Link>
+            </Typography>
+          </Grid>
+        </Grid>
       </Card>
     </Box>
   );

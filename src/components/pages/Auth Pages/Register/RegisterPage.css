@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center; /* Centers horizontally in the flex container */
     align-items: center; /* Centers vertically in the flex container */
-    height: 100vh; /* Takes full viewport height to ensure the form is centered in the viewport */
+    width: 100dvw;
     padding: 20px; /* Adds some padding around the section to ensure content does not touch the edges */
 }
 

@@ -3,7 +3,7 @@ import L from "leaflet";
 import { React, useState, useEffect } from "react";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
-function GetUserClickedLocation({setClicedLocation}) {
+function GetUserClickedLocation({setClickedLocation}) {
   const [marker, setMarker] = useState(null);
 
   const map = useMap();
@@ -28,7 +28,7 @@ function GetUserClickedLocation({setClicedLocation}) {
             .openPopup();
 
           setMarker(newMarker);
-          setClicedLocation(evt.latlng);
+          setClickedLocation(evt.latlng);
           console.log(`Clicked location: ${evt.latlng}`);
         }
       );

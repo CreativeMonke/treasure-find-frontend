@@ -8,18 +8,21 @@ import {
   Alert,
   FormControl,
   FormLabel,
+  Grid,
 } from "@mui/joy";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
 import "./RegisterPage.css";
+import InputField from "../../components/InputField";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+  const [town, setTown] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
   const navigate = useNavigate();
@@ -30,6 +33,7 @@ function RegisterPage(props) {
       const response = await axios.post(`${apiUrl}auth/register`, {
         first_name: firstName,
         last_name: lastName,
+        town,
         email,
         password,
       });
@@ -52,82 +56,75 @@ function RegisterPage(props) {
   }
 
   return (
-    <Box className="registerSection" 
-    sx={{
-      backgroundImage: `url(${"./icons/background.jpg"})`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-    }}>
+    <Box
+      className="registerSection"
+      sx={{
+        backgroundImage: `url(${"./icons/background.jpg"})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <Card className="registerCard" variant="outlined">
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{ mb: 3, textAlign: "center" }}
-        >
-          Register
-        </Typography>
-        {errorMsg && (
-          <Alert severity="error" color="danger" sx={{ mb: 2 }}>
-            {errorMsg}
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <FormControl>
-            <FormLabel htmlFor="firstName">First Name</FormLabel>
-            <Input
-              id="firstName"
-              placeholder="First Name"
-              variant="outlined"
-              my={2}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="lastName">Last Name</FormLabel>
-            <Input
-              id="lastName"
-              placeholder="Last Name"
-              variant="outlined"
-              my={2}
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Email"
-              variant="outlined"
-              my={2}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Password"
-              variant="outlined"
-              my={2}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </FormControl>
-          <Button type="submit" variant="solid" color="primary" sx={{ mt: 2 }}>
+        <Grid container spacing={3} sx={{
+            maxWidth: 600,
+          }}>
+          <Grid item xs={12} >
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{ textAlign: "center" }}
+            >
+              Register
+            </Typography>
+          </Grid>
+          {errorMsg && (
+            <Grid item xs={12}>
+              <Alert severity="error" color="danger">
+                {errorMsg}
+              </Alert>
+            </Grid>
+          )}
+          <Grid item xs={6}>
+            <InputField label = "First Name" id = "firstname" setValue = {setFirstName} type = "firstname"/>
+          </Grid>
+          <Grid item xs={6}>
+          <InputField label = "Last Name" id = "lastname" setValue = {setLastName} type = "lastname"/>
+
+          </Grid>
+          <Grid item xs={6}>
+          <InputField label = "Town" id = "town" setValue = {setTown} type = "town"/>
+
+          </Grid>
+          <Grid item xs={12}>
+          <InputField label = "Email" id = "email" setValue = {setEmail} type = "email"/>
+
+          </Grid>
+          <Grid item xs={12}>
+          <InputField label = "Password" id = "password" setValue = {setPassword} type = "password"/>
+
+          </Grid>
+          <Grid item xs={12}>
+          <Button
+            onClick={(evt) => {
+              handleSubmit(evt);
+            }}
+            variant="solid"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
             Register
           </Button>
-        </form>
-        <Typography sx={{ mt: 2, textAlign: "center" }}>
-          Already have an account?{" "}
-          <Link component={RouterLink} to="/login">
-            Login
-          </Link>
-        </Typography>
+          </Grid>
+          <Grid item xs={12}>
+
+          <Typography sx={{ textAlign: "center" }}>
+            Already have an account?{" "}
+            <Link component={RouterLink} to="/login">
+              Login
+            </Link>
+          </Typography>
+          </Grid>
+        </Grid>
       </Card>
     </Box>
   );
