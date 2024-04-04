@@ -13,7 +13,7 @@ function CreateButton() {
         open={isCreateModalOpen}
         setOpen={setIsCreateModalOpen}
       />
-      <Button onClick={handleClick}>Add new</Button>
+      <Button onClick={handleClick} sx = {{width: "100%"}}>Add new</Button>
     </React.Fragment>
   );
 }
