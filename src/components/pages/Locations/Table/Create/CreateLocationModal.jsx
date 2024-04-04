@@ -1,7 +1,8 @@
 ///A button to handle adding a new location to the database
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LocationContext } from "../../Context/LocationContext";
 import {
+  Alert,
   Button,
   DialogActions,
   DialogContent,
@@ -19,7 +20,13 @@ import { PlaceRounded } from "@mui/icons-material";
 import ImageSection from "./ImageSection";
 import SelectLocationSection from "./SelectLocationSection";
 import InputField from "../../../components/InputField";
+import axios from "axios";
+
+const apiUrl = process.env.REACT_APP_API_BASE_URL;
+
 function CreateLocationModal(props) {
+  const { setNeedUpdateLocations } = useContext(LocationContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [newLocationProps, setNewLocationProps] = useState(null);
   const [name, setName] = useState(null);
   const [question, setQuestion] = useState(null);
@@ -27,8 +34,9 @@ function CreateLocationModal(props) {
   const [imgSrc, setImgSrc] = useState(null);
   const [latLng, setLatlng] = useState(null);
   const [hasError, setHasError] = useState(true);
+
   useEffect(() => {
-    if ((name, question, answer, imgSrc, latLng)) {
+    if (name && question && answer && imgSrc && latLng) {
       setHasError(false);
       setNewLocationProps({
         name: name,
@@ -38,11 +46,44 @@ function CreateLocationModal(props) {
         latLng: latLng,
       });
     } else {
-      setHasError(true);
+      setHasError("Fields required");
     }
   }, [name, question, answer, imgSrc, latLng]);
+
   async function handleCreate(evt) {
+    setIsLoading(true);
     console.log(newLocationProps);
+    if (hasError) return;
+    try{
+    const res = await axios.post(
+      `${apiUrl}locations/create`,
+      {
+        name,
+        question,
+        answer,
+        imgSrc,
+        lat: latLng.lat,
+        lng: latLng.lng,
+      },
+      {
+        withCredentials: true, // Include this line in your request
+      }
+    )
+      if (res.status === 200) {
+        setIsLoading(false);
+        setName(null);
+        setQuestion(null);
+        setAnswer(null);
+        setImgSrc(null);
+        setLatlng(null);
+      }
+    } catch(evt){
+      setIsLoading(false);
+      setHasError(evt.response.data.message);
+    }
+      setIsLoading(false);
+      setNeedUpdateLocations(true);
+      props.setOpen(false);
   }
   return (
     <Modal open={props.open} onClose={() => props.setOpen(false)}>
@@ -97,9 +138,9 @@ function CreateLocationModal(props) {
           </Sheet>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCreate} disabled={hasError}>
-            Create location
-          </Button>
+              <Button onClick={handleCreate} disabled={hasError === false?false:true} loading = {isLoading}>
+                Create location
+              </Button>
         </DialogActions>
       </ModalDialog>
     </Modal>

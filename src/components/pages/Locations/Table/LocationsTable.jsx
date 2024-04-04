@@ -25,7 +25,7 @@ function LocationsTable() {
       <Divider sx={{ mb: 3 }} >All Locations</Divider>
       <Sheet variant="plain" sx={{ mb: 4 }}>
         <Table
-          borderAxis="bothBetween"
+          borderAxis="xBetween"
           size="md"
           stickyFooter={false}
           stickyHeader
@@ -36,6 +36,7 @@ function LocationsTable() {
               <th>Name</th>
               <th>Question</th>
               <th>Correct Answer</th>
+              <th width = "10%"></th>
             </tr>
           </thead>
           <tbody>

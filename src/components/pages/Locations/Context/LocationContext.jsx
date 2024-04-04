@@ -9,7 +9,7 @@ export const useLocations = () => useContext(LocationContext);
 
 export const LocationProvider = ({ children }) => {
   const [locations, setLocations] = useState([]);
-  const [needUpdateLocations,setNeedUpdateLocations] = useState(false);
+  const [needUpdateLocations, setNeedUpdateLocations] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
   async function getLocationData() {
     if (!isLoggedIn) {
@@ -38,23 +38,41 @@ export const LocationProvider = ({ children }) => {
     }
   }
 
- async function addNewLocation(props){
-    try{
+  async function addNewLocation(props) {
+    try {
       const res = await axios.post(`${apiUrl}locations/create`, props, {
         withCredentials: true,
       });
       console.log(res);
-    }catch(err){
+    } catch (err) {
       console.error(err);
+    }
+  }
+
+  async function deleteLocation(id) {
+    try {
+      await axios.delete(`${apiUrl}locations/delete/${id}`, {
+        withCredentials: true,
+      });
+      // Remove the deleted location from the state
+      setLocations(locations.filter((location) => location.id !== id));
+      setNeedUpdateLocations(true); // Optionally trigger a refresh if needed
+    } catch (err) {
+      console.error("Error deleting location:", err);
     }
   }
 
   useEffect(() => {
     getLocationData();
-  }, [isLoggedIn,needUpdateLocations]);
-  const value = { locations, setLocations , setNeedUpdateLocations,
-    addNewLocation
+  }, [isLoggedIn, needUpdateLocations]);
+  const value = {
+    locations,
+    setLocations,
+    setNeedUpdateLocations,
+    addNewLocation,
+    deleteLocation,
   };
+
   return (
     <LocationContext.Provider value={value}>
       {children}

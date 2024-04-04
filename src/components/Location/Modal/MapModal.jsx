@@ -12,7 +12,8 @@ function Map(props) {
     }}>
       <MapContainer id="map" center={[47.1564288, 27.5841024]} zoom={16}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <GetUserClickedLocation radius={props.radius} setClickedLocation = {props.setClickedLocation}/>
+        <GetUserClickedLocation setClickedLocation = {props.setClickedLocation}/>
+        
       </MapContainer>
     </Sheet>
   );

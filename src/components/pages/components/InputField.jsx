@@ -9,7 +9,7 @@ export default function InputField(props) {
         handleError(evt);
     }
     function handleError(evt){
-      if(!evt.target.value)
+      if(!evt.target.value && props.notRequired === undefined)
       {
         hasError(true);
       }

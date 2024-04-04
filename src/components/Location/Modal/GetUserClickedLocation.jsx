@@ -29,7 +29,6 @@ function GetUserClickedLocation({setClickedLocation}) {
 
           setMarker(newMarker);
           setClickedLocation(evt.latlng);
-          console.log(`Clicked location: ${evt.latlng}`);
         }
       );
     }
