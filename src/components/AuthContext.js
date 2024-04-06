@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setIsLoggedIn(false);
-        Cookies.remove("sessionid");
+        Cookies.remove("SessionId");
     }
 
     async function checkLogin() {
