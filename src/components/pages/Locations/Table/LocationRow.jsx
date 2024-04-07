@@ -5,6 +5,7 @@ import { Box, IconButton } from "@mui/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {  EditNoteRounded } from "@mui/icons-material";
 function LocationRow(props) {
+  console.log(props);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   function handleEditClick(evt) {

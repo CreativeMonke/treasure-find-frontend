@@ -1,70 +1,28 @@
-import React, { useState , useContext } from "react";
-import { Typography, Textarea, Button, Grid } from "@mui/joy";
-import axios from "axios";
-import {LocationContext} from "../../Context/LocationContext";
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
-const GridItem = ({ label, value, fieldToUpdate, id }) => {
-  const [newFieldText, setNewFieldTest] = useState(value);
-  const [hasError, setHasError] = useState(false);
-  const [wasModified, setWasModified] = useState(false);
-  const {setNeedUpdateLocations} = useContext(LocationContext);
-  function handleFieldChange(evt) {
-    const updatedValue = evt.target.value;
-    if (!updatedValue) {
-      setHasError(true);
-      setWasModified(false);
-    } else {
-      setHasError(false);
-      setWasModified(value !== updatedValue);
-    }
-    setNewFieldTest(updatedValue);
-  }
+import React from "react";
+import { Typography, Textarea, Button, Stack, Divider } from "@mui/joy";
+import { MoreHorizRounded } from "@mui/icons-material";
 
-  async function handleSave() {
-    console.log(newFieldText);
-    // Save the newLocationData to your database
-    try {
-      const res = await axios.put(`${apiUrl}locations/edit/${id}`, {
-        [fieldToUpdate]: newFieldText,
-      },{
-        withCredentials: true,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    setWasModified(false);
-    setNeedUpdateLocations(true);
-
-  }
-
-  let placeholderText = value ? "" : "Enter a value";
-
-  if (hasError) placeholderText = "Question field cannot be empty!";
-
+const GridItem = ({ label, value, onChange, onSave, hasError }) => {
   return (
-    <Grid item xs={12}>
+    <Stack>
       <Typography level="h4" htmlFor={label.toLowerCase()}>
         {label}
       </Typography>
+      <Divider>
+        <MoreHorizRounded />
+      </Divider>
       <Textarea
         id={label.toLowerCase()}
         minRows={2}
-        defaultValue={value}
-        placeholder={placeholderText}
-        onChange={handleFieldChange}
+        value={value}
+        placeholder={
+          hasError ? "Field cannot be empty!" : `Enter ${label.toLowerCase()}`
+        }
+        onChange={(e) => onChange(e.target.value)}
         error={hasError}
         sx={{ width: "100%" }}
-        endDecorator={
-          <Button
-            disabled={!wasModified}
-            onClick={handleSave}
-            sx={{ ml: "auto", mr: "2px" }}
-          >
-            Save
-          </Button>
-        }
       />
-    </Grid>
+    </Stack>
   );
 };
 

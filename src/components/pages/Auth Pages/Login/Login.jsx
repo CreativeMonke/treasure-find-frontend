@@ -1,69 +1,34 @@
-import {
-  Card,
-  Input,
-  Button,
-  Typography,
-  Box,
-  Link,
-  Alert,
-  FormControl,
-  FormLabel,
-  Grid,
-} from "@mui/joy";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
-import React, { useContext, useState } from "react";
+import { login } from "../../../../features/auth/authSlice.js";
 import axios from "axios";
-import { AuthContext } from "../../../AuthContext.js";
+import { Card, Button, Typography, Box, Link, Alert, Grid } from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
+import { fetchLocations } from "../../../../features/locations/locationSlice.js";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function LoginPage(props) {
-  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
-  async function CreatePost() {
-    setIsLoading(true);
-    try {
-      const res = await axios.post(
-        apiUrl + "auth/login",
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true, // Include this line in your request
-        }
-      );
-
-      const status = res.data.status;
-      setIsLoading(false);
-      if (status === "succes") {
-        // Successful login, redirect to home page
-        login();
-
-        navigate("/");
-      } else {
-        setErrorMsg(res.data.message);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log(error.data);
-      setErrorMsg(
-        error.response.data.message ||
-          error.response.data.error.undefined ||
-          "An error occurred during login."
-      );
-      setIsLoading(false);
-    }
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    CreatePost();
+  const { status, error } = useSelector((state) => state.auth);
+  const isLoading = status === "loading";
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+    dispatch(login({email, password}))
+    .unwrap()
+    .then (() => {
+       navigate("/");
+       dispatch(fetchLocations());
+    }).catch((err) => {
+      console.error("Failed to login: ", err);
+      const errorMessage = err?.response?.data?.message || "An error occurred durin login";
+      setErrorMsg(errorMessage);
+    })
   }
 
   return (
@@ -87,12 +52,12 @@ function LoginPage(props) {
             <Typography
               variant="h4"
               component="h1"
-              sx={{textAlign: "center" }}
+              sx={{ textAlign: "center" }}
             >
               Login
             </Typography>
           </Grid>
-          {errorMsg && (
+          {errorMsg  && (
             <Grid item xs={12}>
               <Alert severity="error" color="danger">
                 {errorMsg}

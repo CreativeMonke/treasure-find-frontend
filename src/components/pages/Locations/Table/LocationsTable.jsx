@@ -2,12 +2,13 @@ import React from "react";
 import Table from "@mui/joy/Table";
 import Sheet from "@mui/joy/Sheet";
 import LocationRow from "./LocationRow";
-import { useLocations } from "../Context/LocationContext";
-import { Button, Divider, Grid, Typography } from "@mui/joy";
+import { useSelector } from "react-redux";
+import { Divider, Grid, Typography } from "@mui/joy";
 import CreateButton from "./Create/CreateButton";
 
 function LocationsTable() {
-  const { locations } = useLocations();
+  const locations = useSelector((state) => state.locations.locations);
+
   return (
     <Sheet
       variant="soft"
@@ -15,7 +16,6 @@ function LocationsTable() {
         p: 3,
         display: "flex",
         flexDirection: "column",
-        height: "100%",
         borderRadius: "10px",
       }}
     >
@@ -27,7 +27,9 @@ function LocationsTable() {
           <Divider>All Locations</Divider>
         </Grid>
         <Grid item xs={12}>
-          <Sheet variant="plain">
+          <Sheet
+            variant="plain"
+          >
             <Table
               borderAxis="xBetween"
               size="md"
@@ -48,7 +50,7 @@ function LocationsTable() {
                   <LocationRow
                     key={index}
                     index={index}
-                    id={location.id}
+                    id={location._id}
                     name={location.name}
                     question={location.question}
                     answer={location.answer}
@@ -58,8 +60,8 @@ function LocationsTable() {
             </Table>
           </Sheet>
         </Grid>
-        <Grid item xs={8} xl={10}/>
-        <Grid item xs={4} xl = {2}>
+        <Grid item xs={8} xl={10} />
+        <Grid item xs={4} xl={2}>
           <CreateButton />
         </Grid>
       </Grid>

@@ -28,7 +28,6 @@ function MainContent() {
         display: "flex",
         flexDirection: "column",
         minWidth: 0,
-        height: "100dvh", // corrected from "100dvh" to "100vh"
         gap: 1,
       }}
     >

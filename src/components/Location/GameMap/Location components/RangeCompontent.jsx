@@ -30,6 +30,7 @@ function RangeCircle({
     : circleColors.notAccesible;
   return (
     <Circle
+      key = {location.id}
       center={[location.lat, location.lng]}
       radius={130} // Should be location.circleRadius
       fillColor={circleColor}

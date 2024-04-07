@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Circle } from "react-leaflet";
-import { useLocations } from "../../pages/Locations/Context/LocationContext";
+import { useSelector, useDispatch } from "react-redux";
+
 import QuestionModal from "./Modals/QuestionModal";
-import L from "leaflet";
+import { fetchLocations } from "../../../features/locations/locationSlice.js";
+import "leaflet/dist/leaflet.css";
 import "leaflet-geometryutil";
 import { Sheet } from "@mui/joy";
 import LiveLocationTracker from "./LiveLocation/LiveLocation";
-import { useNavigate } from "react-router-dom";
 import RangeCircle from "./Location components/RangeCompontent";
 ///Placeholder -> api querry answerByUserId
 const answered = [1, 0, 3, 4, 5, 6, 7, 8, 9];
 function MapWithLocations() {
-  const { locations } = useLocations();
+  const locations = useSelector((state) => state.locations.locations);
   const [activeLocation, SetActiveLocation] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+
 
   function handleLocationSelect(location) {
     SetActiveLocation(location);
@@ -46,6 +48,7 @@ function MapWithLocations() {
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {locations.map((location, index) => (
           <RangeCircle
+            id={location.id}
             key={location.id}
             answered={answered[index]}
             location={location}

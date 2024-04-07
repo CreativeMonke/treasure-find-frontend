@@ -1,21 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
+import { initializeAuthState } from "../features/auth/authSlice.js";
 
 function ProtectedRoute({ children }) {
-  const [isWaitingForLoginCheck, setIsWaitingForLoginCheck] = useState(true);
-  const { isLoggedIn, checkLogin } = useContext(AuthContext);
-  useEffect(() => {
-    async function VerifyLogin() {
-      if (!isLoggedIn) await checkLogin();
-
-      setIsWaitingForLoginCheck(false);
-    }
-
-    VerifyLogin();
-  },[isLoggedIn, checkLogin]);
+  const dispatch = useDispatch();
+  const { isLoggedIn, status } = useSelector((state) => state.auth);
   
-  if(isWaitingForLoginCheck) return null;
+  useEffect(() => {
+    dispatch(initializeAuthState());
+  }, [dispatch]);
+  
+  if (status === 'loading') return null; // or a loading spinner
 
   if (!isLoggedIn) {
     return <Navigate to="/login" replace />;

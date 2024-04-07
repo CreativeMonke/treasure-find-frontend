@@ -1,6 +1,6 @@
-import { useMap, Popup, Marker } from "react-leaflet";
+import { useMap } from "react-leaflet";
 import L from "leaflet";
-import { React, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
 function GetUserClickedLocation({setClickedLocation}) {
