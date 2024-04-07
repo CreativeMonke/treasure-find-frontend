@@ -25,6 +25,7 @@ import {
   PlaceRounded,
   SaveAltRounded,
   SaveRounded,
+  ShareLocationRounded,
 } from "@mui/icons-material";
 
 function EditLocationModal(props) {
@@ -86,7 +87,13 @@ function EditLocationModal(props) {
     <Modal open={props.open} onClose={() => props.setOpen(false)}>
       <ModalDialog
         layout="center"
-        sx={{ mt: 2, height: "70dvh", width: "70vw", maxWidth: "1000px",maxHeight: "800px"}}
+        sx={{
+          mt: 2,
+          height: "70dvh",
+          width: "70vw",
+          maxWidth: "1000px",
+          maxHeight: "800px",
+        }}
       >
         <ModalClose variant="plain" />
         <DialogTitle
@@ -136,7 +143,12 @@ function EditLocationModal(props) {
               </Grid>
               <Grid item xs={12}>
                 <Divider>
-                  {locationFields.lat + " - " + locationFields.lng}
+                  {Math.trunc(locationFields.lat * 10000) / 10000}
+                  <ShareLocationRounded sx = {{
+                    pl:1,
+                    pr:1,
+                  }}/>
+                    {Math.trunc(locationFields.lng * 10000) / 10000}
                 </Divider>
               </Grid>
             </Grid>
