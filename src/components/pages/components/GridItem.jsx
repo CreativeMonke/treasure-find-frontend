@@ -2,7 +2,11 @@ import React from "react";
 import { Typography, Textarea, Button, Stack, Divider } from "@mui/joy";
 import { MoreHorizRounded } from "@mui/icons-material";
 
-const GridItem = ({ label, value, onChange, onSave, hasError }) => {
+const GridItem = ({ label, value, onChange, hasError }) => {
+  function handleChange(evt)
+  {
+    onChange(evt.target.value);
+  }
   return (
     <Stack>
       <Typography level="h4" htmlFor={label.toLowerCase()}>
@@ -18,7 +22,7 @@ const GridItem = ({ label, value, onChange, onSave, hasError }) => {
         placeholder={
           hasError ? "Field cannot be empty!" : `Enter ${label.toLowerCase()}`
         }
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(evt) => handleChange(evt)}
         error={hasError}
         sx={{ width: "100%" }}
       />

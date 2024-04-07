@@ -33,6 +33,7 @@ function LocationsTable() {
             <Table
               borderAxis="xBetween"
               size="md"
+              noWrap
               stickyFooter={false}
               stickyHeader
             >
@@ -48,7 +49,7 @@ function LocationsTable() {
               <tbody>
                 {locations.map((location, index) => (
                   <LocationRow
-                    key={index}
+                    key={index + location._id}
                     index={index}
                     id={location._id}
                     name={location.name}

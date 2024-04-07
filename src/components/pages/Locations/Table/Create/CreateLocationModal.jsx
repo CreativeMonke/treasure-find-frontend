@@ -55,7 +55,7 @@ function CreateLocationModal(props) {
     )
       .unwrap()
       .then(() => {
-        dispatch(fetchLocations()).unwrap();
+        dispatch(fetchLocations());
         handleClose();
       })
       .catch((err) => {

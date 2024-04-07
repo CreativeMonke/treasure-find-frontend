@@ -18,7 +18,7 @@ import {
   updateLocation,
 } from "../../../../../features/locations/locationSlice";
 import MapModal from "../../../../Location/Modal/MapModal";
-import GridItem from "./GridItem";
+import GridItem from "../../../components/GridItem";
 import {
   ArrowRightAlt,
   DeleteForeverOutlined,
@@ -30,8 +30,10 @@ import {
 
 function EditLocationModal(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
   const locations = useSelector((state) => state.locations.locations);
+  console.log(locations);
   const selectedLocation = locations.find(
     (location) => location._id === props.id
   );
@@ -49,6 +51,8 @@ function EditLocationModal(props) {
     lng: selectedLocation.lng,
   };
   const handleFieldChange = (field) => (value) => {
+    if (!value) setHasError(true);
+    else setHasError(false);
     setLocationFields((prevFields) => ({
       ...prevFields,
       [field]: value,
@@ -115,6 +119,7 @@ function EditLocationModal(props) {
               <Grid item xs={6}>
                 <GridItem
                   label="Question"
+                  hasError = {hasError}
                   value={locationFields.question}
                   onChange={handleFieldChange("question")}
                 />
@@ -122,6 +127,7 @@ function EditLocationModal(props) {
               <Grid item xs={6}>
                 <GridItem
                   label="Answer"
+                  hasError = {hasError}
                   value={locationFields.answer}
                   onChange={handleFieldChange("answer")}
                 />
@@ -144,11 +150,13 @@ function EditLocationModal(props) {
               <Grid item xs={12}>
                 <Divider>
                   {Math.trunc(locationFields.lat * 10000) / 10000}
-                  <ShareLocationRounded sx = {{
-                    pl:1,
-                    pr:1,
-                  }}/>
-                    {Math.trunc(locationFields.lng * 10000) / 10000}
+                  <ShareLocationRounded
+                    sx={{
+                      pl: 1,
+                      pr: 1,
+                    }}
+                  />
+                  {Math.trunc(locationFields.lng * 10000) / 10000}
                 </Divider>
               </Grid>
             </Grid>
