@@ -91,7 +91,6 @@ function CreateLocationModal(props) {
         </DialogTitle>
         <Divider />
         <DialogContent>
-          <PerfectScrollbar>
             <Sheet>
               <Grid container spacing={4} sx={{ overflow: "auto", margin: 3 }}>
                 <Grid item xs={6} lg={2}>
@@ -133,7 +132,6 @@ function CreateLocationModal(props) {
                 </Grid>
               </Grid>
             </Sheet>
-          </PerfectScrollbar>
         </DialogContent>
         <DialogActions>
           <Button
