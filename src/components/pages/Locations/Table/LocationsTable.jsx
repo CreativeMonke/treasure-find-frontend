@@ -14,6 +14,7 @@ function LocationsTable() {
       variant="soft"
       sx={{
         p: 3,
+        overflow: "auto",
         display: "flex",
         flexDirection: "column",
         borderRadius: "10px",

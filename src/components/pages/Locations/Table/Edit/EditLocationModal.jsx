@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  AspectRatio,
 } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -27,6 +28,8 @@ import {
   SaveRounded,
   ShareLocationRounded,
 } from "@mui/icons-material";
+import ImageIconRounded from "@mui/icons-material/Image";
+import InputField from "../../../components/InputField";
 
 function EditLocationModal(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +44,8 @@ function EditLocationModal(props) {
     name: selectedLocation.name,
     question: selectedLocation.question,
     answer: selectedLocation.answer,
+    imgSrc: selectedLocation.imgSrc,
+    radius: selectedLocation.radius,
     lat: selectedLocation.lat,
     lng: selectedLocation.lng,
     // Potentially add more fields as needed
@@ -49,7 +54,7 @@ function EditLocationModal(props) {
     lat: selectedLocation.lat,
     lng: selectedLocation.lng,
   };
-  
+
   const handleFieldChange = (field) => (value) => {
     if (!value) setHasError(true);
     else setHasError(false);
@@ -132,6 +137,23 @@ function EditLocationModal(props) {
                   onChange={handleFieldChange("answer")}
                 />
               </Grid>
+              <Grid item xs={6}>
+                <GridItem
+                  label="Image"
+                  hasError={hasError}
+                  value={locationFields.imgSrc}
+                  onChange={handleFieldChange("imgSrc")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <AspectRatio>
+                  {locationFields.imgSrc ? (
+                    <img src={locationFields.imgSrc} />
+                  ) : (
+                    <ImageIconRounded sx={{ opacity: 0.2 }} />
+                  )}
+                </AspectRatio>
+              </Grid>
               <Grid
                 item
                 xs={12}
@@ -159,9 +181,34 @@ function EditLocationModal(props) {
                   {Math.trunc(locationFields.lng * 10000) / 10000}
                 </Divider>
               </Grid>
+              <Grid item xs={6}>
+                <GridItem
+                  label="Radius"
+                  hasError={hasError}
+                  value={locationFields.radius}
+                  onChange={handleFieldChange("radius")}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <GridItem
+                  label="Lat"
+                  hasError={hasError}
+                  value={locationFields.lat}
+                  onChange={handleFieldChange("lat")}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <GridItem
+                  label="Lng"
+                  hasError={hasError}
+                  value={locationFields.lng}
+                  onChange={handleFieldChange("lng")}
+                />
+              </Grid>
             </Grid>
           </Sheet>
         </DialogContent>
+
         <DialogActions>
           <Grid container spacing={1} sx={{ mr: 1, ml: 1 }}>
             <Grid item xs={6}>

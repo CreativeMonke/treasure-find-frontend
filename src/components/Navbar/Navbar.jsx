@@ -283,6 +283,19 @@ function NavBar() {
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}
         >
+          {userInfo.role >= "0x60" && (
+            <ListItem>
+              <ListItemButton
+                component={Link}
+                to="/globalSettings"
+                selected={isCurrent("/globalSettings")}
+                onClick={toggleDrawer}
+              >
+                <SupportRounded />
+                Setări
+              </ListItemButton>
+            </ListItem>
+          )}
           <ListItem>
             <ListItemButton
               component={Link}

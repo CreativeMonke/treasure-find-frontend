@@ -5,7 +5,7 @@ const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
 /// get Global start time from api
 
-export const fetchGlobalHuntInfo = createAsyncThunk("/hunt/globalStartTime", async (_, { rejectWithValue }) => {
+export const getGlobalHuntInfo = createAsyncThunk("/hunt/getGlobalHuntInfo", async (_, { rejectWithValue }) => {
     try {
         const res = await axios.get(`${apiUrl}hunt/globalInfo`);
         const { startTime, endTime, nrOfObjectives, nrOfSignedUpUsers } = res.data;
@@ -15,7 +15,19 @@ export const fetchGlobalHuntInfo = createAsyncThunk("/hunt/globalStartTime", asy
         rejectWithValue(err);
     }
 });
-
+export const editGlobalHuntInfo = createAsyncThunk("/hunt/editGlobalHuntInfo", async(options, { getState, rejectWithValue }) => {
+    try {
+        const res = await axios.put(`${apiUrl}hunt/edit`, options, {
+            headers: {
+                "sessionid": getState().auth.sessionId,
+            },
+            withCredentials: true,
+        });
+        return res.data.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
 const initialState = {
     globalHuntInfo: {
         startTime: null,
@@ -33,14 +45,14 @@ const huntSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchGlobalHuntInfo.pending, (state) => {
+            .addCase(getGlobalHuntInfo.pending, (state) => {
                 state.status = "loading";
             })
-            .addCase(fetchGlobalHuntInfo.fulfilled, (state, action) => {
+            .addCase(getGlobalHuntInfo.fulfilled, (state, action) => {
                 state.globalHuntInfo = action.payload;
                 state.status = "succeeded";
             })
-            .addCase(fetchGlobalHuntInfo.rejected, (state, action) => {
+            .addCase(getGlobalHuntInfo.rejected, (state, action) => {
                 state.error = action.error.message;
                 state.status = "failed";
             })

@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@mui/joy/Box";
 import { GlobalStyles } from "@mui/joy";
 import routeConfig from "./Routes/routeConfig.js";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./Layout.tsx";
 
@@ -16,8 +16,9 @@ function MainContent() {
       className="MainContent"
       boxSizing="border-box"
       sx={{
+        height: "100vh",
         backgroundColor: "background.body",
-        px: { xs: 2, md: 6 },
+        px: { xs: 2, md: 3 },
         pt: {
           xs: "calc(22px + var(--Header-height))",
           sm: "calc(24px + var(--Header-height))",
@@ -55,7 +56,7 @@ function MainContent() {
             <Route
               key={index}
               path={route.path}
-              element={route.protected ? <ProtectedRoute>{routeElement}</ProtectedRoute> : routeElement}
+              element={route.protected ? <ProtectedRoute permissionLevel={route.permissionLevel}>{routeElement}</ProtectedRoute> : routeElement}
             />
           );
         })}

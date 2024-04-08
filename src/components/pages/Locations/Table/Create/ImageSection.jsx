@@ -10,9 +10,6 @@ import {
 import React, { useState } from "react";
 import InputField from "../../../components/InputField";
 function ImageSection(props) {
-  function handleChange(evt) {
-    props.setValue(evt.target.value);
-  }
 
   return (
     <Grid
