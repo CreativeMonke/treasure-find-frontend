@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import Box from "@mui/joy/Box";
 import {
   Avatar,
+  Divider,
   GlobalStyles,
+  Grid,
   List,
   ListItem,
   ListItemButton,
@@ -21,11 +23,16 @@ import {
   Group,
   HomeRounded,
   KeyboardArrowDownOutlined,
+  LogoutRounded,
   MapOutlined,
+  SupportRounded,
 } from "@mui/icons-material";
 import Header from "../pages/PageStructure/Header";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
 function NoNavbar() {
   let location = useLocation();
+
   const noNavbarPages = ["/login", "/register"];
   return !noNavbarPages.includes(location.pathname);
 }
@@ -53,8 +60,13 @@ function Toggler({ defaultExpanded = false, children, renderToggle }) {
 
 function NavBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(typeof window !== "undefined" && window.innerWidth < 900);
+  const [isMobileView, setIsMobileView] = useState(
+    typeof window !== "undefined" && window.innerWidth < 900
+  );
+  const userInfo = useSelector((state) => state.auth.user[0]);
+  const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const isCurrent = (path) => location.pathname === path;
 
   useEffect(() => {
@@ -74,11 +86,20 @@ function NavBar() {
     setIsDrawerOpen(false);
   }
 
+  function handleLogout() {
+    dispatch(logout())
+      .unwrap()
+      .then(navigate("/login"))
+      .catch((err) => {
+        console.error("Failed to logout: ", err);
+      });
+  }
 
   function sidebarContents() {
     ///BorderSizing property for scrolling!!!
     return (
       <Sheet
+        invertedColors
         className="Sidebar"
         sx={{
           boxSizing: "border-box",
@@ -112,14 +133,7 @@ function NavBar() {
           <Typography level="title-lg">VaultVoyage</Typography>
         </Box>
 
-        <Box
-          className="NavigationLinks"
-          sx={{
-            [`& ${listItemButtonClasses.root}`]: {
-              gap: 1.5,
-            },
-          }}
-        >
+        <Box className="NavigationLinks">
           <List
             className="TopList"
             sx={{
@@ -134,61 +148,62 @@ function NavBar() {
             >
               <HomeRounded />
               <ListItemContent>
-                <Typography level="title-sm">Home</Typography>
+                <Typography level="title-sm">Acasă</Typography>
               </ListItemContent>
             </ListItemButton>
 
-            {/*<ListItemButton
-              component={Link}
-              to="/poi"
-              selected={isCurrent("/poi")}
-              onClick={toggleDrawer}
-            >
-              <HomeRounded />
-              <ListItemContent>
-                <Typography level="title-sm">View Locations</Typography>
-              </ListItemContent>
-          </ListItemButton>*/}
-
-            <ListItem nested>
-              <Toggler
-                renderToggle={({ open, setOpen }) => (
-                  <ListItemButton onClick={() => setOpen(!open)}>
-                    <MapOutlined />
-                    <ListItemContent>
-                      <Typography level="title-sm">Locations</Typography>
-                    </ListItemContent>
-                    <KeyboardArrowDownOutlined
-                      sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                    />
-                  </ListItemButton>
-                )}
-              >
-                <List sx={{ gap: 0.5 }}>
-                  <ListItem>
-                    <ListItemButton
-                      component={Link}
-                      to="/poi"
-                      selected={isCurrent("/poi")}
-                      onClick={toggleDrawer}
-                    >
-                      View
+            {userInfo.role >= "0x60" ? (
+              <ListItem nested>
+                <Toggler
+                  renderToggle={({ open, setOpen }) => (
+                    <ListItemButton onClick={() => setOpen(!open)}>
+                      <MapOutlined />
+                      <ListItemContent>
+                        <Typography level="title-sm">Locații</Typography>
+                      </ListItemContent>
+                      <KeyboardArrowDownOutlined
+                        sx={{ transform: open ? "rotate(180deg)" : "none" }}
+                      />
                     </ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton
-                      component={Link}
-                      to="/locations/admin"
-                      selected={isCurrent("/locations/admin")}
-                      onClick={toggleDrawer}
-                    >
-                      Edit
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </Toggler>
-            </ListItem>
-            
+                  )}
+                >
+                  <List sx={{ gap: 0.5 }}>
+                    <ListItem>
+                      <ListItemButton
+                        component={Link}
+                        to="/poi"
+                        selected={isCurrent("/poi")}
+                        onClick={toggleDrawer}
+                      >
+                        Prezentare generală
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemButton
+                        component={Link}
+                        to="/locations/admin"
+                        selected={isCurrent("/locations/admin")}
+                        onClick={toggleDrawer}
+                      >
+                        Editează
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
+                </Toggler>
+              </ListItem>
+            ) : (
+              <ListItem>
+                <ListItemButton
+                  component={Link}
+                  to="/poi"
+                  selected={isCurrent("/poi")}
+                  onClick={toggleDrawer}
+                >
+                  <MapOutlined />
+                  Locații
+                </ListItemButton>
+              </ListItem>
+            )}
             {/*<ListItem nested>
               <Toggler
                 renderToggle={({ open, setOpen }) => (
@@ -217,48 +232,90 @@ function NavBar() {
               </Toggler>
             </ListItem>
                 */}
-            <ListItem nested>
-              <Toggler
-                renderToggle={({ open, setOpen }) => (
-                  <ListItemButton onClick={() => setOpen(!open)}>
-                    <Group />
-                    <ListItemContent>
-                      <Typography level="title-sm">Users</Typography>
-                    </ListItemContent>
-                    <KeyboardArrowDownOutlined
-                      sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                    />
-                  </ListItemButton>
-                )}
-              >
-                <List sx={{ gap: 0.5 }}>
-                  <ListItem>
-                    <ListItemButton>Overview</ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton
-                      component={Link}
-                      to="/user"
-                      selected={isCurrent("/user")}
-
-                      onClick={toggleDrawer}
-                    >
-                      My profile
+            {userInfo.role >= "0x60" && (
+              <ListItem nested>
+                <Toggler
+                  renderToggle={({ open, setOpen }) => (
+                    <ListItemButton onClick={() => setOpen(!open)}>
+                      <Group />
+                      <ListItemContent>
+                        <Typography level="title-sm">Utilizatori</Typography>
+                      </ListItemContent>
+                      <KeyboardArrowDownOutlined
+                        sx={{ transform: open ? "rotate(180deg)" : "none" }}
+                      />
                     </ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton
-                     component={Link}
-                     to="/user/roles"
-                     selected={isCurrent("/user/roles")}
-                     onClick={toggleDrawer}
-                    >Roles & permissions</ListItemButton>
-                  </ListItem>
-                </List>
-              </Toggler>
-            </ListItem>
+                  )}
+                >
+                  <List sx={{ gap: 0.5 }}>
+                    <ListItem>
+                      <ListItemButton
+                        component={Link}
+                        to="/user/overview"
+                        selected={isCurrent("/user/overview")}
+                        onClick={toggleDrawer}
+                      >
+                        Overview
+                      </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                      <ListItemButton
+                        component={Link}
+                        to="/user/roles"
+                        selected={isCurrent("/user/roles")}
+                        onClick={toggleDrawer}
+                      >
+                        Roluri & Permisiuni
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
+                </Toggler>
+              </ListItem>
+            )}
           </List>
         </Box>
+        <List
+          size="sm"
+          sx={{
+            mt: "auto",
+            flexGrow: 0,
+
+            "--ListItem-radius": (theme) => theme.vars.radius.sm,
+          }}
+        >
+          <ListItem>
+            <ListItemButton
+              component={Link}
+              to="/about/support"
+              selected={isCurrent("/about/support")}
+              onClick={toggleDrawer}
+            >
+              <SupportRounded />
+              Support
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+
+        <Grid container sx={{ width: "100%" }}>
+          <Grid item xs={10}>
+            <Box>
+              <Typography level="title-sm">{userInfo.first_name}</Typography>
+
+              <Typography level="body-xs">{userInfo.email}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton
+              size="sm"
+              variant="plain"
+              color="neutral"
+              onClick={handleLogout}
+            >
+              <LogoutRounded />
+            </IconButton>
+          </Grid>
+        </Grid>
       </Sheet>
     );
   }

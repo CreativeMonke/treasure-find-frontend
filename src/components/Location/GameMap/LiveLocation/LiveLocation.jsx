@@ -4,9 +4,9 @@ import L from "leaflet";
 import { Button } from "@mui/joy";
 
 const liveLocationIcon = new L.icon({
-  iconUrl: "/icons/GpsArrow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
+  iconUrl: "/icons/LiveLocation/my-location.svg",
+  iconSize: [48, 48],
+  iconAnchor: [24, 24],
   popupAnchor: [1, -34],
 });
 

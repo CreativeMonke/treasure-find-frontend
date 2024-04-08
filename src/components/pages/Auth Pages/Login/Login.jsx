@@ -7,6 +7,7 @@ import { Card, Button, Typography, Box, Link, Alert, Grid } from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
 import { fetchLocations } from "../../../../features/locations/locationSlice.js";
+import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function LoginPage(props) {
@@ -24,7 +25,8 @@ function LoginPage(props) {
     .then (() => {
        navigate("/");
        dispatch(fetchLocations());
-    }).catch((err) => {
+       dispatch(getAnswersByUserId());
+      }).catch((err) => {
       console.error("Failed to login: ", err);
       const errorMessage = err?.response?.data?.message || "An error occurred durin login";
       setErrorMsg(errorMessage);

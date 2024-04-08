@@ -49,7 +49,18 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
         return rejectWithValue(err);
     }
 });
-
+export const logout = createAsyncThunk("auth/logout" , async (_, {getState, rejectWithValue }) => {
+    try{
+        axios.get(`${apiUrl}auth/logout`,{
+            headers: {
+                "sessionid": getState().auth.sessionId,
+            },
+            withCredentials: true,
+        })
+    }catch(err){
+        return rejectWithValue(err);
+    }
+});
 const initialState = {
     isLoggedIn: !!loadFromLocalStorage("sessionId"), //!! -> gets a boolean value from local storage
     sessionId: loadFromLocalStorage("sessionId"),
@@ -62,6 +73,7 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        /*
         logout(state) {
             state.isLoggedIn = false;
             state.user = null;
@@ -71,6 +83,7 @@ const authSlice = createSlice({
             localStorage.removeItem('sessionId');
             localStorage.removeItem('userInfo');
         },
+        */
         initializeAuthState(state) {
             const sessionId = sessionStorage.getItem('sessionId');
             const userInfo = sessionStorage.getItem('userInfo');
@@ -118,5 +131,5 @@ const authSlice = createSlice({
             });
     },
 });
-export const { logout, initializeAuthState } = authSlice.actions;
+export const {initializeAuthState } = authSlice.actions;
 export default authSlice.reducer;

@@ -146,6 +146,7 @@ const answerSlice = createSlice({
                 }
             })
             .addCase(getAnswersByUserId.fulfilled, (state, action) => {
+                if(action.payload)
                 state.answers = action.payload.data;
             });
     },
