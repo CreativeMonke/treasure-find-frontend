@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Circle, useMap } from "react-leaflet";
 import L from "leaflet";
+import useDynamicCircle from "./DynamicCircle";
 const circleColors = {
-  accesible: "var(--joy-palette-primary-500)",
-  notAccesible: "var(--joy-palette-neutral-500)",
+  accessible: "var(--joy-palette-primary-500)",
+  notAccessible: "var(--joy-palette-neutral-500)",
   answered: "var(--joy-palette-success-500)",
 };
 
@@ -14,34 +15,43 @@ function RangeCircle({
   handleLocationSelect,
 }) {
   const map = useMap();
-  function checkUserProximity(location) {
-    if (!userLocation) return false;
-    const distance = L.GeometryUtil.distance(
-      map,
-      L.latLng(userLocation[0], userLocation[1]),
-      L.latLng(location.lat, location.lng)
-    );
-    return distance <= location.radius;
-  }
-  const circleColor = answered
-    ? circleColors.answered
-    : checkUserProximity(location)
-    ? circleColors.accesible
-    : circleColors.notAccesible;
+  const [circleColor, setCircleColor] = useState(circleColors.notAccessible);
+
+  useEffect(() => {
+    //console.log("Effect running", { answered, userLocation, location });
+
+    if (answered) {
+      //console.log("Answered, setting to answered color");
+
+      setCircleColor(circleColors.answered);
+    } else {
+      // Update circle color based on user proximity
+      const distance = userLocation
+        ? L.GeometryUtil.distance(
+            map,
+            L.latLng(userLocation),
+            L.latLng(location.lat, location.lng)
+          )
+        : Infinity;
+      //console.log("Distance:", distance, "Radius:", location.radius);
+      setCircleColor(
+        distance <= location.radius
+          ? circleColors.accessible
+          : circleColors.notAccessible
+      );
+    }
+  }, [answered, userLocation, location, map]);
+
   return (
-    <Circle
-      key = {location.id}
-      center={[location.lat, location.lng]}
-      radius={130} // Should be location.circleRadius
-      fillColor={circleColor}
-      color={circleColor}
-      weight={1}
-      opacity={0.8}
-      fillOpacity={0.5}
-      eventHandlers={{
-        click: () => handleLocationSelect(location),
-      }}
-    />
+    <Fragment>
+      {useDynamicCircle({
+        center: [location.lat, location.lng],
+        radius: location.radius,
+        color: circleColor,
+        onClick: () => handleLocationSelect(location),
+      })}
+    </Fragment>
   );
 }
+
 export default RangeCircle;

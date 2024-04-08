@@ -18,7 +18,7 @@ export const fetchLocations = createAsyncThunk("locations/fetchLocations", async
             },
             withCredentials: true,
         });
-        console.log(res);
+        //console.log(res);
 
         return res.data.data;
     } catch (err) {
@@ -53,7 +53,7 @@ export const addNewLocation = createAsyncThunk(
         const { auth } = getState();
 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}locations/create`,
+            const res = await axios.post(`${apiUrl}locations/create`,
                 locationData,
                 {
                     headers: {
@@ -95,7 +95,6 @@ const locationSlice = createSlice({
         error: null,
     },
     reducers: {
-        // Here you can add reducers for actions that don't require async logic
     },
     extraReducers: (builder) => {
         builder

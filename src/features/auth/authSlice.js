@@ -31,7 +31,7 @@ export const checkLogin = createAsyncThunk("auth/checkLogin", async (_, { reject
             },
             withCredentials: true,
         });
-        console.log(res);
+        //console.log(res);
         return res.data;
     } catch (err) {
         return rejectWithValue(err);

@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import NavBar from "./Navbar/Navbar.tsx";
+import NavBar from "./Navbar/Navbar";
 import MainContent from "./MainContent.tsx";
 
 function PageStructureWithRouter() {

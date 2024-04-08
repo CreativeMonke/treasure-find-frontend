@@ -37,7 +37,7 @@ function GetUserClickedLocation({setClickedLocation}) {
     return () => {
       map.off("click", OnMapClick);
     };
-  }, [map, marker]);
+  }, [map, marker, setClickedLocation]);
   return null;
 }
 export default GetUserClickedLocation;

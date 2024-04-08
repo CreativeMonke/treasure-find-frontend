@@ -1,81 +1,163 @@
 import React, { useState, useEffect } from "react";
-import { Modal, ModalDialog, ModalClose, DialogTitle, Divider, DialogContent, FormControl, FormLabel, Typography, Textarea, FormHelperText, Button } from "@mui/joy";
+import {
+  Modal,
+  ModalDialog,
+  ModalClose,
+  DialogTitle,
+  Divider,
+  DialogContent,
+  FormControl,
+  FormLabel,
+  Typography,
+  Textarea,
+  FormHelperText,
+  Button,
+  DialogActions,
+  CircularProgress,
+} from "@mui/joy";
 import { PlaceRounded, QuizRounded } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearCurrentAnswerId,
+  getAnswer,
+  getAnswersByUserId,
+  submitAnswer,
+  updateAnswerById,
+} from "../../../../features/answers/answerSlice";
 
 function QuestionModal(props) {
-  const [timeLeft, setTimeLeft] = useState(null); // null indicates the timer hasn't started
-  const [userAnswer, setUserAnswer] = useState('');
+  const [timeLeft, setTimeLeft] = useState(null);
+  const [userAnswer, setUserAnswer] = useState("");
   const [hasError, setHasError] = useState(false);
   const [timerExpired, setTimerExpired] = useState(false);
-
-  // Start the timer when the modal opens and "Show question" is clicked
+  const [hasBeenUpdated, setHasBeenUpdated] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false); // State to control question visibility
+  const dispatch = useDispatch();
+  const currentAnswerId = useSelector((state) => state.answers.currentAnswerId);
+  const userId = useSelector((state) => state.auth.user[0]._id); // Adjust according to your state shape
   useEffect(() => {
-    if (timeLeft === null) {
-      return;
+    if (props.open) {
+      dispatch(getAnswer(props.locationId))
+        .unwrap()
+        .then((action) => {
+          if (action && action.data) {
+            // Answer exists; show question and calculate time left
+            setShowQuestion(true);
+            setUserAnswer(action.data.answer);
+            setHasBeenUpdated(action.data.hasBeenUpdated);
+            setTimeLeft(calculateTimeLeft(action.data.createdAt));
+          }
+          // If no answer exists, wait for user action to show question
+        })
+        .catch((err) => console.error("Failed to fetch answer:", err));
     }
+    return () => {
+      dispatch(clearCurrentAnswerId());
+    };
+  }, [props.open, dispatch, props.locationId]);
 
-    // If timeLeft is 0, stop the timer
-    if (timeLeft <= 0) {
-      setTimerExpired(true);
-      return;
+  const calculateTimeLeft = (createdAt) => {
+    const creationTime = new Date(createdAt).getTime();
+    const currentTime = new Date().getTime();
+    const elapsed = (currentTime - creationTime) / 1000; // in seconds
+    const remaining = 5 * 60 - elapsed; // 5 minutes limit
+    return remaining > 0 ? Math.round(remaining) : 0;
+  };
+
+  const handleShowQuestionClick = () => {
+    setShowQuestion(true);
+    if (!currentAnswerId) {
+      // No existing answer; submit a preliminary answer
+      const preliminaryAnswer = {
+        question: props.question,
+        answer: " ",
+        userId: userId,
+        locationId: props.locationId,
+      };
+      dispatch(submitAnswer(preliminaryAnswer));
     }
+    setTimeLeft(5 * 60); // Start the timer
+    setTimerExpired(false);
+  };
 
-    // Countdown
-    const timer = setTimeout(() => {
-      setTimeLeft(timeLeft - 1);
-    }, 1000);
-
-    // Cleanup on component unmount or when timeLeft changes
-    return () => clearTimeout(timer);
+  useEffect(() => {
+    if (timeLeft !== null) {
+      if (timeLeft <= 0) {
+        setTimerExpired(true);
+        return;
+      }
+      const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timerId);
+    }
   }, [timeLeft]);
 
-  // Format the timer text
   const formatTimeLeft = () => {
-    if (timeLeft === null) {
-      return "Click to show question";
+    if (!showQuestion) {
+      return "Click 'Show question' to start";
     }
     if (timerExpired) {
       return "Time has expired!";
     }
-    const minutes = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    const seconds = (timeLeft % 60).toString().padStart(2, '0');
+    const minutes = Math.floor(timeLeft / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (timeLeft % 60).toString().padStart(2, "0");
     return `${minutes}:${seconds} left`;
   };
 
-  const handleShowQuestion = () => {
-    setTimeLeft(5 * 60); // 5 minutes countdown
-    setTimerExpired(false);
-  };
-
   const handleAnswerChange = (evt) => {
-    const value = evt.target.value;
-    setUserAnswer(value);
-    setHasError(!value);
+    setUserAnswer(evt.target.value);
+    setHasError(!evt.target.value);
   };
 
-  const handleSubmitAnswer = () => {
-    if (timerExpired || !userAnswer) {
+  const handleSubmitAnswer = async () => {
+    setIsLoading(true);
+    if (!userAnswer.trim() || timerExpired) {
+      setHasError(true);
+      setIsLoading(false);
       console.log("Cannot submit answer: Time expired or no answer provided.");
       return;
     }
-    // Submit answer logic here
-    console.log("Answer submitted:", userAnswer);
-    props.handleClose();
-  };
 
+    try {
+      await dispatch(
+        updateAnswerById({
+          answerId: currentAnswerId,
+          answerData: { answer: userAnswer },
+        })
+      ).unwrap();
+      console.log("Answer submitted: ", userAnswer);
+      props.handleClose();
+    } catch (error) {
+      console.error("Failed to update answer:", error);
+    } finally {
+      setIsLoading(false);
+      dispatch(getAnswersByUserId()); 
+    }
+  };
   return (
     <Modal open={props.open} onClose={props.handleClose}>
-      <ModalDialog layout="center" sx={{ width: "60%", maxWidth: "500px", maxHeight: "600px" }}>
+      <ModalDialog
+        layout="center"
+        sx={{
+          width: "60%",
+          maxWidth: "500px",
+          maxHeight: "600px",
+        }}
+      >
         <ModalClose variant="plain" size="md" />
         <DialogTitle id="modalTitle">
           <PlaceRounded />
-          {props.name}
+          <Typography color="primary" level="title-lg">
+            {props.name}
+          </Typography>
         </DialogTitle>
-        <Divider sx={{ mt: 1, mb: 1 }}>{formatTimeLeft()}</Divider>
+        <Divider sx={{ mt: 1, mb: 1 }}>{hasBeenUpdated?"Answer already submitted!" : formatTimeLeft()}</Divider>
         <DialogContent>
           <FormControl>
             <FormLabel sx={{ mb: 2, width: "100%" }}>
-              {timeLeft !== null ? (
+              {showQuestion ? (
                 <Typography level="title-lg">{props.question}</Typography>
               ) : (
                 <Button
@@ -85,28 +167,52 @@ function QuestionModal(props) {
                   startDecorator={<QuizRounded />}
                   endDecorator={<QuizRounded />}
                   sx={{ width: "100%" }}
-                  onClick={handleShowQuestion}
+                  onClick={handleShowQuestionClick}
                 >
                   Show question
                 </Button>
               )}
             </FormLabel>
-            <Textarea
-              disabled={timerExpired || timeLeft === null}
-              error={hasError}
-              variant="soft"
-              size="lg"
-              minRows={6}
-              placeholder={hasError ? "Cannot be empty!" : "Type your answer here..."}
-              value={userAnswer}
-              onChange={handleAnswerChange}
-            />
-            <FormHelperText>This answer cannot be retracted!</FormHelperText>
+            {showQuestion && (
+              <>
+                <Textarea
+                  disabled={timerExpired || !showQuestion || hasBeenUpdated}
+                  error={hasError}
+                  variant="soft"
+                  size="lg"
+                  minRows={6}
+                  placeholder="Type your answer here..."
+                  value={userAnswer}
+                  onChange={handleAnswerChange}
+                />
+                {!hasBeenUpdated && (
+                  <FormHelperText>
+                    This answer cannot be retracted!
+                  </FormHelperText>
+                )}
+              </>
+            )}
           </FormControl>
         </DialogContent>
-        <Button disabled={timerExpired || !userAnswer} sx={{ width: "100%" }} onClick={handleSubmitAnswer}>
-          Save answer
-        </Button>
+
+        <DialogActions>
+          
+          {showQuestion && (
+            <Button
+              disabled={
+                timerExpired ||
+                !userAnswer.trim() ||
+                hasBeenUpdated ||
+                isLoading
+              }
+              sx={{ width: "100%", mt: 2 }}
+              onClick={handleSubmitAnswer}
+              loading = {isLoading}
+            >
+              {isLoading ? "Submitting..." : "Save answer"}
+            </Button>
+          )}
+        </DialogActions>
       </ModalDialog>
     </Modal>
   );

@@ -5,13 +5,19 @@ import PageStructureWithRouter from "./PageStructureWithRouter.tsx";
 import { useDispatch } from "react-redux";
 import { fetchLocations } from "../features/locations/locationSlice.js";
 import { checkLogin } from "../features/auth/authSlice.js";
+import { getAnswersByUserId } from "../features/answers/answerSlice.js";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkLogin());
-    dispatch(fetchLocations());
+    dispatch(checkLogin()).then((action) => {
+      console.log(action);
+      if (action.error == null) {
+        dispatch(fetchLocations());
+        dispatch(getAnswersByUserId());
+      }
+    });
   }, [dispatch]);
   return (
     <CssVarsProvider defaultMode="system">

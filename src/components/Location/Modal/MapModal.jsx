@@ -5,7 +5,6 @@ import { Modal, ModalDialog, Sheet } from "@mui/joy";
 
 import L from "leaflet";
 function MapModal(props) {
-  console.log(props.selectedLocationCoords);
   const locationIcon = new L.Icon({
     iconUrl: "/icons/locationIcons/accountIcon.png",
     iconSize: [48, 48],
@@ -22,11 +21,11 @@ function MapModal(props) {
     >
       <MapContainer id="map" center={props.centerOn?props.centerOn:[47.1564288, 27.5841024]} zoom={16}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {props.selectedLocationCoords && (
+        {props.centerOn && (
           <Marker
             position={[
-              props.selectedLocationCoords.lat,
-              props.selectedLocationCoords.lng,
+              props.centerOn.lat,
+              props.centerOn.lng,
             ]}
             icon={locationIcon}
           />

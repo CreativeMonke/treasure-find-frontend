@@ -23,25 +23,14 @@ import {
   KeyboardArrowDownOutlined,
   MapOutlined,
 } from "@mui/icons-material";
-
+import Header from "../pages/PageStructure/Header";
 function NoNavbar() {
   let location = useLocation();
   const noNavbarPages = ["/login", "/register"];
   return !noNavbarPages.includes(location.pathname);
 }
 
-function Toggler({
-  defaultExpanded = false,
-  renderToggle,
-  children,
-}: {
-  defaultExpanded?: boolean;
-  children: React.ReactNode;
-  renderToggle: (params: {
-    open: boolean;
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  }) => React.ReactNode;
-}) {
+function Toggler({ defaultExpanded = false, children, renderToggle }) {
   const [open, setOpen] = React.useState(defaultExpanded);
   return (
     <React.Fragment>
@@ -64,7 +53,7 @@ function Toggler({
 
 function NavBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 900);
+  const [isMobileView, setIsMobileView] = useState(typeof window !== "undefined" && window.innerWidth < 900);
   const location = useLocation();
   const isCurrent = (path) => location.pathname === path;
 
@@ -84,6 +73,7 @@ function NavBar() {
   function closeDrawer() {
     setIsDrawerOpen(false);
   }
+
 
   function sidebarContents() {
     ///BorderSizing property for scrolling!!!
@@ -107,7 +97,7 @@ function NavBar() {
             top: 0,
             left: 0,
             width: "100vw",
-            height: "100vh",
+            height: "100dvh",
             opacity: "var(--SideNavigation-slideIn)",
             backgroundColor: "var(--joy-palette-background-backdrop)",
             transition: "opacity 0.4s",
@@ -198,7 +188,8 @@ function NavBar() {
                 </List>
               </Toggler>
             </ListItem>
-            <ListItem nested>
+            
+            {/*<ListItem nested>
               <Toggler
                 renderToggle={({ open, setOpen }) => (
                   <ListItemButton onClick={() => setOpen(!open)}>
@@ -225,6 +216,7 @@ function NavBar() {
                 </List>
               </Toggler>
             </ListItem>
+                */}
             <ListItem nested>
               <Toggler
                 renderToggle={({ open, setOpen }) => (
@@ -319,6 +311,7 @@ function NavBar() {
             >
               <MenuIcon />
             </IconButton>
+            <Header />
           </Sheet>
           {renderMobileMenu()}
         </>

@@ -33,7 +33,6 @@ function EditLocationModal(props) {
   const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
   const locations = useSelector((state) => state.locations.locations);
-  console.log(locations);
   const selectedLocation = locations.find(
     (location) => location._id === props.id
   );
@@ -50,6 +49,7 @@ function EditLocationModal(props) {
     lat: selectedLocation.lat,
     lng: selectedLocation.lng,
   };
+  
   const handleFieldChange = (field) => (value) => {
     if (!value) setHasError(true);
     else setHasError(false);
@@ -119,7 +119,7 @@ function EditLocationModal(props) {
               <Grid item xs={6}>
                 <GridItem
                   label="Question"
-                  hasError = {hasError}
+                  hasError={hasError}
                   value={locationFields.question}
                   onChange={handleFieldChange("question")}
                 />
@@ -127,7 +127,7 @@ function EditLocationModal(props) {
               <Grid item xs={6}>
                 <GridItem
                   label="Answer"
-                  hasError = {hasError}
+                  hasError={hasError}
                   value={locationFields.answer}
                   onChange={handleFieldChange("answer")}
                 />
@@ -140,7 +140,7 @@ function EditLocationModal(props) {
                 }}
               >
                 <MapModal
-                  selectedLocationCoords={{
+                  centerOn={{
                     lat: selectedLocationCoords.lat,
                     lng: selectedLocationCoords.lng,
                   }}

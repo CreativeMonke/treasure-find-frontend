@@ -1,69 +1,75 @@
 import { LinearProgress, Sheet, Table } from "@mui/joy";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Row from "./Row";
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
+import { useSelector } from "react-redux";
 
 function UserRoleTable() {
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoggedIn, sessionId } = useSelector((state) => state.auth); // Assuming your store is set up correctly
   const [users, setUsers] = useState([]);
-  async function getAllUsers() {
-    try {
-      setIsLoading(true);
-      const res = await axios.get(`${apiUrl}users/getAll`, {
-        withCredentials: true,
-      });
+  const [isLoading, setIsLoading] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_BASE_URL; // Ensure this is the only declaration
 
-      const usersData = res.data.data.map((user, index) => {
-        return {
+  useEffect(() => {
+    const getAllUsers = async () => {
+      if (!isLoggedIn) {
+        console.log("User not logged in.");
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`${apiUrl}users/getAll`, {
+          headers: {
+            sessionid: sessionId, // Ensure this is how your API expects the session ID
+          },
+          withCredentials: true,
+        });
+        const usersData = response.data.data.map(user => ({
           id: user._id,
           firstName: user.first_name,
           lastName: user.last_name,
           email: user.email,
           role: user.role,
-        };
-      });
-      setUsers(usersData);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-    }
-    setIsLoading(false);
-  }
-  useEffect(() => {
+        }));
+        setUsers(usersData);
+      } catch (error) {
+        console.error("Failed to fetch users", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     getAllUsers();
-  }, []);
-  console.log(users);
+  }, [isLoggedIn, sessionId]); // Add sessionId as a dependency to re-fetch when it changes
+
   return (
-    <Sheet
-      variant="plain"
-      sx={{ overflow: "auto", height: "90%", borderRadius: "5px", p:1}}
-    >
+    <Sheet variant="plain" sx={{ overflow: "auto", height: "90%", borderRadius: "5px", p: 1 }}>
       <Table stickyHeader size="md" borderAxis="xBetween" noWrap>
         <thead>
           <tr>
             <th width="25px">#</th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th width = "40%">Email</th>
-            <th width = "20%">Role</th>
-            <th width = "60px"></th>
+            <th width="40%">Email</th>
+            <th width="20%">Role</th>
+            <th width="60px"></th>
           </tr>
         </thead>
         <tbody>
           {isLoading ? (
-            <LinearProgress size="lg" />
+            <tr style={{ height: '100px' }}><td colSpan="6"><LinearProgress size="lg" /></td></tr>
           ) : (
             users.map((user, index) => (
               <Row
                 id={user.id}
-                key = {user.id}
+                key={user.id}
                 index={index}
                 firstName={user.firstName}
                 lastName={user.lastName}
                 email={user.email}
                 role={user.role}
+                token={sessionId}
               />
             ))
           )}
