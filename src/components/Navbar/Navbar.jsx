@@ -30,6 +30,7 @@ import {
 import Header from "../pages/PageStructure/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
+import RemainingTime from "../pages/components/RemainingTime";
 function NoNavbar() {
   let location = useLocation();
 
@@ -308,7 +309,9 @@ function NavBar() {
             </ListItemButton>
           </ListItem>
         </List>
-        <Divider />
+        <Divider>
+          <RemainingTime />
+        </Divider>
 
         <Grid container sx={{ width: "100%" }}>
           <Grid item xs={10}>

@@ -15,7 +15,7 @@ export const getGlobalHuntInfo = createAsyncThunk("/hunt/getGlobalHuntInfo", asy
         rejectWithValue(err);
     }
 });
-export const editGlobalHuntInfo = createAsyncThunk("/hunt/editGlobalHuntInfo", async(options, { getState, rejectWithValue }) => {
+export const editGlobalHuntInfo = createAsyncThunk("/hunt/editGlobalHuntInfo", async (options, { getState, rejectWithValue }) => {
     try {
         const res = await axios.put(`${apiUrl}hunt/edit`, options, {
             headers: {
@@ -35,6 +35,8 @@ const initialState = {
         nrOfObjectives: null,
         nrOfSignedUpUsers: null
     },
+    hasStarted: false,
+    hasEnded: false,
     timeRemaining: null,
     status: "idle", // "idle" , "loading" , "succeeded" , "failed",
     error: null,
@@ -51,6 +53,11 @@ const huntSlice = createSlice({
             .addCase(getGlobalHuntInfo.fulfilled, (state, action) => {
                 state.globalHuntInfo = action.payload;
                 state.status = "succeeded";
+                const now = Date.now();
+                const startTime = new Date(action.payload.startTime).getTime();
+                const endTime = new Date(action.payload.endTime).getTime();
+                state.hasStarted = now >= startTime;
+                state.hasEnded = now >= endTime;
             })
             .addCase(getGlobalHuntInfo.rejected, (state, action) => {
                 state.error = action.error.message;

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { fetchLocations } from "../features/locations/locationSlice.js";
 import { checkLogin } from "../features/auth/authSlice.js";
 import { getAnswersByUserId } from "../features/answers/answerSlice.js";
+import { getGlobalHuntInfo } from "../features/hunt/huntSlice.js";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,8 +15,12 @@ function App() {
     dispatch(checkLogin()).then((action) => {
       console.log(action);
       if (action.error == null) {
-        dispatch(fetchLocations());
-        dispatch(getAnswersByUserId());
+        dispatch(getGlobalHuntInfo()).then((action) => {
+          if (action.error == null) {
+            dispatch(fetchLocations());
+            dispatch(getAnswersByUserId());
+          }
+        });
       }
     });
   }, [dispatch]);
