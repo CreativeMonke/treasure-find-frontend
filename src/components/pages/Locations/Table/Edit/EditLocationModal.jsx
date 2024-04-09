@@ -13,7 +13,7 @@ import {
   Typography,
   AspectRatio,
 } from "@mui/joy";
-import { useSelector, useDispatch } from "react-redux";
+import {  useDispatch } from "react-redux";
 import {
   fetchLocations,
   updateLocation,
@@ -22,38 +22,26 @@ import MapModal from "../../../../Location/Modal/MapModal";
 import GridItem from "../../../components/GridItem";
 import {
   ArrowRightAlt,
-  DeleteForeverOutlined,
-  PlaceRounded,
-  SaveAltRounded,
   SaveRounded,
   ShareLocationRounded,
 } from "@mui/icons-material";
 import ImageIconRounded from "@mui/icons-material/Image";
-import InputField from "../../../components/InputField";
 
-function EditLocationModal(props) {
+function EditLocationModal({open,setOpen,location}) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
-  const locations = useSelector((state) => state.locations.locations);
-  const selectedLocation = locations.find(
-    (location) => location._id === props.id
-  );
-
   const [locationFields, setLocationFields] = useState({
-    name: selectedLocation.name,
-    question: selectedLocation.question,
-    answer: selectedLocation.answer,
-    imgSrc: selectedLocation.imgSrc,
-    radius: selectedLocation.radius,
-    lat: selectedLocation.lat,
-    lng: selectedLocation.lng,
+    name: location.name,
+    question: location.question,
+    answer: location.answer,
+    imgSrc: location.imgSrc,
+    radius: location.radius,
+    lat: location.lat,
+    lng: location.lng,
     // Potentially add more fields as needed
   });
-  const selectedLocationCoords = {
-    lat: selectedLocation.lat,
-    lng: selectedLocation.lng,
-  };
+
 
   const handleFieldChange = (field) => (value) => {
     if (!value) setHasError(true);
@@ -76,7 +64,7 @@ function EditLocationModal(props) {
     setIsLoading(true);
     dispatch(
       updateLocation({
-        id: props.id,
+        id: location._id,
         ...locationFields,
       })
     )
@@ -84,7 +72,7 @@ function EditLocationModal(props) {
       .then(() => {
         dispatch(fetchLocations()).unwrap();
         setIsLoading(false);
-        props.setOpen(false);
+        setOpen(false);
       })
       .catch((err) => {
         console.error("Couldn't delete:", err);
@@ -93,7 +81,7 @@ function EditLocationModal(props) {
   };
 
   return (
-    <Modal open={props.open} onClose={() => props.setOpen(false)}>
+    <Modal open={open} onClose={() => setOpen(false)}>
       <ModalDialog
         layout="center"
         sx={{
@@ -114,7 +102,7 @@ function EditLocationModal(props) {
           <Typography level="title-lg">Editing</Typography>
           <ArrowRightAlt />
           <Typography level="title-lg" color="warning">
-            {selectedLocation.name}
+            {location.name}
           </Typography>
         </DialogTitle>
         <Divider />
@@ -163,8 +151,8 @@ function EditLocationModal(props) {
               >
                 <MapModal
                   centerOn={{
-                    lat: selectedLocationCoords.lat,
-                    lng: selectedLocationCoords.lng,
+                    lat: location.lat,
+                    lng: location.lng,
                   }}
                   setClickedLocation={locationCoords}
                 />
@@ -215,7 +203,7 @@ function EditLocationModal(props) {
               <Button
                 variant="outlined"
                 color="neutral"
-                onClick={() => props.setOpen(false)}
+                onClick={() => setOpen(false)}
               >
                 Cancel
               </Button>

@@ -16,7 +16,7 @@ function MainContent() {
       component="main"
       className="MainContent"
       boxSizing="border-box"
-      maxHeight="100dvh"
+      maxHeight="100vh"
       sx={{
         backgroundColor: "background.body",
         px: { xs: 2, md: 3 },

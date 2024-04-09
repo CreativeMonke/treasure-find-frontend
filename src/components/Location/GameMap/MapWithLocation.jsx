@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer, Circle } from "react-leaflet";
+import React, {  useRef, useState } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
 import { useDispatch } from "react-redux";
-import L from "leaflet";
 import QuestionModal from "./Modals/QuestionModal";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geometryutil";

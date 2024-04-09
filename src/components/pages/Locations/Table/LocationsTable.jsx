@@ -52,10 +52,7 @@ function LocationsTable() {
                   <LocationRow
                     key={index + location._id}
                     index={index}
-                    id={location._id}
-                    name={location.name}
-                    question={location.question}
-                    answer={location.answer}
+                    location={location}
                   />
                 ))}
               </tbody>

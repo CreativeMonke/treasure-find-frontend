@@ -41,7 +41,7 @@ const useDynamicCircle = ({
     return () => {
       circle.remove();
     };
-  }, [map, center, radius, color, onClick, isInRange, location]);
+  }, [map, center, radius, color, onClick, isInRange, location , answered]);
 };
 
 export default useDynamicCircle;

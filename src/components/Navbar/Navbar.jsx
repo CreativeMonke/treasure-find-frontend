@@ -2,18 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import Box from "@mui/joy/Box";
 import {
-  Avatar,
   Divider,
-  GlobalStyles,
   Grid,
   List,
   ListItem,
   ListItemButton,
   ListItemContent,
   Sheet,
-  Stack,
   Typography,
-  listItemButtonClasses,
 } from "@mui/joy";
 import Drawer from "@mui/joy/Drawer";
 import IconButton from "@mui/joy/IconButton";
@@ -32,12 +28,8 @@ import Header from "../pages/PageStructure/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import RemainingTime from "../pages/components/RemainingTime";
-function NoNavbar() {
-  let location = useLocation();
-
-  const noNavbarPages = ["/login", "/register"];
-  return !noNavbarPages.includes(location.pathname);
-}
+import LanguageSwitcher from "./Language/LanguageSelect";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 function Toggler({ defaultExpanded = false, children, renderToggle }) {
   const [open, setOpen] = React.useState(defaultExpanded);
@@ -61,6 +53,8 @@ function Toggler({ defaultExpanded = false, children, renderToggle }) {
 }
 
 function NavBar() {
+  const { t } = useTranslation();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(
     typeof window !== "undefined" && window.innerWidth < 900
@@ -132,7 +126,8 @@ function NavBar() {
           onClick={closeDrawer}
         />
         <Box className="SidebarHeader">
-          <Typography level="title-lg">VaultVoyage</Typography>
+          <Typography level="title-lg">{t("appName")}</Typography>
+          <LanguageSwitcher />
         </Box>
 
         <Box className="NavigationLinks">
@@ -150,7 +145,7 @@ function NavBar() {
             >
               <HomeRounded />
               <ListItemContent>
-                <Typography level="title-sm">Acasă</Typography>
+                <Typography level="title-sm">{t("home")}</Typography>
               </ListItemContent>
             </ListItemButton>
 
@@ -161,7 +156,7 @@ function NavBar() {
                     <ListItemButton onClick={() => setOpen(!open)}>
                       <MapOutlined />
                       <ListItemContent>
-                        <Typography level="title-sm">Locații</Typography>
+                        <Typography level="title-sm">{t("locations")}</Typography>
                       </ListItemContent>
                       <KeyboardArrowDownOutlined
                         sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -177,7 +172,7 @@ function NavBar() {
                         selected={isCurrent("/poi")}
                         onClick={toggleDrawer}
                       >
-                        Prezentare generală
+                        {t("overview")}
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
@@ -187,7 +182,7 @@ function NavBar() {
                         selected={isCurrent("/locations/admin")}
                         onClick={toggleDrawer}
                       >
-                        Editează
+                        {t("edit")}
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -202,7 +197,7 @@ function NavBar() {
                   onClick={toggleDrawer}
                 >
                   <MapOutlined />
-                  Locații
+                  {t("locations")}
                 </ListItemButton>
               </ListItem>
             )}
@@ -215,7 +210,7 @@ function NavBar() {
                   onClick={toggleDrawer}
                 >
                   <QuestionAnswerRounded />
-                  Răspunsurile mele
+                  {t("myAnswers")}
                 </ListItemButton>
               </ListItem>
             }
@@ -254,7 +249,7 @@ function NavBar() {
                     <ListItemButton onClick={() => setOpen(!open)}>
                       <Group />
                       <ListItemContent>
-                        <Typography level="title-sm">Utilizatori</Typography>
+                        <Typography level="title-sm">{t("users")}</Typography>
                       </ListItemContent>
                       <KeyboardArrowDownOutlined
                         sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -270,7 +265,7 @@ function NavBar() {
                         selected={isCurrent("/user/overview")}
                         onClick={toggleDrawer}
                       >
-                        Overview
+                        {t("userOverview")}
                       </ListItemButton>
                     </ListItem>
                     <ListItem>
@@ -280,7 +275,7 @@ function NavBar() {
                         selected={isCurrent("/user/roles")}
                         onClick={toggleDrawer}
                       >
-                        Roluri & Permisiuni
+                        {t("rolesPermissions")}
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -294,6 +289,7 @@ function NavBar() {
           sx={{
             mt: "auto",
             flexGrow: 0,
+            gap:0.7,
 
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}
@@ -307,7 +303,7 @@ function NavBar() {
                 onClick={toggleDrawer}
               >
                 <SupportRounded />
-                Setări
+                {t("settings")}
               </ListItemButton>
             </ListItem>
           )}
@@ -319,7 +315,7 @@ function NavBar() {
               onClick={toggleDrawer}
             >
               <SupportRounded />
-              Support
+              {t("support")}
             </ListItemButton>
           </ListItem>
         </List>

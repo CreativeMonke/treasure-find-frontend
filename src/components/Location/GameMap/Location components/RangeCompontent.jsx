@@ -1,6 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Circle, useMap } from "react-leaflet";
-import L from "leaflet";
 import getDistance from "geolib/es/getDistance";
 import useDynamicCircle from "./DynamicCircle";
 const circleColors = {
@@ -27,7 +25,7 @@ function RangeCircle({ answered, userLocation, location, handleLocationSelect })
         isInRange ? circleColors.accessible : circleColors.notAccessible
       );
     }
-  }, [answered, userLocation, location]);
+  }, [answered, userLocation, location  , distance , isInRange]);
 
   return (
     <Fragment>

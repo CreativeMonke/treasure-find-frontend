@@ -27,10 +27,9 @@ function Header() {
           alt="Logo"
           style={{ maxHeight: "100%", maxWidth: "50px" }}
         />{" "}
-        {/* Adjust logo size as needed */}
       </Box>
       <Typography level="title-sm" sx={{}}>
-        CNER DEV
+        OniGim 2024
       </Typography>
     </Box>
   );

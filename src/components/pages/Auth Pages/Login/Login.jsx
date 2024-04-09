@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { login } from "../../../../features/auth/authSlice.js";
-import axios from "axios";
 import { Card, Button, Typography, Box, Link, Alert, Grid } from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
 import { fetchLocations } from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
 import { getGlobalHuntInfo } from "../../../../features/hunt/huntSlice.js";
-
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
+import { useTranslation } from "react-i18next";
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +17,8 @@ function LoginPage(props) {
   const navigate = useNavigate();
   const { status, error } = useSelector((state) => state.auth);
   const isLoading = status === "loading";
+  const { t } = useTranslation();
+
   async function handleSubmit(evt) {
     evt.preventDefault();
     dispatch(login({ email, password }))
@@ -63,13 +63,13 @@ function LoginPage(props) {
               component="h1"
               sx={{ textAlign: "center" }}
             >
-              Login
+              {t("login")}
             </Typography>
           </Grid>
           {errorMsg && (
             <Grid item xs={12}>
               <Alert severity="error" color="danger">
-                {errorMsg}
+                {t(errorMsg)}
               </Alert>
             </Grid>
           )}
@@ -97,14 +97,14 @@ function LoginPage(props) {
               color="primary"
               className="buttonSubmit"
             >
-              Sign In
+              {t("signIn")}{" "}
             </Button>
           </Grid>
           <Grid item xs={12}>
             <Typography className="linkText">
-              Don't have an account?{" "}
+              {t("dontHaveAccount")} 
               <Link component={RouterLink} to="/register">
-                Register
+                {t("register")}
               </Link>
             </Typography>
           </Grid>

@@ -15,6 +15,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./RegisterPage.css";
 import InputField from "../../components/InputField";
+import { useTranslation } from "react-i18next"; // Import useTranslation
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
@@ -26,6 +27,7 @@ function RegisterPage(props) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const { t } = useTranslation(); // Initialize useTranslation hook
 
   const navigate = useNavigate();
 
@@ -86,7 +88,7 @@ function RegisterPage(props) {
               component="h1"
               sx={{ textAlign: "center" }}
             >
-              Register
+              {t("register")}
             </Typography>
           </Grid>
           {errorMsg && (
@@ -141,14 +143,14 @@ function RegisterPage(props) {
               color="primary"
               sx={{ mt: 2 }}
             >
-              Register
+              {t("register")}
             </Button>
           </Grid>
           <Grid item xs={12}>
             <Typography sx={{ textAlign: "center" }}>
-              Already have an account?{" "}
+              {t("alreadyHaveAccount")}{" "}
               <Link component={RouterLink} to="/login">
-                Login
+              {t('login')}
               </Link>
             </Typography>
           </Grid>

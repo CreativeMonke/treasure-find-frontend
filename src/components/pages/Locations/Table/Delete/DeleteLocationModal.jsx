@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   deleteLocation,
   fetchLocations,
@@ -19,20 +19,18 @@ import {
 } from "@mui/joy";
 import { DeleteForeverOutlined, DetailsRounded } from "@mui/icons-material";
 
-function DeleteLocationModal(props) {
+function DeleteLocationModal({ open, setOpen, index, location }) {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const locations = useSelector((state) => state.locations.locations);
-  const selectedLocation = locations.find((loc) => loc.id === props.id); // Assuming location ID is passed as prop
 
   const handleDelete = () => {
     setIsLoading(true);
-    dispatch(deleteLocation(props.id))
+    dispatch(deleteLocation(location._id))
       .unwrap()
       .then(() => {
         dispatch(fetchLocations()).unwrap();
         setIsLoading(false);
-        props.setOpen(false);
+        setOpen(false);
       })
       .catch((err) => {
         console.error("Couldn't delete:", err);
@@ -40,14 +38,14 @@ function DeleteLocationModal(props) {
       });
   };
   return (
-    <Modal open={props.open} onClose={() => props.setOpen(false)}>
+    <Modal open={open} onClose={() => setOpen(false)}>
       <ModalDialog layout="center" sx={{ position: "absolute" }}>
         <ModalClose variant="plain" />
         <DialogTitle id="modal-title">
           <DetailsRounded />
           Confirm Deletion of{" "}
           <Typography level="title-lg" color="warning">
-            {selectedLocation?.name}
+            {location?.name}
           </Typography>
         </DialogTitle>
         <Divider />
@@ -65,7 +63,7 @@ function DeleteLocationModal(props) {
                 size="lg"
                 variant="solid"
                 color="primary"
-                onClick={() => props.setOpen(false)}
+                onClick={() => setOpen(false)}
               >
                 Cancel
               </Button>

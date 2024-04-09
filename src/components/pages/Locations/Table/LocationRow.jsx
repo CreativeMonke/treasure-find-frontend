@@ -4,8 +4,7 @@ import DeleteLocationModal from "./Delete/DeleteLocationModal.jsx";
 import { Box, IconButton } from "@mui/joy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {  EditNoteRounded } from "@mui/icons-material";
-function LocationRow(props) {
-  console.log(props);
+function LocationRow({location , index}) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   function handleEditClick(evt) {
@@ -19,20 +18,20 @@ function LocationRow(props) {
       <EditLocationModal
         open={isEditOpen}
         setOpen={setIsEditOpen}
-        index={props.index}
-        id={props.id}
+        index={index}
+        location = {location}
       />
       <DeleteLocationModal 
       open = {isDeleteOpen}
       setOpen={setIsDeleteOpen}
-      index = {props.index}
-      id = {props.id}
+      index = {index}
+      location = {location}
       />
       <tr>
-        <td>{props.index + 1}</td>
-        <td>{props.name}</td>
-        <td>{props.question}</td>
-        <td>{props.answer}</td>
+        <td>{index + 1}</td>
+        <td>{location.name}</td>
+        <td>{location.question}</td>
+        <td>{location.answer}</td>
         <td>
           <Box
             sx={{
