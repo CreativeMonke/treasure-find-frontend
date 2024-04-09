@@ -1,8 +1,8 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { IconButton } from "@mui/joy";
-import { MyLocationRounded } from "@mui/icons-material";
+import { MyLocationRounded, MyLocationOff, MyLocationSharp, ExploreRounded, ExploreOffRounded } from "@mui/icons-material";
 
 const liveLocationIcon = new L.icon({
   iconUrl: "/icons/LiveLocation/my-location.svg",
@@ -14,6 +14,7 @@ const liveLocationIcon = new L.icon({
 function LiveLocationTracker({ setUserLocation }) {
   const map = useMap();
   const [userLocation, setUserLocationInternal] = useState(null);
+  const [autoCenter, setAutoCenter] = useState(true); // New state to manage auto-centering
 
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
@@ -21,32 +22,42 @@ function LiveLocationTracker({ setUserLocation }) {
         const newLocation = [position.coords.latitude, position.coords.longitude];
         setUserLocationInternal(newLocation);
         setUserLocation(newLocation);
-        map.flyTo(newLocation, map.getZoom()); // Continually focus on the new user location
+        if (autoCenter) {
+          map.flyTo(newLocation, map.getZoom()); // Only auto-center if enabled
+        }
       },
       (error) => console.error('Error obtaining location', error),
       { enableHighAccuracy: true }
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
-  }, [map, setUserLocation]);
+  }, [map, setUserLocation, autoCenter]); // Include autoCenter in the dependency array
 
-  // Adding the focus button directly in the component as a floating action button
+  // Toggle function for the map centering feature
+  const toggleAutoCenter = () => {
+    setAutoCenter(!autoCenter);
+    if (!autoCenter) {
+      // If toggling to auto-center, move to the current location
+      userLocation && map.flyTo(userLocation, map.getZoom());
+    }
+  };
+
   return (
     <>
       {userLocation && <Marker position={userLocation} icon={liveLocationIcon} />}
       <IconButton
         variant="soft"
         color="neutral"
-        size = "lg"
+        size="lg"
         sx={{
           position: 'absolute',
           left: 16,
           bottom: 16,
           zIndex: 1000, // Ensure the button is above map layers
         }}
-        onClick={() => userLocation && map.flyTo(userLocation, map.getZoom())}
+        onClick={toggleAutoCenter}
       >
-        <MyLocationRounded color="primary"/>
+        {autoCenter ? <ExploreRounded color="primary"/> : <ExploreOffRounded color="primary"/>}
       </IconButton>
     </>
   );
