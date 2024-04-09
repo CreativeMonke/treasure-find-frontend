@@ -7,7 +7,8 @@ import { fetchLocations } from "../features/locations/locationSlice.js";
 import { checkLogin } from "../features/auth/authSlice.js";
 import { getAnswersByUserId } from "../features/answers/answerSlice.js";
 import { getGlobalHuntInfo } from "../features/hunt/huntSlice.js";
-
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 function App() {
   const dispatch = useDispatch();
 
@@ -26,9 +27,11 @@ function App() {
   }, [dispatch]);
   return (
     <CssVarsProvider defaultMode="system">
-      <BrowserRouter>
-        <PageStructureWithRouter />
-      </BrowserRouter>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <BrowserRouter>
+          <PageStructureWithRouter />
+        </BrowserRouter>
+      </LocalizationProvider>
     </CssVarsProvider>
   );
 }
