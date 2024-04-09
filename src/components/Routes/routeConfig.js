@@ -2,13 +2,14 @@
 import Home from '../pages/Home';
 import POI from '../pages/POI';
 import About from '../pages/About';
-import HuntTimeline from '../pages/HuntTimeline';
+import HuntTimeline from '../pages/UserAnswers/HuntTimeline.jsx';
 import LoginPage from '../pages/Auth Pages/Login/Login';
 import RegisterPage from '../pages/Auth Pages/Register/Register';
 import AccountPage from '../pages/Account';
 import LocationsTable from '../pages/Locations/Table/LocationsTable.jsx';
 import UserRolesHomePage from '../pages/User/Admin/UserRolesHomePage.jsx';
 import GlobalSettingsPage from '../pages/Settings/HuntSettings/GlobalSettingsPage.jsx';
+import UserAnswersPage from '../pages/UserAnswers/userAnswersPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -45,16 +46,15 @@ const routeConfig = [
 
   },
   {
+    path: "/answers/myAnswers",
+    element: UserAnswersPage,
+    protected: true,
+    permissionLevel : "0x01",
+  },
+  {
     path: '/about',
     element: About,
     protected: true,
-    permissionLevel : "0x01"
-
-  },
-  {
-    path: '/huntTimeline',
-    element: HuntTimeline,
-    protected: true, // Assuming this is a protected route
     permissionLevel : "0x01"
 
   },
@@ -76,9 +76,10 @@ const routeConfig = [
     path: '/globalSettings',
     element: GlobalSettingsPage,
     protected: false,
-    permissionLevel : null,
+    permissionLevel : "0x60",
 
   },
+  
 ];
 
 export default routeConfig;

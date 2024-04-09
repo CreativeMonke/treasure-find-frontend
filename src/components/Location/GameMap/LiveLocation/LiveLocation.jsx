@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Marker, useMap } from "react-leaflet";
 import L from "leaflet";
-import { Button } from "@mui/joy";
+import { IconButton } from "@mui/joy";
+import { MyLocationRounded } from "@mui/icons-material";
 
 const liveLocationIcon = new L.icon({
   iconUrl: "/icons/LiveLocation/my-location.svg",
@@ -10,56 +11,45 @@ const liveLocationIcon = new L.icon({
   popupAnchor: [1, -34],
 });
 
-function LiveLocationTracker({userLocation, setUserLocation}) {
+function LiveLocationTracker({ setUserLocation }) {
   const map = useMap();
-  const [centerMapOnUser, setCenterMapOnUser] = useState(true);
-  const disableCentering = useCallback(() => {
-    setCenterMapOnUser(false);
-  }, []);
+  const [userLocation, setUserLocationInternal] = useState(null);
 
   useEffect(() => {
-
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
-        const newLocation = [
-          position.coords.latitude,
-          position.coords.longitude,
-        ];
+        const newLocation = [position.coords.latitude, position.coords.longitude];
+        setUserLocationInternal(newLocation);
         setUserLocation(newLocation);
-        if (centerMapOnUser) {
-          map.flyTo(newLocation, map.getZoom());
-        }
+        map.flyTo(newLocation, map.getZoom()); // Continually focus on the new user location
       },
-      (err) => {
-        console.error(err);
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 10000,
-        timeout: 5000,
-      }
+      (error) => console.error('Error obtaining location', error),
+      { enableHighAccuracy: true }
     );
-    return () => {
-      navigator.geolocation.clearWatch(watchId);
-    };
-  }, [map, centerMapOnUser,disableCentering]);
 
-  return userLocation ? (
+    return () => navigator.geolocation.clearWatch(watchId);
+  }, [map, setUserLocation]);
+
+  // Adding the focus button directly in the component as a floating action button
+  return (
     <>
-      <Marker position={userLocation} icon={liveLocationIcon} />
-      <Button
-        color={centerMapOnUser ? "primary" : "neutral"}
-        style={{
-          position: "absolute",
-          bottom: "10px",
-          left: "10px",
-          zIndex: 1000,
+      {userLocation && <Marker position={userLocation} icon={liveLocationIcon} />}
+      <IconButton
+        variant="soft"
+        color="neutral"
+        size = "lg"
+        sx={{
+          position: 'absolute',
+          left: 16,
+          bottom: 16,
+          zIndex: 1000, // Ensure the button is above map layers
         }}
-        onClick={() => setCenterMapOnUser(!centerMapOnUser)}
+        onClick={() => userLocation && map.flyTo(userLocation, map.getZoom())}
       >
-        {!centerMapOnUser ? "Focus Off" : "Focus On"}
-      </Button>
+        <MyLocationRounded color="primary"/>
+      </IconButton>
     </>
-  ) : null;
+  );
 }
+
 export default LiveLocationTracker;

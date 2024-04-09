@@ -25,6 +25,7 @@ import {
   KeyboardArrowDownOutlined,
   LogoutRounded,
   MapOutlined,
+  QuestionAnswerRounded,
   SupportRounded,
 } from "@mui/icons-material";
 import Header from "../pages/PageStructure/Header";
@@ -205,6 +206,19 @@ function NavBar() {
                 </ListItemButton>
               </ListItem>
             )}
+            {
+              <ListItem>
+                <ListItemButton
+                  component={Link}
+                  to="/answers/myAnswers"
+                  selected={isCurrent("/answers/myAnswers")}
+                  onClick={toggleDrawer}
+                >
+                  <QuestionAnswerRounded />
+                  Răspunsurile mele
+                </ListItemButton>
+              </ListItem>
+            }
             {/*<ListItem nested>
               <Toggler
                 renderToggle={({ open, setOpen }) => (

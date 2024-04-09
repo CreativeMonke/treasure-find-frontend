@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Circle, useMap } from "react-leaflet";
 import L from "leaflet";
+import getDistance from "geolib/es/getDistance";
 import useDynamicCircle from "./DynamicCircle";
 const circleColors = {
   accessible: "var(--joy-palette-primary-500)",
@@ -8,49 +9,38 @@ const circleColors = {
   answered: "var(--joy-palette-success-500)",
 };
 
-function RangeCircle({
-  answered,
-  userLocation,
-  location,
-  handleLocationSelect,
-}) {
-  const map = useMap();
+function RangeCircle({ answered, userLocation, location, handleLocationSelect }) {
   const [circleColor, setCircleColor] = useState(circleColors.notAccessible);
-
+  const [distance, setDistance] = useState(null);
+  const [isInRange, setIsInRange] = useState(false);
   useEffect(() => {
-    //console.log("Effect running", { answered, userLocation, location });
-
     if (answered) {
-      //console.log("Answered, setting to answered color");
-
       setCircleColor(circleColors.answered);
-    } else {
-      // Update circle color based on user proximity
-      const distance = userLocation
-        ? L.GeometryUtil.distance(
-            map,
-            L.latLng(userLocation),
-            L.latLng(location.lat, location.lng)
-          )
-        : Infinity;
-      //console.log("Distance:", distance, "Radius:", location.radius);
+    } else if (userLocation) {
+      const distanceToLocation = getDistance(
+        { latitude: userLocation[0], longitude: userLocation[1] },
+        { latitude: location.lat, longitude: location.lng }
+      );
+      setIsInRange(distanceToLocation<=location.radius);
+      setDistance(distanceToLocation);
       setCircleColor(
-        distance <= location.radius
-          ? circleColors.accessible
-          : circleColors.notAccessible
+        isInRange ? circleColors.accessible : circleColors.notAccessible
       );
     }
-  }, [answered, userLocation, location, map]);
+  }, [answered, userLocation, location]);
 
   return (
     <Fragment>
-      {useDynamicCircle({
-        center: [location.lat, location.lng],
-        radius: location.radius,
-        color: circleColor,
-        onClick: () => handleLocationSelect(location),
-      })}
-    </Fragment>
+    {useDynamicCircle({
+      center: [location.lat, location.lng],
+      radius: location.radius,
+      color: circleColor,
+      onClick: () => handleLocationSelect(location, distance),
+      isInRange,
+      answered,
+      location
+    })}
+  </Fragment>
   );
 }
 

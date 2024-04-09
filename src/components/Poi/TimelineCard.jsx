@@ -7,8 +7,7 @@ import CardOverflow from "@mui/joy/CardOverflow";
 
 function TimelineCard(props) {
   return (
-    <Card className="cardDesk" key={props.index} sx = {{
-    }}>
+    <Card className="cardDesk" key={props.index}>
       <CardOverflow>
         <AspectRatio ratio="2">
           <img src={props.pic} loading="lazy" alt={props.name} />
@@ -21,6 +20,5 @@ function TimelineCard(props) {
     </Card>
   );
 }
-///This <Typography level="body2">{props.desc}</Typography> needs to be an input field!
 
 export default TimelineCard;

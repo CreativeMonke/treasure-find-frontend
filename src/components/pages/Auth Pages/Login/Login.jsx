@@ -8,6 +8,7 @@ import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
 import { fetchLocations } from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
+import { getGlobalHuntInfo } from "../../../../features/hunt/huntSlice.js";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function LoginPage(props) {
@@ -20,17 +21,23 @@ function LoginPage(props) {
   const isLoading = status === "loading";
   async function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(login({email, password}))
-    .unwrap()
-    .then (() => {
-       navigate("/");
-       dispatch(fetchLocations());
-       dispatch(getAnswersByUserId());
-      }).catch((err) => {
-      console.error("Failed to login: ", err);
-      const errorMessage = err?.response?.data?.message || "An error occurred durin login";
-      setErrorMsg(errorMessage);
-    })
+    dispatch(login({ email, password }))
+      .unwrap()
+      .then(() => {
+        dispatch(getGlobalHuntInfo()).then((action) => {
+          if (action.error == null) {
+            navigate("/");
+            dispatch(fetchLocations());
+            dispatch(getAnswersByUserId());
+          }
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to login: ", err);
+        const errorMessage =
+          err?.response?.data?.message || "An error occurred durin login";
+        setErrorMsg(errorMessage);
+      });
   }
 
   return (
@@ -59,7 +66,7 @@ function LoginPage(props) {
               Login
             </Typography>
           </Grid>
-          {errorMsg  && (
+          {errorMsg && (
             <Grid item xs={12}>
               <Alert severity="error" color="danger">
                 {errorMsg}

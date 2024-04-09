@@ -10,13 +10,14 @@ function MainContent() {
   const location = useLocation();
   const hideForRoutes = ["/login", "/register"];
   const shouldHideBox = hideForRoutes.includes(location.pathname);
+
   return !shouldHideBox ? (
-    <Box 
+    <Box
       component="main"
       className="MainContent"
       boxSizing="border-box"
+      maxHeight="100dvh"
       sx={{
-        height: "100vh",
         backgroundColor: "background.body",
         px: { xs: 2, md: 3 },
         pt: {
@@ -56,7 +57,15 @@ function MainContent() {
             <Route
               key={index}
               path={route.path}
-              element={route.protected ? <ProtectedRoute permissionLevel={route.permissionLevel}>{routeElement}</ProtectedRoute> : routeElement}
+              element={
+                route.protected ? (
+                  <ProtectedRoute permissionLevel={route.permissionLevel}>
+                    {routeElement}
+                  </ProtectedRoute>
+                ) : (
+                  routeElement
+                )
+              }
             />
           );
         })}
@@ -71,7 +80,13 @@ function MainContent() {
           <Route
             key={index}
             path={route.path}
-            element={route.protected ? <ProtectedRoute>{routeElement}</ProtectedRoute> : routeElement}
+            element={
+              route.protected ? (
+                <ProtectedRoute>{routeElement}</ProtectedRoute>
+              ) : (
+                routeElement
+              )
+            }
           />
         );
       })}
