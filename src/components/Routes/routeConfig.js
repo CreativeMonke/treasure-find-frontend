@@ -11,6 +11,7 @@ import UserRolesHomePage from '../pages/User/Admin/UserRolesHomePage.jsx';
 import GlobalSettingsPage from '../pages/Settings/HuntSettings/GlobalSettingsPage.jsx';
 import UserAnswersPage from '../pages/UserAnswers/userView/userAnswersPage.jsx';
 import AdminAnswersLandingPage from '../pages/UserAnswers/adminView/answersAdminLandingPage.jsx';
+import LandingPage from '../pages/Landing/LandingPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -68,6 +69,13 @@ const routeConfig = [
   {
     path: '/login',
     element: LoginPage,
+    protected: false,
+    permissionLevel : null,
+
+  },
+  {
+    path: '/landing',
+    element: LandingPage,
     protected: false,
     permissionLevel : null,
 

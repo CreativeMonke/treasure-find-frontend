@@ -16,13 +16,10 @@ function App() {
     dispatch(checkLogin()).then((action) => {
       console.log(action);
       if (action.error == null) {
-        dispatch(getGlobalHuntInfo()).then((action) => {
-          if (action.error == null) {
-            dispatch(fetchLocations());
-            dispatch(getAnswersByUserId());
-          }
-        });
+        dispatch(fetchLocations());
+        dispatch(getAnswersByUserId());
       }
+      dispatch(getGlobalHuntInfo())
     });
   }, [dispatch]);
   return (

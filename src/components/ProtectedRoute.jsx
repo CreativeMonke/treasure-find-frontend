@@ -15,7 +15,7 @@ function ProtectedRoute({ children, permissionLevel }) {
   if (status === "loading") return <LinearProgress variant="plain" size="lg" />; // or a loading spinner
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/landing" replace />;
   }
   if (user[0].role < permissionLevel) return <Navigate to="/" replace />;
 
