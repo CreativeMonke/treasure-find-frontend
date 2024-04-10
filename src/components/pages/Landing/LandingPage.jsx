@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import TitleCard from "./TitleCard";
 import WidgetCard from "./WidgetCard";
-import {
+import {     useSelector } from "react-redux";import {
   Sheet,
   Typography,
   Grid,
@@ -15,12 +15,14 @@ import {
   Avatar,
   Button,
   Box,
+  CircularProgress
 } from "@mui/joy";
 import About from "../About";
 import RemainingTime from "../components/RemainingTime";
+import { PeopleRounded } from "@mui/icons-material";
 function LandingPage() {
   const navigate = useNavigate();
-
+    const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
   return (
     <React.Fragment>
       <Sheet
@@ -84,14 +86,26 @@ function LandingPage() {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={6} lg={9} sx={{}}>
-                <Card variant="outlined" sx={{}}>
-                  {" "}
+              <Grid item xs={12} lg={6}>
+                <Card variant="outlined">
                   <CardContent>
                     <RemainingTime />
                   </CardContent>
                 </Card>
               </Grid>
+              <Grid item xs={6} lg={3}>
+                <Card variant="outlined">
+                    <CardContent>
+                    <CircularProgress determinate value= {huntInfo.nrOfSignedUpUsers}>
+                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                          <PeopleRounded />
+                        </Avatar>
+  
+                    </CircularProgress>
+                    </CardContent>
+                </Card>
+              </Grid>
+
               <Grid item xs={12}>
                 <About />
               </Grid>
