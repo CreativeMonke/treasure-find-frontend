@@ -100,7 +100,7 @@ function RegisterPage(props) {
           )}
           <Grid item xs={6}>
             <InputField
-              label="First Name"
+              label={t("firstName")}
               id="firstname"
               setValue={setFirstName}
               type="firstname"
