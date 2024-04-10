@@ -1,6 +1,9 @@
 {
   "login": "Autentificare",
   "dontHaveAccount": "Nu ai un cont? ",
+  "firstName": "Prenume",
+  "lastName": "Nume",
+  "town": "Oras",
   "register": "Înregistrează-te",
   "emailPlaceholder": "Email",
   "passwordPlaceholder": "Parola",
@@ -38,5 +41,4 @@
   "noAnswerProvided": "Niciun raspuns trimis pentru aceasta locatie!",
   "errorInEvaluation": "Evaluare Gresita?",
   "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!"
-
 }
