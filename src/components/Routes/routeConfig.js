@@ -2,14 +2,15 @@
 import Home from '../pages/Home';
 import POI from '../pages/POI';
 import About from '../pages/About';
-import HuntTimeline from '../pages/UserAnswers/HuntTimeline.jsx';
+import HuntTimeline from '../pages/UserAnswers/userView/HuntTimeline.jsx';
 import LoginPage from '../pages/Auth Pages/Login/Login';
 import RegisterPage from '../pages/Auth Pages/Register/Register';
 import AccountPage from '../pages/Account';
 import LocationsTable from '../pages/Locations/Table/LocationsTable.jsx';
 import UserRolesHomePage from '../pages/User/Admin/UserRolesHomePage.jsx';
 import GlobalSettingsPage from '../pages/Settings/HuntSettings/GlobalSettingsPage.jsx';
-import UserAnswersPage from '../pages/UserAnswers/userAnswersPage.jsx';
+import UserAnswersPage from '../pages/UserAnswers/userView/userAnswersPage.jsx';
+import AdminAnswersLandingPage from '../pages/UserAnswers/adminView/answersAdminLandingPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -50,6 +51,12 @@ const routeConfig = [
     element: UserAnswersPage,
     protected: true,
     permissionLevel : "0x01",
+  },
+  {
+    path: "/answers/adminView",
+    element: AdminAnswersLandingPage,
+    protected: true,
+    permissionLevel : "0x60",
   },
   {
     path: '/about',

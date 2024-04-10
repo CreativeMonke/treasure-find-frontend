@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Sheet, Typography, Divider } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import HuntTimeline from "./HuntTimeline";
-import { getAnswersByUserId } from "../../../features/answers/answerSlice";
+import { getAnswersByUserId } from "../../../../features/answers/answerSlice";
 import "react-vertical-timeline-component/style.min.css";
 import { KeyboardArrowDownRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";

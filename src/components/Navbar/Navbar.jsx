@@ -22,6 +22,7 @@ import {
   LogoutRounded,
   MapOutlined,
   QuestionAnswerRounded,
+  StickyNote2Rounded,
   SupportRounded,
 } from "@mui/icons-material";
 import Header from "../pages/PageStructure/Header";
@@ -156,7 +157,9 @@ function NavBar() {
                     <ListItemButton onClick={() => setOpen(!open)}>
                       <MapOutlined />
                       <ListItemContent>
-                        <Typography level="title-sm">{t("locations")}</Typography>
+                        <Typography level="title-sm">
+                          {t("locations")}
+                        </Typography>
                       </ListItemContent>
                       <KeyboardArrowDownOutlined
                         sx={{ transform: open ? "rotate(180deg)" : "none" }}
@@ -243,44 +246,58 @@ function NavBar() {
             </ListItem>
                 */}
             {userInfo.role >= "0x60" && (
-              <ListItem nested>
-                <Toggler
-                  renderToggle={({ open, setOpen }) => (
-                    <ListItemButton onClick={() => setOpen(!open)}>
-                      <Group />
-                      <ListItemContent>
-                        <Typography level="title-sm">{t("users")}</Typography>
-                      </ListItemContent>
-                      <KeyboardArrowDownOutlined
-                        sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                      />
-                    </ListItemButton>
-                  )}
-                >
-                  <List sx={{ gap: 0.5 }}>
-                    <ListItem>
-                      <ListItemButton
-                        component={Link}
-                        to="/user/overview"
-                        selected={isCurrent("/user/overview")}
-                        onClick={toggleDrawer}
-                      >
-                        {t("userOverview")}
+              <>
+                <ListItem nested>
+                  <Toggler
+                    renderToggle={({ open, setOpen }) => (
+                      <ListItemButton onClick={() => setOpen(!open)}>
+                        <Group />
+                        <ListItemContent>
+                          <Typography level="title-sm">{t("users")}</Typography>
+                        </ListItemContent>
+                        <KeyboardArrowDownOutlined
+                          sx={{ transform: open ? "rotate(180deg)" : "none" }}
+                        />
                       </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemButton
-                        component={Link}
-                        to="/user/roles"
-                        selected={isCurrent("/user/roles")}
-                        onClick={toggleDrawer}
-                      >
-                        {t("rolesPermissions")}
-                      </ListItemButton>
-                    </ListItem>
-                  </List>
-                </Toggler>
-              </ListItem>
+                    )}
+                  >
+                    <List sx={{ gap: 0.5 }}>
+                      <ListItem>
+                        <ListItemButton
+                          component={Link}
+                          to="/user/overview"
+                          selected={isCurrent("/user/overview")}
+                          onClick={toggleDrawer}
+                        >
+                          {t("userOverview")}
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemButton
+                          component={Link}
+                          to="/user/roles"
+                          selected={isCurrent("/user/roles")}
+                          onClick={toggleDrawer}
+                        >
+                          {t("rolesPermissions")}
+                        </ListItemButton>
+                      </ListItem>
+                    </List>
+                  </Toggler>
+                </ListItem>
+                {/*Answers*/}
+                <ListItem>
+                  <ListItemButton
+                    component={Link}
+                    to="/answers/adminView"
+                    selected={isCurrent("/answers/adminView")}
+                    onClick={toggleDrawer}
+                  >
+                    <StickyNote2Rounded/>
+                    Raspunsuri
+                  </ListItemButton>
+                </ListItem>
+              </>
             )}
           </List>
         </Box>
@@ -289,7 +306,7 @@ function NavBar() {
           sx={{
             mt: "auto",
             flexGrow: 0,
-            gap:0.7,
+            gap: 0.7,
 
             "--ListItem-radius": (theme) => theme.vars.radius.sm,
           }}

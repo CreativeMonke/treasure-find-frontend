@@ -4,7 +4,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import { useTheme } from "@mui/material/styles";
-import TreasureIcon from "../Svg/TreasureIcon";
+import TreasureIcon from "../../Svg/TreasureIcon";
 import { useTranslation } from "react-i18next";
 function TimelineCard({ location, answer, hasEnded }) {
   const { t } = useTranslation();
