@@ -2,7 +2,8 @@ import React from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import TitleCard from "./TitleCard";
 import WidgetCard from "./WidgetCard";
-import {     useSelector } from "react-redux";import {
+import { useSelector } from "react-redux";
+import {
   Sheet,
   Typography,
   Grid,
@@ -15,19 +16,20 @@ import {     useSelector } from "react-redux";import {
   Avatar,
   Button,
   Box,
-  CircularProgress
+  CircularProgress,
 } from "@mui/joy";
 import About from "../About";
 import RemainingTime from "../components/RemainingTime";
 import { PeopleRounded } from "@mui/icons-material";
 function LandingPage() {
   const navigate = useNavigate();
-    const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
+  const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
   return (
     <React.Fragment>
       <Sheet
         sx={{
           height: "100%",
+          overflow: "auto",
           p: 2,
         }}
       >
@@ -45,7 +47,7 @@ function LandingPage() {
           </Card>
           <Box>
             <Grid container spacing={4}>
-              <Grid item xs={6} lg={3}>
+              <Grid item xs={12} md={6} lg={3}>
                 <Card size="lg">
                   <CardContent
                     sx={{
@@ -86,23 +88,25 @@ function LandingPage() {
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={12} lg={6}>
+              <Grid item xs={12} md={6} lg={3}>
                 <Card variant="outlined">
                   <CardContent>
                     <RemainingTime />
                   </CardContent>
                 </Card>
               </Grid>
-              <Grid item xs={6} lg={3}>
+              <Grid item xs={12} md={6} lg={3}>
                 <Card variant="outlined">
-                    <CardContent>
-                    <CircularProgress determinate value= {huntInfo.nrOfSignedUpUsers}>
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                          <PeopleRounded />
-                        </Avatar>
-  
+                  <CardContent>
+                    <CircularProgress
+                      determinate
+                      value={huntInfo.nrOfSignedUpUsers}
+                    >
+                      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                        <PeopleRounded />
+                      </Avatar>
                     </CircularProgress>
-                    </CardContent>
+                  </CardContent>
                 </Card>
               </Grid>
 
