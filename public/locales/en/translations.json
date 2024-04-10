@@ -29,5 +29,12 @@
   "endingIn": "Ending in:",
   "hours": "h",
   "minutes": "m",
-  "seconds": "s"
+  "seconds": "s",
+  "question": "Question",
+  "correctAnswer": "Correct Answer",
+  "wrongAnswer": "Wrong Answer",
+  "yourAnswer": "Your Answer",
+  "noAnswerProvided": "No answer provided for this location!",
+  "errorInEvaluation": "Evaluation Error?",
+  "moreInfoAfterEnd": "More information available after the event ends!"
 }

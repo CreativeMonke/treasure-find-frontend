@@ -5,8 +5,9 @@ import Typography from "@mui/joy/Typography";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import { useTheme } from "@mui/material/styles";
 import TreasureIcon from "../Svg/TreasureIcon";
-
+import { useTranslation } from "react-i18next";
 function TimelineCard({ location, answer, hasEnded }) {
+  const { t } = useTranslation();
   const theme = useTheme();
 
   const themeBackgroundColor = theme.palette.background.backdrop;
@@ -15,11 +16,12 @@ function TimelineCard({ location, answer, hasEnded }) {
     <VerticalTimelineElement
       key={location._id}
       contentStyle={{
-        backgroundColor: hasEnded && answer
-          ? isCorrect
-            ? "var(--joy-palette-success-800, #042F04)"
-            : "var(--joy-palette-danger-800, #430A0A)"
-          : themeBackgroundColor,
+        backgroundColor:
+          hasEnded && answer
+            ? isCorrect
+              ? "var(--joy-palette-success-800, #042F04)"
+              : "var(--joy-palette-danger-800, #430A0A)"
+            : themeBackgroundColor,
       }}
       contentArrowStyle={{
         borderRight: "7px solid  rgb(33, 150, 243)",
@@ -78,7 +80,7 @@ function TimelineCard({ location, answer, hasEnded }) {
                         textAlign: "center",
                       }}
                     >
-                      {isCorrect ? "Raspuns corect!" : "Raspuns Gresit"}
+                      {isCorrect ? t("correctAnswer") : t("wrongAnswer")}
                     </Chip>
                   </Grid>
                   <Grid
@@ -97,7 +99,7 @@ function TimelineCard({ location, answer, hasEnded }) {
                         width: "100%",
                       }}
                     >
-                      Evaluare Gresita?
+                      {t("errorInEvaluation")}
                     </Button>
                   </Grid>
                 </Grid>
@@ -106,8 +108,8 @@ function TimelineCard({ location, answer, hasEnded }) {
           </>
         ) : (
           <Grid item xs={12}>
-            <Typography level="title-md" color = "warning">
-            Mai multe informații vizibile după finalizarea evenimentului!
+            <Typography level="title-md" color="warning">
+              {t("moreInfoAfterEnd")}{" "}
             </Typography>
           </Grid>
         )}

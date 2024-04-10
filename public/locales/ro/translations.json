@@ -30,5 +30,13 @@
   "endingIn": "Final in :",
   "hours": "ore",
   "minutes": "min",
-  "seconds": "sec"
+  "seconds": "sec",
+  "question": "Intrebare",
+  "correctAnswer": "Raspuns corect",
+  "wrongAnswer": "Raspuns Gresit",
+  "yourAnswer": "Raspunsul tau",
+  "noAnswerProvided": "Niciun raspuns trimis pentru aceasta locatie!",
+  "errorInEvaluation": "Evaluare Gresita?",
+  "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!"
+
 }

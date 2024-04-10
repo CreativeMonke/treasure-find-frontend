@@ -6,7 +6,7 @@ import TimelineCard from "./TimelineComponent";
 
 function HuntTimeline(props) {
   const { locations } = useSelector((state) => state.locations);
-  const { hasEnded } = useSelector((state) => state.hunt.hasEnded);
+  const { hasEnded } = useSelector((state) => state.hunt);
   const { answers } = useSelector((state) => state.answers);
   function getAnswerByLocation(location) {
     return answers.find((answer) => answer.locationId === location._id);

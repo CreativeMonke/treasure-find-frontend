@@ -5,22 +5,25 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import Typography from "@mui/joy/Typography";
 import CardOverflow from "@mui/joy/CardOverflow";
 import { Grid } from "@mui/joy";
+import { useTranslation } from "react-i18next";
 function AnswerCard({ location, answer }) {
+  const { t } = useTranslation();
   return (
     <Card variant="plain">
       <CardContent>
-        <Grid container spacing={2}>
+        <Grid container spacing={{xs:0.1,md:2}}>
           <Grid item xs={12}>
             <Typography level="h3">{location.name}</Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md = {3}>
             <Typography level="body-md" color="primary">
-              Intrebare
+              {t("question")}
             </Typography>
           </Grid>
           <Grid
             item
-            xs={9}
+            xs={12}
+            md = {9}
             sx={{
               display: "flex",
               flexDirection: "row",
@@ -31,9 +34,9 @@ function AnswerCard({ location, answer }) {
               {location.question}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md = {3}>
             <Typography level="body-md" color="primary">
-              Raspuns corect
+              {t("correctAnswer")}
             </Typography>
           </Grid>
           <Grid
@@ -49,14 +52,15 @@ function AnswerCard({ location, answer }) {
               {location.answer.split(";")[0]}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={6} md = {3}>
             <Typography level="body-md" color="primary">
-              Raspunsul tau
+              {t("yourAnswer")}
             </Typography>
           </Grid>
           <Grid
             item
-            xs={9}
+            xs={12}
+            md = {9}
             sx={{
               display: "flex",
               flexDirection: "row",
@@ -66,7 +70,7 @@ function AnswerCard({ location, answer }) {
             <Typography level="body-md" color="neutral">
               {answer
                 ? answer.answer
-                : "Niciun raspuns trimis pentru aceasta locatie!"}
+                : t("noAnswerProvided")}
             </Typography>
           </Grid>
         </Grid>
