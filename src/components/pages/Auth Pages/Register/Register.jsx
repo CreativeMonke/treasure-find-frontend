@@ -59,7 +59,7 @@ function RegisterPage(props) {
       setErrorMsg(
         error.response.data.message ||
           error.response.data.error.undefined ||
-          "An error occurred during registration."
+          "An error occurred during registration.",
       );
     }
     setIsLoading(false);
@@ -108,14 +108,19 @@ function RegisterPage(props) {
           </Grid>
           <Grid item xs={6}>
             <InputField
-              label="Last Name"
+              label={t("lastName")}
               id="lastname"
               setValue={setLastName}
               type="lastname"
             />
           </Grid>
           <Grid item xs={6}>
-            <InputField label="Town" id="town" setValue={setTown} type="town" />
+            <InputField
+              label={t("town")}
+              id="town"
+              setValue={setTown}
+              type="town"
+            />
           </Grid>
           <Grid item xs={12}>
             <InputField
@@ -127,7 +132,7 @@ function RegisterPage(props) {
           </Grid>
           <Grid item xs={12}>
             <InputField
-              label="Password"
+              label={t("passwordPlaceholder")}
               id="password"
               setValue={setPassword}
               type="password"
@@ -150,7 +155,7 @@ function RegisterPage(props) {
             <Typography sx={{ textAlign: "center" }}>
               {t("alreadyHaveAccount")}{" "}
               <Link component={RouterLink} to="/login">
-              {t('login')}
+                {t("login")}
               </Link>
             </Typography>
           </Grid>
