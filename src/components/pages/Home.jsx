@@ -8,7 +8,6 @@ function Home() {
   const answers = useSelector((state) => state.answers.answers);
   const locations = useSelector((state) => state.locations.locations);
   const { huntState } = useSelector((state) => state.auth);
-  console.log(huntState);
   ///only
   const answeredIds = useMemo(
     () =>
