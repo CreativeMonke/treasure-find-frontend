@@ -44,5 +44,13 @@
   "notStartedHuntMessage": "You didn't start the hunt yet",
   "hasEndedHuntMessage": "Your hunt has ended.",
   "startHunt": "Start Hunt",
-  "locationPermissionRequired": "Please provide location permissions"
+  "locationPermissionRequired": "Please provide location permissions",
+  "endHunt" : "End Hunt",
+  "cancel":"Cancel",
+  "confirmHuntEnd": "Are you sure you want to end this hunt?",
+  "providedResponses":"You only provided responses to",
+  "outOf": "out of",
+  "locationsLowerCase" : "locations",
+  "actionUndoable":"This action cannot be undone"
+
 }

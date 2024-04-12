@@ -44,6 +44,14 @@
   "notStartedHuntMessage": "Nu ai început vânătoarea încă",
   "hasEndedHuntMessage": "Vânătoarea ta s-a încheiat",
   "startHunt": "Începe vânătoarea",
+  "endHunt": "Încheie vânătoarea",
+  "cancel": "Înapoi",
   "locationPermissionRequired": "Te rog să permiți accesul la locație",
-  "eventEnded": "Evenimentul s-a terminat!"
+  "eventEnded": "Evenimentul s-a terminat!",
+  "confirmHuntEnd": "Ești sigur că vrei să închei această vânătoare?",
+
+  "providedResponses": "Ai furnizat răspunsuri doar pentru",
+  "outOf": "din",
+  "locationsLowerCase": "locații",
+  "actionUndoable": "Această acțiune nu poate fi anulată"
 }

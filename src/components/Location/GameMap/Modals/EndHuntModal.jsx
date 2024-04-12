@@ -15,8 +15,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { ErrorOutlineRounded, InfoRounded } from "@mui/icons-material";
 import { endHunt } from "../../../../features/auth/authSlice";
+import { useTranslation } from "react-i18next";
 function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
   ///A countDown of 10s
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const nrOfAnswers = Object.keys(
     useSelector((state) => state.answers.answers)
@@ -45,7 +47,7 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
             color="danger"
             startDecorator={<ErrorOutlineRounded />}
           >
-            End Hunt
+            {t("endHunt")}
           </Typography>
         </DialogTitle>
         <Divider />
@@ -59,18 +61,17 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
           }}
         >
           <Typography level="title-md">
-            Are you sure you want to end this hunt?
+            {t("confirmHuntEnd")}
           </Typography>
           <Typography level="body-sm" sx={{ textAlign: "center" }}>
-            You only provided a response to
-            <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
+          {t("providedResponses")}            <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
               {nrOfAnswers}
             </Typography>
-            out of
+            {t("outOf")}
             <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
               12
             </Typography>
-            locations.
+            {t("locationsLowerCase")}
           </Typography>
         </DialogContent>
         <DialogActions
@@ -83,15 +84,15 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
           }}
         >
           <Button onClick={handleEndHuntModalClose} size="lg">
-            Cancel
+            {t("cancel")}
           </Button>
           <Button onClick={handleDeleteClick} size="lg" color="danger">
-            End Hunt
+            {t("endHunt")}
           </Button>
         </DialogActions>
         <FormHelperText>
           <Typography level="body-xs" startDecorator={<InfoRounded />}>
-            This action cannot be undone!
+            {t("actionUndoable")}
           </Typography>
         </FormHelperText>
       </ModalDialog>
