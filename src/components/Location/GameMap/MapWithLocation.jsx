@@ -56,7 +56,7 @@ function MapWithLocations({ locations, answeredIds, huntState }) {
         borderRadius: "10px",
       }}
     >
-      {userLocation && huntState.hasStartedHunt && !huntState.hasEndedHunt ? (
+      {userLocation && huntState && huntState.hasStartedHunt && !huntState.hasEndedHunt ? (
         <Fragment>
           <MapContainer
             center={[47.1564288, 27.5841024]}
