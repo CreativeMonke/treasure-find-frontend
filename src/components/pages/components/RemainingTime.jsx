@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
+import { setHasEnded, toggleHasEnded } from "../../../features/hunt/huntSlice";
 
 function RemainingTime() {
   const { globalHuntInfo } = useSelector((state) => state.hunt);
@@ -9,7 +10,7 @@ function RemainingTime() {
   const [timeLeft, setTimeLeft] = useState("");
   const [eventStatus, setEventStatus] = useState("upcoming"); // Handle event status
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
@@ -19,6 +20,7 @@ function RemainingTime() {
       if (now > endTime) {
         clearInterval(timer); // Stop the timer after event has ended
         setTimeLeft(t("eventEnded"));
+        dispatch(setHasEnded());
         setColor("default"); // Set color to default or another indicating the event is over
         setEventStatus("ended");
       } else if (now >= startTime) {
@@ -42,7 +44,7 @@ function RemainingTime() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [globalHuntInfo.endTime, globalHuntInfo.startTime, t]); // Added t to useEffect dependencies
+  }, [globalHuntInfo.endTime, globalHuntInfo.startTime, t]);
 
   const prefix = eventStatus === "upcoming" ? t("startingIn") : eventStatus === "ongoing" ? t("endingIn") : "";
 

@@ -15,7 +15,7 @@ import {
   DialogActions,
   CircularProgress,
 } from "@mui/joy";
-import { PlaceRounded, QuizRounded } from "@mui/icons-material";
+import { InfoRounded, PlaceRounded, QuizRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearCurrentAnswerId,
@@ -24,6 +24,7 @@ import {
   submitAnswer,
   updateAnswerById,
 } from "../../../../features/answers/answerSlice";
+import { useTranslation } from "react-i18next";
 
 function QuestionModal(props) {
   const [timeLeft, setTimeLeft] = useState(null);
@@ -36,6 +37,7 @@ function QuestionModal(props) {
   const dispatch = useDispatch();
   const currentAnswerId = useSelector((state) => state.answers.currentAnswerId);
   const userId = useSelector((state) => state.auth.user[0]._id); // Adjust according to your state shape
+  const {t} = useTranslation();
   useEffect(() => {
     if (props.open) {
       dispatch(getAnswer(props.locationId))
@@ -94,16 +96,16 @@ function QuestionModal(props) {
 
   const formatTimeLeft = () => {
     if (!showQuestion) {
-      return "Click 'Show question' to start";
+      return t("showQuestionAlert");
     }
     if (timerExpired) {
-      return "Time has expired!";
+      return t("timeExpired");
     }
     const minutes = Math.floor(timeLeft / 60)
       .toString()
       .padStart(2, "0");
     const seconds = (timeLeft % 60).toString().padStart(2, "0");
-    return `${minutes}:${seconds} left`;
+    return `${minutes}:${seconds} ${t("timeLeftText")}`;
   };
 
   const handleAnswerChange = (evt) => {
@@ -153,7 +155,7 @@ function QuestionModal(props) {
             {props.name}
           </Typography>
         </DialogTitle>
-        <Divider sx={{ mt: 1, mb: 1 }}>{hasBeenUpdated?"Answer already submitted!" : formatTimeLeft()}</Divider>
+        <Divider sx={{ mt: 1, mb: 1 }}>{hasBeenUpdated?t("answerAlreadySubmitted") : formatTimeLeft()}</Divider>
         <DialogContent>
           <FormControl>
             <FormLabel sx={{ mb: 2, width: "100%" }}>
@@ -169,7 +171,7 @@ function QuestionModal(props) {
                   sx={{ width: "100%" }}
                   onClick={handleShowQuestionClick}
                 >
-                  Show question
+                  {t("showQuestion")}
                 </Button>
               )}
             </FormLabel>
@@ -181,13 +183,15 @@ function QuestionModal(props) {
                   variant="soft"
                   size="lg"
                   minRows={6}
-                  placeholder="Type your answer here..."
+                  placeholder= {t("emptyErrorMessage")}
                   value={userAnswer}
                   onChange={handleAnswerChange}
                 />
                 {!hasBeenUpdated && (
                   <FormHelperText>
-                    This answer cannot be retracted!
+                    <Typography level = "body-xs" startDecorator = {<InfoRounded />}>
+                    {t("actionUndoable")}
+                    </Typography>
                   </FormHelperText>
                 )}
               </>
@@ -209,7 +213,7 @@ function QuestionModal(props) {
               onClick={handleSubmitAnswer}
               loading = {isLoading}
             >
-              {isLoading ? "Submitting..." : "Save answer"}
+              {isLoading ? "Submitting..." :t("saveAnswer")}
             </Button>
           )}
         </DialogActions>

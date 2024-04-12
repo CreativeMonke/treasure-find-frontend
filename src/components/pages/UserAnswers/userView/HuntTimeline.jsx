@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TimelineCard from "./TimelineComponent";
+import { getAnswersByUserId } from "../../../../features/answers/answerSlice";
 
 function HuntTimeline(props) {
   const { locations } = useSelector((state) => state.locations);
+  const dispatch = useDispatch();
+
+ /* useEffect(() => {
+    dispatch(getAnswersByUserId);
+  });
+  */
   const { hasEnded } = useSelector((state) => state.hunt);
   const { answers } = useSelector((state) => state.answers);
   function getAnswerByLocation(location) {

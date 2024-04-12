@@ -31,12 +31,14 @@
   "startingIn": "Starting in:",
   "endingIn": "Ending in:",
   "eventEnded": "Event ended!",
+  "eventHasNotStarted": "Event has not yet started!",
   "hours": "h",
   "minutes": "m",
   "seconds": "s",
   "question": "Question",
   "correctAnswer": "Correct Answer",
   "wrongAnswer": "Wrong Answer",
+  "saveAnswer": "Save Answer",
   "yourAnswer": "Your Answer",
   "noAnswerProvided": "No answer provided for this location!",
   "errorInEvaluation": "Evaluation Error?",
@@ -51,6 +53,11 @@
   "providedResponses":"You only provided responses to",
   "outOf": "out of",
   "locationsLowerCase" : "locations",
-  "actionUndoable":"This action cannot be undone"
-
+  "actionUndoable":"This action cannot be undone",
+  "answerAlreadySubmitted": "Answer already submitted!",
+  "showQuestionAlert":"Click 'Show question' to start",
+  "showQuestion":"Show question",
+  "timeLeftText": "left",
+  "emptyErrorMessage": "Form cannot be empty",
+  "timeExpired" : "Time has expired!"
 }

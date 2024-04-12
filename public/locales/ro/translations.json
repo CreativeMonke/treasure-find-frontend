@@ -22,6 +22,7 @@
   "overview": "Prezentare generală",
   "edit": "Editează",
   "myAnswers": "Răspunsurile mele",
+  "saveAnswer": "Salavează Răspunsul",
   "users": "Utilizatori",
   "userOverview": "Prezentare Generală",
   "rolesPermissions": "Roluri & Permisiuni",
@@ -48,10 +49,16 @@
   "cancel": "Înapoi",
   "locationPermissionRequired": "Te rog să permiți accesul la locație",
   "eventEnded": "Evenimentul s-a terminat!",
+  "eventHasNotStarted": "Evenimentul nu a început încă!",
   "confirmHuntEnd": "Ești sigur că vrei să închei această vânătoare?",
-
   "providedResponses": "Ai furnizat răspunsuri doar pentru",
   "outOf": "din",
   "locationsLowerCase": "locații",
-  "actionUndoable": "Această acțiune nu poate fi anulată"
+  "actionUndoable": "Această acțiune este ireversibilă.",
+  "answerAlreadySubmitted": "Răspuns deja trimis!",
+  "showQuestionAlert": "Apasă 'Afișează întrebarea' pentru a începe",
+  "showQuestion": "Afișează întrebarea",
+  "timeLeftText": "rămas",
+  "emptyErrorMessage": "Formularul nu poate fi gol",
+  "timeExpired" : "Timpul a expirat!"
 }

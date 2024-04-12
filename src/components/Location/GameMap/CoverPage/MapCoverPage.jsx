@@ -3,9 +3,11 @@ import { Box } from "@mui/joy";
 import NoLocationComponent from "./ErrorComponents/NoLocation";
 import NotStartedHuntComponent from "./ErrorComponents/NotStartedHuntComponent";
 import HasEndedHuntComponent from "./ErrorComponents/HasEndedHuntComponent";
-function MapCoverPage({ userLocationError, huntState }) {
+import EventNotStarted from "./ErrorComponents/EventErrors";
+import EventErrors from "./ErrorComponents/EventErrors";
+function MapCoverPage({ userLocationError, huntState, huntInfo }) {
   const [errorMsg, setErrorMsg] = useState("");
-
+  const { hasStarted, hasEnded } = huntInfo;
   return (
     <Box
       sx={{
@@ -17,7 +19,9 @@ function MapCoverPage({ userLocationError, huntState }) {
         flexDirection: "column",
       }}
     >
-      {!huntState.hasStartedHunt ? (
+      {!hasStarted || hasEnded ? (
+        <EventErrors hasStarted={hasStarted} hasEnded={hasEnded} />
+      ) : !huntState.hasStartedHunt ? (
         <NotStartedHuntComponent />
       ) : huntState.hasEndedHunt ? (
         <HasEndedHuntComponent />

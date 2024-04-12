@@ -14,7 +14,8 @@ import EndHuntModal from "./Modals/EndHuntModal.jsx";
 
 ///Placeholder -> api querry answerByUserId
 //const answered = [1, 0, 3, 4, 5, 6, 7, 8, 9];
-function MapWithLocations({ locations, answeredIds, huntState }) {
+function MapWithLocations({ locations, answeredIds, huntState  , huntInfo}) {
+  console.log(huntInfo);
   const dispatch = useDispatch();
   const mapRef = useRef(null);
   const [activeLocation, setActiveLocation] = useState(null);
@@ -63,7 +64,8 @@ function MapWithLocations({ locations, answeredIds, huntState }) {
         borderRadius: "10px",
       }}
     >
-      {userLocation && huntState && huntState.hasStartedHunt && !huntState.hasEndedHunt ? (
+      {huntInfo.status === "loading"}
+      {userLocation && huntState && huntState.hasStartedHunt && !huntState.hasEndedHunt && !huntInfo.hasEnded && huntInfo.hasStarted? (
         <Fragment>
           <MapContainer
             center={[47.1564288, 27.5841024]}
@@ -122,6 +124,7 @@ function MapWithLocations({ locations, answeredIds, huntState }) {
         <MapCoverPage
           userLocationError={!!userLocation}
           huntState={huntState}
+          huntInfo={huntInfo}
         />
       )}
     </Sheet>

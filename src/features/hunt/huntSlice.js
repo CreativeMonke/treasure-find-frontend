@@ -53,6 +53,12 @@ const huntSlice = createSlice({
         toggleHasStarted: (state) => {
             state.hasStarted =!state.hasStarted;
         },
+        setHasStarted: (state) => {
+            state.hasStarted = true;
+        },
+        setHasEnded: (state) => {
+            state.hasEnded = true;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -74,5 +80,5 @@ const huntSlice = createSlice({
             })
     }
 })
-export const { initialHuntState , toggleHasEnded, toggleHasStarted} = huntSlice.actions;
+export const { initialHuntState , toggleHasEnded, toggleHasStarted , setHasStarted , setHasEnded} = huntSlice.actions;
 export default huntSlice.reducer;
