@@ -20,6 +20,13 @@ function MapWithLocations({ locations, answeredIds, huntState }) {
   const [activeLocation, setActiveLocation] = useState(null);
   const [userLocation, setUserLocation] = useState([1, 1]);
   const [showEndHuntModal, setShowEndHuntModal] = useState(false);
+  if(!huntState)
+  {
+    huntState = {
+      "hasStartedHunt" : false,
+      "hasEndedHunt" : false
+    }
+  }
   // Determine if locations have been answered based on `answeredIds`
   const answered = locations.map((location) =>
     answeredIds.includes(location._id) ? 1 : 0
@@ -70,7 +77,7 @@ function MapWithLocations({ locations, answeredIds, huntState }) {
                 id={location._id}
                 key={location._id}
                 answered={answered[index]}
-                location={location}
+                location={location} 
                 userLocation={userLocation}
                 handleLocationSelect={handleLocationSelect}
               />
