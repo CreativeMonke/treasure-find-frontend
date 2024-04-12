@@ -7,7 +7,7 @@ function HasEndedHuntComponent() {
 
   return (
     <Stack>
-      <Typography level="h2" color="danger">
+      <Typography level="h2" color = "warning">
         {t("hasEndedHuntMessage")}
       </Typography>
     </Stack>
