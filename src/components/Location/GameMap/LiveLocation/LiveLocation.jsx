@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { IconButton } from "@mui/joy";
-import { MyLocationRounded, MyLocationOff, MyLocationSharp, ExploreRounded, ExploreOffRounded } from "@mui/icons-material";
+import { ExploreRounded, ExploreOffRounded } from "@mui/icons-material";
 
 const liveLocationIcon = new L.icon({
   iconUrl: "/icons/LiveLocation/my-location.svg",
@@ -19,14 +19,21 @@ function LiveLocationTracker({ setUserLocation }) {
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
-        const newLocation = [position.coords.latitude, position.coords.longitude];
+        const newLocation = [
+          position.coords.latitude,
+          position.coords.longitude,
+        ];
         setUserLocationInternal(newLocation);
         setUserLocation(newLocation);
         if (autoCenter) {
           map.flyTo(newLocation, map.getZoom()); // Only auto-center if enabled
         }
       },
-      (error) => console.error('Error obtaining location', error),
+      (error) => {
+        setUserLocation(null);
+
+        console.error("Error obtaining location", error);
+      },
       { enableHighAccuracy: true }
     );
 
@@ -44,20 +51,26 @@ function LiveLocationTracker({ setUserLocation }) {
 
   return (
     <>
-      {userLocation && <Marker position={userLocation} icon={liveLocationIcon} />}
+      {userLocation && (
+        <Marker position={userLocation} icon={liveLocationIcon} />
+      )}
       <IconButton
         variant="soft"
         color="neutral"
         size="lg"
         sx={{
-          position: 'absolute',
+          position: "absolute",
           left: 16,
           bottom: 16,
           zIndex: 1000, // Ensure the button is above map layers
         }}
         onClick={toggleAutoCenter}
       >
-        {autoCenter ? <ExploreRounded color="primary"/> : <ExploreOffRounded color="primary"/>}
+        {autoCenter ? (
+          <ExploreRounded color="primary" />
+        ) : (
+          <ExploreOffRounded color="primary" />
+        )}
       </IconButton>
     </>
   );

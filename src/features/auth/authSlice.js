@@ -41,29 +41,46 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
     try {
         const res = await axios.post(`${apiUrl}auth/login`, credentials);
         const { user, sessionId } = res.data;
+        const hasStartedHunt = user[0].hasStartedHunt;
         saveToLocalStorage("sessionId", sessionId);
         saveToLocalStorage("userInfo", user);
-        return { user, sessionId };
+        saveToLocalStorage("hasStartedHunt", hasStartedHunt);
+        return { user, sessionId, hasStartedHunt };
     }
     catch (err) {
         return rejectWithValue(err);
     }
 });
-export const logout = createAsyncThunk("auth/logout" , async (_, {getState, rejectWithValue }) => {
-    try{
-        axios.get(`${apiUrl}auth/logout`,{
+export const logout = createAsyncThunk("auth/logout", async (_, { getState, rejectWithValue }) => {
+    try {
+        axios.get(`${apiUrl}auth/logout`, {
             headers: {
                 "sessionid": getState().auth.sessionId,
             },
             withCredentials: true,
         })
-    }catch(err){
+    } catch (err) {
+        return rejectWithValue(err);
+    }
+});
+
+export const startHunt = createAsyncThunk("users/startHunt", async (_, { getState, rejectWithValue }) => {
+    try {
+        const res = await axios.get(`${apiUrl}users/startHunt`, {
+            headers: {
+                "sessionid": getState().auth.sessionId,
+            },
+            withCredentials: true,
+        })
+        saveToLocalStorage("hasStartedHunt", true);
+    } catch (err) {
         return rejectWithValue(err);
     }
 });
 const initialState = {
     isLoggedIn: !!loadFromLocalStorage("sessionId"), //!! -> gets a boolean value from local storage
     sessionId: loadFromLocalStorage("sessionId"),
+    hasStartedHunt: !!loadFromLocalStorage("hasStartedHunt"),
     user: loadFromLocalStorage("userInfo"),
     status: "idle", // "idle" , "loading" , "succeeded" , "failed",
     error: null,
@@ -87,13 +104,13 @@ const authSlice = createSlice({
         initializeAuthState(state) {
             const sessionId = sessionStorage.getItem('sessionId');
             const userInfo = sessionStorage.getItem('userInfo');
+            const hasStartedHunt = sessionStorage.getItem('hasStartedHunt');
             if (sessionId && userInfo) {
                 state.isLoggedIn = true;
                 state.sessionId = sessionId;
                 state.user = userInfo;
             }
         }
-
     },
     extraReducers: (builder) => {
         builder
@@ -104,12 +121,14 @@ const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.user = action.payload.user;
                 state.sessionId = action.payload.sessionId;
+                state.hasStartedHunt = action.payload.user[0].hasStartedHunt;
                 state.status = 'succeeded';
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoggedIn = false;
                 state.user = null;
                 state.sessionId = null;
+                state.hasStartedHunt = false;
                 state.status = 'failed';
                 state.error = action.payload || "Failed to login";
             }).addCase(checkLogin.pending, (state) => {
@@ -126,10 +145,16 @@ const authSlice = createSlice({
                 state.isLoggedIn = false;
                 state.user = null;
                 state.sessionId = null;
+                state.hasStartedHunt = false;
                 state.status = 'failed';
                 state.error = action.payload || "Session invalid/expired";
+            })
+            .addCase(startHunt.fulfilled, (state, action) => {
+                state.hasStartedHunt = true;
+
+                state.status = 'idle';
             });
     },
 });
-export const {initializeAuthState } = authSlice.actions;
+export const { initializeAuthState } = authSlice.actions;
 export default authSlice.reducer;
