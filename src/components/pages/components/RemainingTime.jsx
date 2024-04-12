@@ -18,7 +18,7 @@ function RemainingTime() {
 
       if (now > endTime) {
         clearInterval(timer); // Stop the timer after event has ended
-        setTimeLeft(t("Event ended!"));
+        setTimeLeft(t("eventEnded"));
         setColor("default"); // Set color to default or another indicating the event is over
         setEventStatus("ended");
       } else if (now >= startTime) {

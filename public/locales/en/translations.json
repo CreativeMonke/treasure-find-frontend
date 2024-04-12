@@ -42,6 +42,7 @@
   "errorInEvaluation": "Evaluation Error?",
   "moreInfoAfterEnd": "More information available after the event ends!",
   "notStartedHuntMessage": "You didn't start the hunt yet",
+  "hasEndedHuntMessage": "Your hunt has ended.",
   "startHunt": "Start Hunt",
   "locationPermissionRequired": "Please provide location permissions"
 }

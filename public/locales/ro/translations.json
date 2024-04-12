@@ -42,6 +42,7 @@
   "errorInEvaluation": "Evaluare Gresita?",
   "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!",
   "notStartedHuntMessage": "Nu ai început vânătoarea încă",
+  "hasEndedHuntMessage": "Vânătoarea ta s-a încheiat",
   "startHunt": "Începe vânătoarea",
   "locationPermissionRequired": "Te rog să permiți accesul la locație",
   "eventEnded": "Evenimentul s-a terminat!"

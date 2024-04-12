@@ -2,16 +2,16 @@ import React from "react";
 import { Stack, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 
-function NoLocationComponent() {
+function HasEndedHuntComponent() {
   const { t } = useTranslation();
 
   return (
     <Stack>
       <Typography level="h2" color="danger">
-        Your hunt has ended!
+        {t("hasEndedHuntMessage")}
       </Typography>
     </Stack>
   );
 }
 
-export default NoLocationComponent;
+export default HasEndedHuntComponent;
