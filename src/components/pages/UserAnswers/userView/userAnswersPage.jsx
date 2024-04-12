@@ -40,8 +40,7 @@ function UserAnswersPage() {
           height: "100%",
         }}>
           <Typography level = "h2" color = "warning">
-            You'll be able to view your answers and results after the event has
-            ended!
+            {t("moreInfoAfterEnd")}
           </Typography>
         </Box>
       )}
