@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Stack, Typography, Button } from "@mui/joy";
 import { useDispatch } from "react-redux";
 import { startHunt } from "../../../../../features/auth/authSlice";
+import { useTranslation } from "react-i18next";
 function NotStartedHuntComponent() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   async function handleStartHunt() {
@@ -13,7 +15,7 @@ function NotStartedHuntComponent() {
   return (
     <Stack spacing={4} sx={{}}>
       <Typography level="h2" color="primary">
-        You didn't start the hunt yet
+        {t("notStartedHuntMessage")}
       </Typography>
       <Button
         size="md"
@@ -21,7 +23,7 @@ function NotStartedHuntComponent() {
         loading={loading}
         onClick={handleStartHunt}
       >
-        Start Hunt
+        {t("startHunt")}
       </Button>
     </Stack>
   );

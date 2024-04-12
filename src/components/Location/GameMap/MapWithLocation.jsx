@@ -4,22 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import QuestionModal from "./Modals/QuestionModal";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geometryutil";
-import { Sheet } from "@mui/joy";
+import { Sheet, IconButton, Button } from "@mui/joy";
 import LiveLocationTracker from "./LiveLocation/LiveLocation";
 import RangeCircle from "./Location components/RangeCompontent";
 import { clearCurrentAnswerId } from "../../../features/answers/answerSlice.js";
 import MapCoverPage from "./CoverPage/MapCoverPage.jsx";
+import { StopCircleRounded } from "@mui/icons-material";
+import EndHuntModal from "./Modals/EndHuntModal.jsx";
 
 ///Placeholder -> api querry answerByUserId
 //const answered = [1, 0, 3, 4, 5, 6, 7, 8, 9];
-function MapWithLocations({ locations, answeredIds ,hasStartedHunt }) {
-  ///for each location, check the id in the answeredIds array and if there is one, answered[locationINdex] = 1
-
-  // const locations = useSelector((state) => state.locations.locations);
+function MapWithLocations({ locations, answeredIds, huntState }) {
   const dispatch = useDispatch();
   const mapRef = useRef(null);
   const [activeLocation, setActiveLocation] = useState(null);
   const [userLocation, setUserLocation] = useState([1, 1]);
+  const [showEndHuntModal, setShowEndHuntModal] = useState(false);
   // Determine if locations have been answered based on `answeredIds`
   const answered = locations.map((location) =>
     answeredIds.includes(location._id) ? 1 : 0
@@ -38,6 +38,13 @@ function MapWithLocations({ locations, answeredIds ,hasStartedHunt }) {
     dispatch(clearCurrentAnswerId());
     setActiveLocation(null);
   }
+
+  function toggleEndHuntModal() {
+    setShowEndHuntModal(!showEndHuntModal);
+  }
+  function handleEndHuntModalClose() {
+    setShowEndHuntModal(false);
+  }
   return (
     <Sheet
       variant="soft"
@@ -49,7 +56,7 @@ function MapWithLocations({ locations, answeredIds ,hasStartedHunt }) {
         borderRadius: "10px",
       }}
     >
-      {userLocation && hasStartedHunt ? (
+      {userLocation && huntState.hasStartedHunt && !huntState.hasEndedHunt ? (
         <Fragment>
           <MapContainer
             center={[47.1564288, 27.5841024]}
@@ -72,6 +79,20 @@ function MapWithLocations({ locations, answeredIds ,hasStartedHunt }) {
               userLocation={userLocation}
               setUserLocation={setUserLocation}
             />
+            <IconButton
+              variant="soft"
+              color="danger"
+              size="lg"
+              sx={{
+                position: "absolute",
+                right: 16,
+                top: 16,
+                zIndex: 1000, // Ensure the button is above map layers
+              }}
+              onClick={toggleEndHuntModal}
+            >
+              <StopCircleRounded />
+            </IconButton>
           </MapContainer>
           {activeLocation && (
             <QuestionModal
@@ -83,9 +104,18 @@ function MapWithLocations({ locations, answeredIds ,hasStartedHunt }) {
               name={activeLocation.name}
             />
           )}
+          {showEndHuntModal && (
+            <EndHuntModal
+              showEndHuntModal={showEndHuntModal}
+              handleEndHuntModalClose={handleEndHuntModalClose}
+            />
+          )}
         </Fragment>
       ) : (
-        <MapCoverPage userLocationError={!!userLocation} hasStartedHunt={hasStartedHunt}/>
+        <MapCoverPage
+          userLocationError={!!userLocation}
+          huntState={huntState}
+        />
       )}
     </Sheet>
   );

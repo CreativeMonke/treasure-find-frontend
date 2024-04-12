@@ -40,5 +40,9 @@
   "yourAnswer": "Raspunsul tau",
   "noAnswerProvided": "Niciun raspuns trimis pentru aceasta locatie!",
   "errorInEvaluation": "Evaluare Gresita?",
-  "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!"
+  "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!",
+  "notStartedHuntMessage": "Nu ai început vânătoarea încă",
+  "startHunt": "Începe vânătoarea",
+  "locationPermissionRequired": "Te rog să permiți accesul la locație",
+  "eventEnded": "Evenimentul s-a terminat!"
 }

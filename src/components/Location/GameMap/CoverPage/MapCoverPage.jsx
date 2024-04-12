@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/joy";
 import NoLocationComponent from "./ErrorComponents/NoLocation";
 import NotStartedHuntComponent from "./ErrorComponents/NotStartedHuntComponent";
-function MapCoverPage({ userLocationError, hasStartedHunt }) {
+import HasEndedHuntComponent from "./ErrorComponents/HasEndedHuntComponent";
+function MapCoverPage({ userLocationError, huntState }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   return (
@@ -16,8 +17,10 @@ function MapCoverPage({ userLocationError, hasStartedHunt }) {
         flexDirection: "column",
       }}
     >
-      {!hasStartedHunt ? (
+      {!huntState.hasStartedHunt ? (
         <NotStartedHuntComponent />
+      ) : huntState.hasEndedHunt ? (
+        <HasEndedHuntComponent />
       ) : !userLocationError ? (
         <NoLocationComponent />
       ) : (

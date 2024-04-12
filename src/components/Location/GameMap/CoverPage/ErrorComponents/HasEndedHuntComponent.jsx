@@ -8,7 +8,7 @@ function NoLocationComponent() {
   return (
     <Stack>
       <Typography level="h2" color="danger">
-        {t("locationPermissionRequired")}
+        Your hunt has ended!
       </Typography>
     </Stack>
   );

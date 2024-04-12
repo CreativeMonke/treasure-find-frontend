@@ -7,8 +7,8 @@ import { getAnswersByUserId } from "../../features/answers/answerSlice";
 function Home() {
   const answers = useSelector((state) => state.answers.answers);
   const locations = useSelector((state) => state.locations.locations);
-  const { hasStartedHunt } = useSelector((state) => state.auth);
-
+  const { huntState } = useSelector((state) => state.auth);
+  console.log(huntState);
   ///only
   const answeredIds = useMemo(
     () =>
@@ -22,7 +22,7 @@ function Home() {
       <MapWithLocations
         locations={locations}
         answeredIds={answeredIds}
-        hasStartedHunt={hasStartedHunt}
+        huntState={huntState}
       />
     </Box>
   );
