@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAnswersByUserId } from "../../features/answers/answerSlice";
 function Home() {
   const answers = useSelector((state) => state.answers.answers);
-  const locations = useSelector((state) => state.locations.locations);
+  const locations = useSelector((state) => state.locations.locations);  
   const { huntState } = useSelector((state) => state.auth);
   ///only
   const answeredIds = useMemo(

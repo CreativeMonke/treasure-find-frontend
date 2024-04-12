@@ -7,7 +7,7 @@ import "./Css/Poi.css"
 
 function POI() {
   return (
-    <Box className = "poiPage" backgroundColor="background.body">
+    <Box className = "poiPage">
       <PoiSection />
     </Box>
   );

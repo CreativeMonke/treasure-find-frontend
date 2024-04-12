@@ -9,14 +9,13 @@ import Box from "@mui/joy/Box";
 import "./Css/About.css";
 
 function About() {
-
   return (
     <Sheet
       variant="outlined"
       className="mainContent"
-      backgroundColor="background.body"
-      sx = {{
-        borderRoun:20
+      sx={{
+        borderRoun: 20,
+        backgroundColor: "background.body",
       }}
     >
       <Typography level="h1" component="h1" mb={2} sx={{ textAlign: "center" }}>
