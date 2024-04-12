@@ -145,7 +145,6 @@ const authSlice = createSlice({
                 state.isLoggedIn = false;
                 state.user = null;
                 state.sessionId = null;
-                state.huntState = { hasEndedHunt: false, hasStartedHunt: false };
                 state.status = 'failed';
                 state.error = action.payload || "Failed to login";
             }).addCase(checkLogin.pending, (state) => {
@@ -162,7 +161,6 @@ const authSlice = createSlice({
                 state.isLoggedIn = false;
                 state.user = null;
                 state.sessionId = null;
-                state.huntState = { hasEndedHunt: false, hasStartedHunt: false };
                 state.status = 'failed';
                 state.error = action.payload || "Session invalid/expired";
             })
