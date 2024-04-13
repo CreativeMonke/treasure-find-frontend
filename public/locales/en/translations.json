@@ -43,6 +43,7 @@
   "noAnswerProvided": "No answer provided for this location!",
   "errorInEvaluation": "Evaluation Error?",
   "moreInfoAfterEnd": "More information available after the event ends!",
+  "responsesWaitingMsg" : "Correct responses, along with your evaluation scores will be available in a moment",
   "notStartedHuntMessage": "You didn't start the hunt yet",
   "hasEndedHuntMessage": "Your hunt has ended.",
   "startHunt": "Start Hunt",

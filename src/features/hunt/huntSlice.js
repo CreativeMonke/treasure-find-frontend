@@ -8,8 +8,8 @@ const apiUrl = process.env.REACT_APP_API_BASE_URL;
 export const getGlobalHuntInfo = createAsyncThunk("/hunt/getGlobalHuntInfo", async (_, { rejectWithValue }) => {
     try {
         const res = await axios.get(`${apiUrl}hunt/globalInfo`);
-        const { startTime, endTime, nrOfObjectives, nrOfSignedUpUsers } = res.data;
-        return { startTime, endTime, nrOfObjectives, nrOfSignedUpUsers };
+        const { startTime, endTime , answersReady, nrOfObjectives, nrOfSignedUpUsers } = res.data;
+        return { startTime, endTime, answersReady ,  nrOfObjectives, nrOfSignedUpUsers };
     } catch (err) {
         console.error("Error while loading global info:", err);
         rejectWithValue(err);
@@ -32,6 +32,7 @@ const initialState = {
     globalHuntInfo: {
         startTime: null,
         endTime: null,
+        answersReady: false,
         nrOfObjectives: null,
         nrOfSignedUpUsers: null
     },
@@ -77,6 +78,10 @@ const huntSlice = createSlice({
             .addCase(getGlobalHuntInfo.rejected, (state, action) => {
                 state.error = action.error.message;
                 state.status = "failed";
+            })
+            .addCase(editGlobalHuntInfo.fulfilled, (state, action) => {
+                state.globalHuntInfo = { ...state.globalHuntInfo, ...action.payload };
+                state.status = 'succeeded';
             })
     }
 })

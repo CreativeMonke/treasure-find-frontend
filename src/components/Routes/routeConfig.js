@@ -90,7 +90,7 @@ const routeConfig = [
   {
     path: '/globalSettings',
     element: GlobalSettingsPage,
-    protected: false,
+    protected: true,
     permissionLevel : "0x60",
 
   },

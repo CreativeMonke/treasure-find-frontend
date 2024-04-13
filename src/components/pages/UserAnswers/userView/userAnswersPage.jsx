@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 function UserAnswersPage() {
   const { t } = useTranslation();
   const { hasEnded } = useSelector((state) => state.hunt);
+  const {answersReady} = useSelector((state) => state.hunt.globalHuntInfo);
+  console.log(answersReady);
   return (
     <Sheet
       variant="outlined"
@@ -27,7 +29,7 @@ function UserAnswersPage() {
       <Divider>
         <KeyboardArrowDownRounded />
       </Divider>
-      {hasEnded ? (
+      {hasEnded && answersReady? (
         <HuntTimeline />
       ) : (
         <Box sx = {{
@@ -35,13 +37,20 @@ function UserAnswersPage() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          textAlign: "center",
           gap: 2,
           width: "100%",
           height: "100%",
         }}>
+          {!hasEnded?
           <Typography level = "h2" color = "warning">
             {t("moreInfoAfterEnd")}
           </Typography>
+          :
+          <Typography level = "h2" color = "warning">
+          {t("responsesWaitingMsg")}
+        </Typography>
+}
         </Box>
       )}
     </Sheet>

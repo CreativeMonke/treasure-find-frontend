@@ -42,6 +42,7 @@
   "noAnswerProvided": "Niciun raspuns trimis pentru aceasta locatie!",
   "errorInEvaluation": "Evaluare Gresita?",
   "moreInfoAfterEnd": "Mai multe informații vizibile după finalizarea evenimentului!",
+  "responsesWaitingMsg" : "Răspunsurile corecte, împreună cu scorurile dvs. de evaluare, vor fi disponibile într-un moment!",
   "notStartedHuntMessage": "Nu ai început vânătoarea încă",
   "hasEndedHuntMessage": "Vânătoarea ta s-a încheiat",
   "startHunt": "Începe vânătoarea",
