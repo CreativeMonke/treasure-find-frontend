@@ -275,6 +275,19 @@ function NavBar() {
                       <ListItem>
                         <ListItemButton
                           component={Link}
+                          to="/answers/adminView"
+                          selected={isCurrent("/answers/adminView")}
+                          onClick={toggleDrawer}
+                        >
+                          {
+                            //  <StickyNote2Rounded />
+                          }
+                          {t("answers")}
+                        </ListItemButton>
+                      </ListItem>
+                      <ListItem>
+                        <ListItemButton
+                          component={Link}
                           to="/user/roles"
                           selected={isCurrent("/user/roles")}
                           onClick={toggleDrawer}
@@ -286,17 +299,6 @@ function NavBar() {
                   </Toggler>
                 </ListItem>
                 {/*Answers*/}
-                <ListItem>
-                  <ListItemButton
-                    component={Link}
-                    to="/answers/adminView"
-                    selected={isCurrent("/answers/adminView")}
-                    onClick={toggleDrawer}
-                  >
-                    <StickyNote2Rounded/>
-                    Raspunsuri
-                  </ListItemButton>
-                </ListItem>
               </>
             )}
           </List>

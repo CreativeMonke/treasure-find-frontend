@@ -3,6 +3,23 @@ import axios from "axios";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
+export const getAllAnswersForCSV = createAsyncThunk("answer/fetchAllAnswersForCSV", async (_, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+    try {
+        const response = await axios.get(`${apiUrl}answer/getAllAnswers`, {
+            headers: {
+                "sessionid": auth.sessionId,
+            },
+            withCredentials: true
+        });
+        return response.data;  // Directly return the fetched data
+    } catch (error) {
+        console.error('Error while fetching answers:', error);
+        return rejectWithValue(error);
+    }
+}
+);
+
 export const submitAnswer = createAsyncThunk("answer/submitAnswer", async (answerData, { getState, rejectWithValue }) => {
     const { auth } = getState();
     try {
@@ -146,8 +163,8 @@ const answerSlice = createSlice({
                 }
             })
             .addCase(getAnswersByUserId.fulfilled, (state, action) => {
-                if(action.payload)
-                state.answers = action.payload.data;
+                if (action.payload)
+                    state.answers = action.payload.data;
             });
     },
 });

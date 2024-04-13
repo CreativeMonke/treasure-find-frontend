@@ -110,9 +110,10 @@ function LandingPage() {
                 </Card>
               </Grid>
 
-              <Grid item xs={12}>
+              {/*  <Grid item xs={12}>
                 <About />
               </Grid>
+              */}
             </Grid>
           </Box>
         </Stack>

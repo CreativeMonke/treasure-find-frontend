@@ -64,7 +64,7 @@ function MapWithLocations({ locations, answeredIds, huntState  , huntInfo}) {
         borderRadius: "10px",
       }}
     >
-      {huntInfo.status === "loading"}
+
       {userLocation && huntState && huntState.hasStartedHunt && !huntState.hasEndedHunt && !huntInfo.hasEnded && huntInfo.hasStarted? (
         <Fragment>
           <MapContainer
