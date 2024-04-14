@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { IconButton } from "@mui/joy";
-import { ExploreRounded, ExploreOffRounded, Navigation, MyLocation } from "@mui/icons-material";
+import { ExploreRounded, ExploreOffRounded, MyLocation } from "@mui/icons-material";
 import { renderToString } from 'react-dom/server';
 import "./LiveLocation.css"
 const liveLocationIcon = new L.icon({

@@ -1,10 +1,10 @@
 import React, { Fragment, useRef, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import QuestionModal from "./Modals/QuestionModal";
 import "leaflet/dist/leaflet.css";
 import "leaflet-geometryutil";
-import { Sheet, IconButton, Button } from "@mui/joy";
+import { Sheet, IconButton } from "@mui/joy";
 import LiveLocationTracker from "./LiveLocation/LiveLocation";
 import RangeCircle from "./Location components/RangeCompontent";
 import { clearCurrentAnswerId } from "../../../features/answers/answerSlice.js";

@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography, Box, CircularProgress, chipClasses } from "@mui/joy";
+import { Card, CardContent, Typography, Box, CircularProgress } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 
 function WidgetCard({
