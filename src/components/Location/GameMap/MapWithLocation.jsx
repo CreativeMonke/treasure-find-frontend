@@ -14,19 +14,18 @@ import EndHuntModal from "./Modals/EndHuntModal.jsx";
 
 ///Placeholder -> api querry answerByUserId
 //const answered = [1, 0, 3, 4, 5, 6, 7, 8, 9];
-function MapWithLocations({ locations, answeredIds, huntState  , huntInfo}) {
+function MapWithLocations({ locations, answeredIds, huntState, huntInfo }) {
   console.log(huntInfo);
   const dispatch = useDispatch();
   const mapRef = useRef(null);
   const [activeLocation, setActiveLocation] = useState(null);
   const [userLocation, setUserLocation] = useState([1, 1]);
   const [showEndHuntModal, setShowEndHuntModal] = useState(false);
-  if(!huntState)
-  {
+  if (!huntState) {
     huntState = {
-      "hasStartedHunt" : false,
-      "hasEndedHunt" : false
-    }
+      hasStartedHunt: false,
+      hasEndedHunt: false,
+    };
   }
   // Determine if locations have been answered based on `answeredIds`
   const answered = locations.map((location) =>
@@ -64,22 +63,31 @@ function MapWithLocations({ locations, answeredIds, huntState  , huntInfo}) {
         borderRadius: "10px",
       }}
     >
-
-      {userLocation && huntState && huntState.hasStartedHunt && !huntState.hasEndedHunt && !huntInfo.hasEnded && huntInfo.hasStarted? (
+      {userLocation &&
+      huntState &&
+      huntState.hasStartedHunt &&
+      !huntState.hasEndedHunt &&
+      !huntInfo.hasEnded &&
+      huntInfo.hasStarted ? (
         <Fragment>
           <MapContainer
-            center={[47.1564288, 27.5841024]}
-            zoom={15}
+            center={[47.15728152, 27.58697648]}
+            zoom={16}
             style={{ width: "100%", height: "100%" }}
             whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
           >
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors '
+              /*url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; © <a href="https://carto.com/attribution">CARTO</a>'*/
+            />
             {locations.map((location, index) => (
               <RangeCircle
                 id={location._id}
                 key={location._id}
                 answered={answered[index]}
-                location={location} 
+                location={location}
                 userLocation={userLocation}
                 handleLocationSelect={handleLocationSelect}
               />

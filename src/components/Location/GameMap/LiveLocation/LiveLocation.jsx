@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Marker, useMap } from "react-leaflet";
 import L from "leaflet";
 import { IconButton } from "@mui/joy";
-import { ExploreRounded, ExploreOffRounded } from "@mui/icons-material";
-
+import { ExploreRounded, ExploreOffRounded, Navigation, MyLocation } from "@mui/icons-material";
+import { renderToString } from 'react-dom/server';
+import "./LiveLocation.css"
 const liveLocationIcon = new L.icon({
   iconUrl: "/icons/LiveLocation/my-location.svg",
   iconSize: [48, 48],
@@ -11,6 +12,12 @@ const liveLocationIcon = new L.icon({
   popupAnchor: [1, -34],
 });
 
+const muiIcon = new L.divIcon({
+  html: renderToString(<MyLocation style={{ fill: 'var(--joy-palette-primary-700, #0B6BCB)' }} />),
+  iconSize: [30, 30],
+  iconAnchor: [15, 15],
+  className: 'custom-mui-icon'
+});
 function LiveLocationTracker({ setUserLocation }) {
   const map = useMap();
   const [userLocation, setUserLocationInternal] = useState(null);
@@ -52,7 +59,7 @@ function LiveLocationTracker({ setUserLocation }) {
   return (
     <>
       {userLocation && (
-        <Marker position={userLocation} icon={liveLocationIcon} />
+        <Marker position={userLocation} icon={muiIcon} />
       )}
       <IconButton
         variant="soft"
