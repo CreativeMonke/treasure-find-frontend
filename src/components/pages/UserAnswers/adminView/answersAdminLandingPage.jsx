@@ -43,14 +43,6 @@ function AdminAnswersLandingPage() {
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
-            gap: "10px",
-            padding: "10px",
-            borderRadius: "10px",
-            backgroundColor: "background.paper",
-            border: "1px solid",
-            borderColor: "border.divider",
-            boxShadow:
-              "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
           }}
         >
           <DownloadCSV />

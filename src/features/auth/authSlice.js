@@ -25,14 +25,19 @@ function loadFromLocalStorage(key) {
 export const checkLogin = createAsyncThunk("auth/checkLogin", async (_, { rejectWithValue }) => {
     try {
         const sessionId = loadFromLocalStorage("sessionId")
-        const res = await axios.get(`${apiUrl}auth/checkLoggedIn`, {
-            headers: {
-                "sessionid": sessionId,
-            },
-            withCredentials: true,
-        });
-        //console.log(res);
-        return res.data;
+        if (sessionId) {
+            const res = await axios.get(`${apiUrl}auth/checkLoggedIn`, {
+                headers: {
+                    "sessionid": sessionId,
+                },
+                withCredentials: true,
+            });
+            //console.log(res);
+            return res.data;
+        }
+        else {
+            return rejectWithValue("Not logged in");
+        }
     } catch (err) {
         return rejectWithValue(err);
     }
@@ -59,6 +64,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, { getState, reje
             },
             withCredentials: true,
         })
+
     } catch (err) {
         return rejectWithValue(err);
     }
@@ -74,11 +80,12 @@ export const startHunt = createAsyncThunk("users/startHunt", async (_, { getStat
         })
         saveToLocalStorage("huntState", {
             "hasEndedHunt": false,
-            "hasStartedHunt": true, });
+            "hasStartedHunt": true,
+        });
     } catch (err) {
-            return rejectWithValue(err);
-        }
-    });
+        return rejectWithValue(err);
+    }
+});
 export const endHunt = createAsyncThunk("users/endhunt", async (_, { getState, rejectWithValue }) => {
     try {
         await axios.get(`${apiUrl}users/endhunt`, {
@@ -171,6 +178,15 @@ const authSlice = createSlice({
             .addCase(endHunt.fulfilled, (state, action) => {
                 state.huntState.hasEndedHunt = true;
                 state.status = 'idle';
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.isLoggedIn = false;
+                state.user = null;
+                state.sessionId = null;
+                state.status = 'idle';
+                state.error = null;
+                localStorage.removeItem('sessionId');
+                localStorage.removeItem('userInfo');
             });
     },
 });

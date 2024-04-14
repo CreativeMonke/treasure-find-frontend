@@ -19,7 +19,21 @@ export const getAllAnswersForCSV = createAsyncThunk("answer/fetchAllAnswersForCS
     }
 }
 );
-
+export const getNumberOfCorrectAnswers = createAsyncThunk("answer/getNumberOfCorrectAnswers", async (_, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+    try {
+        const res = await axios.get(`${apiUrl}answer/getNumberOfCorrectAnswers`, {
+            headers: {
+                "sessionid": auth.sessionId,
+            },
+            withCredentials: true
+        });
+        return res.data;
+    } catch (err) {
+        console.error(err);
+        return rejectWithValue(err);
+    }
+});
 export const submitAnswer = createAsyncThunk("answer/submitAnswer", async (answerData, { getState, rejectWithValue }) => {
     const { auth } = getState();
     try {

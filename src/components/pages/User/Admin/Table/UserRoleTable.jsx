@@ -44,8 +44,8 @@ function UserRoleTable() {
   }, [isLoggedIn, sessionId]); // Add sessionId as a dependency to re-fetch when it changes
 
   return (
-    <Sheet variant="plain" sx={{ overflow: "auto", height: "90%", borderRadius: "5px", p: 1 }}>
-      <Table stickyHeader size="md" borderAxis="xBetween" noWrap>
+    <Sheet variant="plain" sx={{ overflow: "auto", borderRadius: "5px", p: 1 }}>
+      <Table size="md" borderAxis="xBetween" noWrap>
         <thead>
           <tr>
             <th width="25px">#</th>

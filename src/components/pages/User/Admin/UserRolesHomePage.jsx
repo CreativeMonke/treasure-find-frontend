@@ -10,17 +10,21 @@ function UserRolesHomePage() {
         flexDirection: "column",
         height: "100%",
         borderRadius: "10px",
+        overflow:"auto",
+        
       }}
     >
-        <Grid container spacing={4}>
-            <Grid item xs={12}>
-                <Typography level="h1" sx={{ mb: 4 }}>
-                    User Roles admin view
-                </Typography>
-                <Divider sx={{ mb: 3 }} >All Roles</Divider>
-            </Grid>
-            <UserRoleTable />
+      <Grid container spacing={4}>
+        <Grid item xs={12}>
+          <Typography level="h1">
+            User Roles admin view
+          </Typography>
+          <Divider>All Roles</Divider>
         </Grid>
+        <Grid item xs={12}>
+          <UserRoleTable />
+        </Grid>
+      </Grid>
     </Sheet>
   );
 }

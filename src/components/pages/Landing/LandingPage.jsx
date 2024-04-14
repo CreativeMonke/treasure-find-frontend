@@ -20,10 +20,12 @@ import {
 } from "@mui/joy";
 import About from "../About";
 import RemainingTime from "../components/RemainingTime";
-import { PeopleRounded } from "@mui/icons-material";
+import { FestivalRounded, PeopleRounded } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 function LandingPage() {
   const navigate = useNavigate();
   const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       <Sheet
@@ -75,7 +77,7 @@ function LandingPage() {
                         navigate("/login");
                       }}
                     >
-                      Login
+                      {t("login")}
                     </Button>
                     <Button
                       variant="outlined"
@@ -83,33 +85,35 @@ function LandingPage() {
                         navigate("/register");
                       }}
                     >
-                      Register
+                      {t("register")}
                     </Button>
                   </CardContent>
                 </Card>
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <RemainingTime />
-                  </CardContent>
-                </Card>
+                <WidgetCard title="Timp ramas">
+                  <RemainingTime />
+                </WidgetCard>
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <Card variant="outlined">
-                  <CardContent>
-                    <CircularProgress
-                      determinate
-                      value={huntInfo.nrOfSignedUpUsers}
-                    >
-                      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                        <PeopleRounded />
-                      </Avatar>
-                    </CircularProgress>
-                  </CardContent>
-                </Card>
+                <WidgetCard
+                  title="Câte locații?"
+                  status=""
+                  value={huntInfo.nrOfObjectives}
+                  ofWhat={t("locations").toLowerCase()}
+                />
               </Grid>
-
+              <Grid item xs={12} md={6} lg={3}>
+                <WidgetCard
+                  title="Câti utilizatori?"
+                  status=""
+                  value={huntInfo.nrOfObjectives}
+                  ofWhat={`nr de ${t("users").toLowerCase()} maxim`}
+                  howMany={350}
+                  icon={<PeopleRounded />}
+                  isPercent
+                />
+              </Grid>
               {/*  <Grid item xs={12}>
                 <About />
               </Grid>

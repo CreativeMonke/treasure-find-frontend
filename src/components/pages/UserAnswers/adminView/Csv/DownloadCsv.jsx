@@ -4,6 +4,7 @@ import { CSVLink } from 'react-csv';
 import Button from '@mui/joy/Button';
 import { getAllAnswersForCSV } from '../../../../../features/answers/answerSlice';
 import { Box } from '@mui/joy';
+import { DownloadRounded, FileDownloadOutlined } from '@mui/icons-material';
 
 const DownloadCSVButton = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const DownloadCSVButton = () => {
             justifyContent: 'center',
             alignItems: 'center',
         }}> 
-            <Button onClick={handleDownload} disabled={loading} variant="solid" size="lg">
+            <Button onClick={handleDownload} loading={loading} variant="outlined" size="lg" loadingPosition='end' error = {error} endDecorator = {<FileDownloadOutlined />}>
                 {loading ? "Se încarcă..." : "Descarcă CSV"}
             </Button>
             {error && <p>Eroare: {error}</p>}
