@@ -14,8 +14,8 @@ const liveLocationIcon = new L.icon({
 
 const muiIcon = new L.divIcon({
   html: renderToString(<MyLocation style={{ fill: 'var(--joy-palette-primary-700, #0B6BCB)' }} />),
-  iconSize: [30, 30],
-  iconAnchor: [15, 15],
+  iconSize: [44, 44],
+  iconAnchor: [22, 22],
   className: 'custom-mui-icon'
 });
 function LiveLocationTracker({ setUserLocation }) {

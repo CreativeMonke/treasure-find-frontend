@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalDialog,
@@ -18,17 +18,32 @@ import { endHunt } from "../../../../features/auth/authSlice";
 import { useTranslation } from "react-i18next";
 function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
   ///A countDown of 10s
-  const {t} = useTranslation();
+  const [countDown, setCountDown] = useState(10); // Countdown starts at 10 seconds
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const nrOfAnswers = Object.keys(
     useSelector((state) => state.answers.answers)
   ).length;
   async function handleDeleteClick() {
-    dispatch(endHunt()).unwrap().then(() => {
+    dispatch(endHunt())
+      .unwrap()
+      .then(() => {
         handleEndHuntModalClose();
-  
-    });
+      });
   }
+
+  useEffect(() => {
+    let timer;
+    if (showEndHuntModal && countDown > 0) {
+      timer = setInterval(() => {
+        setCountDown((prevCountDown) => prevCountDown - 1);
+      }, 1000);
+    } else if (countDown <= 0) {
+      clearInterval(timer);
+    }
+
+    return () => clearInterval(timer); // Cleanup on unmount or modal close
+  }, [showEndHuntModal, countDown]);
   return (
     <Modal open={!!showEndHuntModal} onClose={handleEndHuntModalClose}>
       <ModalDialog
@@ -60,11 +75,10 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
             maxWidth: 800,
           }}
         >
-          <Typography level="title-md">
-            {t("confirmHuntEnd")}
-          </Typography>
+          <Typography level="title-md">{t("confirmHuntEnd")}</Typography>
           <Typography level="body-sm" sx={{ textAlign: "center" }}>
-          {t("providedResponses")}            <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
+            {t("providedResponses")}{" "}
+            <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
               {nrOfAnswers}
             </Typography>
             {t("outOf")}
@@ -86,7 +100,13 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
           <Button onClick={handleEndHuntModalClose} size="lg">
             {t("cancel")}
           </Button>
-          <Button onClick={handleDeleteClick} size="lg" color="danger">
+          <Button
+            onClick={handleDeleteClick}
+            size="lg"
+            color="danger"
+            disabled={countDown > 0}
+            endDecorator={countDown}
+          >
             {t("endHunt")}
           </Button>
         </DialogActions>
