@@ -9,6 +9,8 @@ import {
   FormControl,
   FormLabel,
   Grid,
+  Select,
+  Option,
 } from "@mui/joy";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
@@ -16,11 +18,10 @@ import axios from "axios";
 import "./RegisterPage.css";
 import InputField from "../../components/InputField";
 import { useTranslation } from "react-i18next"; // Import useTranslation
-
+import cities from "../../../../data/romanianCities.json";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
   const [isLoading, setIsLoading] = useState(false);
-
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [town, setTown] = useState(null);
@@ -28,7 +29,6 @@ function RegisterPage(props) {
   const [password, setPassword] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const { t } = useTranslation(); // Initialize useTranslation hook
-
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -44,12 +44,9 @@ function RegisterPage(props) {
       });
 
       if (response.data.status === "success") {
-        ///Sets a delay of 0.2 seconds
         setTimeout(() => {
           navigate("/login");
         }, 1000);
-        // Redirect or show a success message
-        // Redirect to login page or home page as per your flow
       } else {
         console.log(response);
         setErrorMsg(response.data.message);
@@ -59,7 +56,7 @@ function RegisterPage(props) {
       setErrorMsg(
         error.response.data.message ||
           error.response.data.error.undefined ||
-          "An error occurred during registration.",
+          "An error occurred during registration."
       );
     }
     setIsLoading(false);
@@ -115,12 +112,11 @@ function RegisterPage(props) {
             />
           </Grid>
           <Grid item xs={6}>
-            <InputField
-              label={t("town")}
-              id="town"
-              setValue={setTown}
-              type="town"
-            />
+          <Select placeholder={t("town")} onChange={(e) => setTown(e.target.textContent)} size = "sm">
+              {cities.map(city => (
+                <Option key={city.abr} value={city.nume}>{city.nume}</Option>
+              ))}
+            </Select>
           </Grid>
           <Grid item xs={12}>
             <InputField
