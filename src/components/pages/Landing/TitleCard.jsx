@@ -30,7 +30,7 @@ function TitleCard() {
           textAlign: "center",
         }}
       >
-        <Typography color="primary" level="h4">
+        <Typography color="primary" level="h3">
           Vanatoare de comori
         </Typography>
         <Divider></Divider>

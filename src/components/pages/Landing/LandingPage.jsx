@@ -33,6 +33,7 @@ function LandingPage() {
           height: "100%",
           overflow: "auto",
           p: 2,
+          borderRadius: "10px",
         }}
       >
         <Stack spacing={3}>
