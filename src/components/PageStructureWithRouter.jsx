@@ -8,7 +8,6 @@ function PageStructureWithRouter() {
   const location = useLocation();
   const singleBodyPages = ["/login", "/register", "/landing" , "/verifyEmail"];
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  console.log(location);
   return (
     <>
       {!singleBodyPages.includes(location.pathname) && isLoggedIn && <NavBar />}

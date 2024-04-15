@@ -49,10 +49,10 @@ function RegisterPage(props) {
     )
       .unwrap()
       .then((response) => {
-        navigate("/verifyEmail"); // navigate to verification page on success
+        navigate("/verifyEmail" , { state: { fromRegistration: true } }); // navigate to verification page on success
       })
       .catch((error) => {
-        if (error === "redirect") navigate("/verifyEmail");
+        if (error === "redirect") navigate("/verifyEmail" , { state: { fromRegistration: true } });
         else console.error("Registration error:", error);
         setErrorMsg(error || "An error occurred during registration.");
         setIsLoading(false);

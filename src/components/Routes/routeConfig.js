@@ -91,7 +91,7 @@ const routeConfig = [
     path: '/verifyEmail',
     element: VerifyEmailPage,
     protected: false,
-    permissionLevel : "0x05",
+    permissionLevel : null,
 
   },
   {

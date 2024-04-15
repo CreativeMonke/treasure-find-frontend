@@ -8,7 +8,7 @@ import Layout from "./Layout.tsx";
 
 function MainContent() {
   const location = useLocation();
-  const hideForRoutes = ["/login", "/register", "/verifyEmail"];
+  const hideForRoutes = ["/login", "/register", "/verifyEmail" , "/landing"];
   const shouldHideBox = hideForRoutes.includes(location.pathname);
 
   return !shouldHideBox ? (

@@ -1,8 +1,8 @@
 // VerifyEmailPage.js
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Card, Button, Typography, Box, Alert, Grid, useTheme } from "@mui/joy";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import { useTranslation } from "react-i18next";
 import { verifyEmail } from "../../../../features/auth/authSlice";
@@ -14,6 +14,7 @@ function VerifyEmailPage() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme(); // This hook provides the theme context
   const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
   // Retrieve email from localStorage or Redux state if you prefer
@@ -21,13 +22,11 @@ function VerifyEmailPage() {
   const backgroundImageUrl = isDarkMode
     ? "./icons/backgroundDark.jpg"
     : "./icons/backgroundLight.jpg";
-  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
-    if (!user) navigate("/register");
-    else {
-      if (user[0].role !== "0x05") navigate("/register");
-    }
-  }, [navigate,user]);
+    if (!location.state?.fromRegistration) {
+        return navigate("/register"); // or any other appropriate route
+      }
+  },[location , navigate]);
   async function handleSubmit() {
     if (!email || !verificationCode) {
       setErrorMsg("Missing email or verification code.");

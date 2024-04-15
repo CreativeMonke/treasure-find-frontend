@@ -14,7 +14,6 @@ function App() {
 
   useEffect(() => {
     dispatch(checkLogin()).then((action) => {
-      console.log(action);
       if (action.error == null) {
         dispatch(fetchLocations());
         dispatch(getAnswersByUserId());

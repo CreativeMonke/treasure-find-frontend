@@ -215,13 +215,9 @@ const authSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'failed';
-                if (action.payload === "redirect")
-                    state.user = [{ role: "0x05" }];
                 state.error = action.payload || "Failed to register";
             })
             .addCase(register.fulfilled, (state, action) => {
-                if(action.payload)
-                state.user = action.payload.user;
                 state.status = 'succeeded'; // You might want to manage state flags specific to registration
             })
             .addCase(verifyEmail.pending, (state) => {
@@ -232,7 +228,6 @@ const authSlice = createSlice({
             })
             .addCase(verifyEmail.rejected, (state, action) => {
                 state.status = 'failed';
-                state.user = [{ role: "0x05" }];
                 state.error = action.payload;
             })
             ;
