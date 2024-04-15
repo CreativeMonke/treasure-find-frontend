@@ -108,7 +108,7 @@ function LandingPage() {
                 <WidgetCard
                   title="Câti utilizatori?"
                   status=""
-                  value={huntInfo.nrOfObjectives}
+                  value={huntInfo.nrOfSignedUpUsers}
                   ofWhat={`nr de ${t("users").toLowerCase()} maxim`}
                   howMany={350}
                   icon={<PeopleRounded />}

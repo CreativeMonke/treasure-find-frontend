@@ -46,7 +46,7 @@ function WidgetCard({
                 <Box sx={{ ml: 2 }}>
                 <Typography level="body-md" color="neutral">
                   <Typography color="primary" level="title-lg">
-                    {value}
+                    {Math.round(userValue)}
                   </Typography>
                   {` % ${t("outOf")} ${ofWhat}`}
                 </Typography>

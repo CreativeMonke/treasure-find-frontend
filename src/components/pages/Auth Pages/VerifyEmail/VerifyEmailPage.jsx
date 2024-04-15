@@ -1,36 +1,43 @@
 // VerifyEmailPage.js
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  Card, Button, Typography, Box, Alert, Grid,
-} from '@mui/joy';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Button, Typography, Box, Alert, Grid, useTheme } from "@mui/joy";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
 import { useTranslation } from "react-i18next";
-import { verifyEmail } from '../../../../features/auth/authSlice';
-
+import { verifyEmail } from "../../../../features/auth/authSlice";
+import "./VerifyEmailPage.css";
 function VerifyEmailPage() {
-  const [verificationCode, setVerificationCode] = useState('');
+  const [verificationCode, setVerificationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const theme = useTheme(); // This hook provides the theme context
+  const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
   // Retrieve email from localStorage or Redux state if you prefer
-  const email = localStorage.getItem('emailForVerification');
-
+  const email = localStorage.getItem("emailForVerification");
+  const backgroundImageUrl = isDarkMode
+    ? "./icons/backgroundDark.jpg"
+    : "./icons/backgroundLight.jpg";
+  const { user } = useSelector((state) => state.auth);
+  useEffect(() => {
+    if (!user) navigate("/register");
+    else {
+      if (user[0].role !== "0x05") navigate("/register");
+    }
+  }, [navigate,user]);
   async function handleSubmit() {
     if (!email || !verificationCode) {
       setErrorMsg("Missing email or verification code.");
       return;
     }
     setIsLoading(true);
-    console.log(email);
     dispatch(verifyEmail({ email, verificationCode }))
       .unwrap()
       .then(() => {
-        navigate('/login'); // Redirect to login on successful verification
+        navigate("/login"); // Redirect to login on successful verification
       })
       .catch((error) => {
         console.error("Verification error:", error);
@@ -40,11 +47,22 @@ function VerifyEmailPage() {
   }
 
   return (
-    <Box className="verificationSection">
+    <Box
+      className="verificationSection"
+      sx={{
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+      }}
+    >
       <Card className="verificationCard" variant="outlined">
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant="h4" component="h1" sx={{ textAlign: "center" }}>
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{ textAlign: "center" }}
+            >
               {t("verifyYourEmail")}
             </Typography>
           </Grid>
@@ -58,7 +76,7 @@ function VerifyEmailPage() {
           <Grid item xs={12}>
             <InputField
               label={t("verificationCode")}
-              placeholder = {t("enterVerificationCode")}
+              placeholder={t("enterVerificationCode")}
               id="verification-code"
               setValue={setVerificationCode}
               type="text"
@@ -70,7 +88,6 @@ function VerifyEmailPage() {
               loading={isLoading}
               variant="solid"
               color="primary"
-              sx={{ mt: 2 }}
             >
               {t("verify")}
             </Button>

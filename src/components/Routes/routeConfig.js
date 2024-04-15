@@ -2,7 +2,6 @@
 import Home from '../pages/Home';
 import POI from '../pages/POI';
 import About from '../pages/About';
-import HuntTimeline from '../pages/UserAnswers/userView/HuntTimeline.jsx';
 import LoginPage from '../pages/Auth Pages/Login/Login';
 import RegisterPage from '../pages/Auth Pages/Register/Register';
 import AccountPage from '../pages/Account';
@@ -92,7 +91,7 @@ const routeConfig = [
     path: '/verifyEmail',
     element: VerifyEmailPage,
     protected: false,
-    permissionLevel : null,
+    permissionLevel : "0x05",
 
   },
   {

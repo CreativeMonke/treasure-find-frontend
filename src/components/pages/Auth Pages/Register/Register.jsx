@@ -8,17 +8,16 @@ import {
   Grid,
   Select,
   Option,
+  useTheme,
 } from "@mui/joy";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
-import axios from "axios";
 import "./RegisterPage.css";
 import InputField from "../../components/InputField";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 import cities from "../../../../data/romanianCities.json";
 import { useDispatch } from "react-redux";
 import { register } from "../../../../features/auth/authSlice";
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [firstName, setFirstName] = useState(null);
@@ -30,6 +29,12 @@ function RegisterPage(props) {
   const { t } = useTranslation(); // Initialize useTranslation hook
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme(); // This hook provides the theme context
+  const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
+  const backgroundImageUrl = isDarkMode
+    ? "./icons/backgroundDark.jpg"
+    : "./icons/backgroundLight.jpg";
+
   async function handleSubmit(e) {
     setIsLoading(true);
     e.preventDefault();
@@ -47,9 +52,8 @@ function RegisterPage(props) {
         navigate("/verifyEmail"); // navigate to verification page on success
       })
       .catch((error) => {
-        console.log(error);
         if (error === "redirect") navigate("/verifyEmail");
-        console.error("Registration error:", error);
+        else console.error("Registration error:", error);
         setErrorMsg(error || "An error occurred during registration.");
         setIsLoading(false);
       });
@@ -59,7 +63,7 @@ function RegisterPage(props) {
     <Box
       className="registerSection"
       sx={{
-        backgroundImage: `url(${"./icons/background.jpg"})`,
+        backgroundImage: `url(${backgroundImageUrl})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}

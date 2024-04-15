@@ -2,22 +2,26 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { login } from "../../../../features/auth/authSlice.js";
-import { Card, Button, Typography, Box, Link, Alert, Grid } from "@mui/joy";
+import { Card, Button, Typography, Box, Link, Alert, Grid, useTheme } from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
 import { fetchLocations } from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
 import { getGlobalHuntInfo } from "../../../../features/hunt/huntSlice.js";
 import { useTranslation } from "react-i18next";
+
 function LoginPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.auth);
+  const { status } = useSelector((state) => state.auth);
   const isLoading = status === "loading";
   const { t } = useTranslation();
+  const theme = useTheme(); // This hook provides the theme context
+  const isDarkMode = theme.palette.mode === 'dark'; // Check if the theme mode is 'dark'
+  const backgroundImageUrl = isDarkMode ? "./icons/backgroundDark.jpg" : "./icons/backgroundLight.jpg";
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -44,7 +48,7 @@ function LoginPage(props) {
     <Box
       className="authSection"
       sx={{
-        backgroundImage: `url(${"./icons/background.jpg"})`,
+        backgroundImage: `url(${backgroundImageUrl})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}

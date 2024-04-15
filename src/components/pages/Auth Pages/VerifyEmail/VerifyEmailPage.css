@@ -1,0 +1,34 @@
+/* This sets up the main section for the register page, making sure the form is centered both vertically and horizontally */
+.verificationSection {
+    display: flex;
+    justify-content: center; /* Centers horizontally in the flex container */
+    align-items: center; /* Centers vertically in the flex container */
+    width: 100dvw;
+    padding: 20px; /* Adds some padding around the section to ensure content does not touch the edges */
+}
+
+/* Styles for the card component that contains the registration form */
+.verificationCard {
+    display: flex;
+    flex-direction: column; /* Aligns form elements vertically */
+    flex-basis: 70vw; /* Base width of the card is 70% of the viewport width, giving it a responsive feel */
+    min-width: fit-content; /* Ensures card does not shrink beyond the content it contains */
+    max-width: 500px; /* Ensures card does not grow beyond 400px, for better readability */
+    padding: 20px; /* Adds padding inside the card for spacing around form elements */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to lift the card off the page */
+    border-radius: 8px; /* Rounds the corners of the card */
+}
+
+/* Additional styling to enhance the look and feel */
+
+
+
+/* Styling links for better visibility and interactivity */
+a {
+    color: #007bff; /* Sets a primary color for links */
+    text-decoration: none; /* Removes underline from links */
+}
+
+a:hover {
+    text-decoration: underline; /* Adds underline on hover for better interactivity */
+}
