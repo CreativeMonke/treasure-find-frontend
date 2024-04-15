@@ -63,5 +63,9 @@
   "showQuestion":"Show question",
   "timeLeftText": "left",
   "emptyErrorMessage": "Form cannot be empty",
-  "timeExpired" : "Time has expired!"
+  "timeExpired" : "Time has expired!",
+  "verificationCode": "Verification Code",
+  "verifyYourEmail": "Verify Your Email",
+  "verify": "Verify",
+  "enterVerificationCode": "Please enter the verification code sent to your email."
 }

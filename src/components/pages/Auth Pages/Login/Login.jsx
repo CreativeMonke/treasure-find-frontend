@@ -75,17 +75,17 @@ function LoginPage(props) {
           )}
           <Grid item xs={12}>
             <InputField
-              label="Email"
+              label={t("emailPlaceholder")}
               type="email"
-              placeholder="Email"
+              placeholder={t("emailPlaceholder")}
               setValue={setEmail}
             />
           </Grid>
           <Grid item xs={12}>
             <InputField
-              label="Password"
+              label={t("passwordPlaceholder")}
               type="password"
-              placeholder="Password"
+              placeholder={t("passwordPlaceholder")}
               setValue={setPassword}
             />
           </Grid>

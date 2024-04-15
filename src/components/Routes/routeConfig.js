@@ -12,6 +12,7 @@ import GlobalSettingsPage from '../pages/Settings/HuntSettings/GlobalSettingsPag
 import UserAnswersPage from '../pages/UserAnswers/userView/userAnswersPage.jsx';
 import AdminAnswersLandingPage from '../pages/UserAnswers/adminView/answersAdminLandingPage.jsx';
 import LandingPage from '../pages/Landing/LandingPage.jsx';
+import VerifyEmailPage from '../pages/Auth Pages/VerifyEmail/VerifyEmailPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -83,6 +84,13 @@ const routeConfig = [
   {
     path: '/register',
     element: RegisterPage,
+    protected: false,
+    permissionLevel : null,
+
+  },
+  {
+    path: '/verifyEmail',
+    element: VerifyEmailPage,
     protected: false,
     permissionLevel : null,
 

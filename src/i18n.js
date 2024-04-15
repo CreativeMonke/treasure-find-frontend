@@ -15,17 +15,6 @@ i18n
     keySeparator: false,
     interpolation: {
       escapeValue: false,
-      format: (value, format, lng) => {
-        console.log("Formatting:", { value, format, lng });
-        if (format === 'lowercase') {
-          return value.toLocaleLowerCase();
-        } else if (format === 'capitalize') {
-          return value.replace(/\b\w/g, char => char.toLocaleUpperCase(lng));
-        } else {
-          console.warn("Unknown format:", format); // Log a warning for unknown formats
-        }
-        return value;
-      },
     },
     backend: { // Configuration for the backend plugin
       loadPath: '/locales/{{lng}}/{{ns}}.json', // Path to the translation files

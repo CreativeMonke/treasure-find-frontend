@@ -16,6 +16,8 @@ import "./RegisterPage.css";
 import InputField from "../../components/InputField";
 import { useTranslation } from "react-i18next"; // Import useTranslation
 import cities from "../../../../data/romanianCities.json";
+import { useDispatch } from "react-redux";
+import { register } from "../../../../features/auth/authSlice";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function RegisterPage(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,36 +29,30 @@ function RegisterPage(props) {
   const [errorMsg, setErrorMsg] = useState(null);
   const { t } = useTranslation(); // Initialize useTranslation hook
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   async function handleSubmit(e) {
     setIsLoading(true);
     e.preventDefault();
-    try {
-      const response = await axios.post(`${apiUrl}auth/register`, {
+    dispatch(
+      register({
         first_name: firstName,
         last_name: lastName,
         town,
         email,
         password,
+      })
+    )
+      .unwrap()
+      .then((response) => {
+        navigate("/verifyEmail"); // navigate to verification page on success
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error === "redirect") navigate("/verifyEmail");
+        console.error("Registration error:", error);
+        setErrorMsg(error || "An error occurred during registration.");
+        setIsLoading(false);
       });
-
-      if (response.data.status === "success") {
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
-      } else {
-        console.log(response);
-        setErrorMsg(response.data.message);
-      }
-    } catch (error) {
-      console.error("Registration error:", error.response.data);
-      setErrorMsg(
-        error.response.data.message ||
-          error.response.data.error.undefined ||
-          "An error occurred during registration."
-      );
-    }
-    setIsLoading(false);
   }
 
   return (
@@ -109,9 +105,15 @@ function RegisterPage(props) {
             />
           </Grid>
           <Grid item xs={6}>
-          <Select placeholder={t("town")} onChange={(e) => setTown(e.target.textContent)} size = "sm">
-              {cities.map(city => (
-                <Option key={city.abr} value={city.nume}>{city.nume}</Option>
+            <Select
+              placeholder={t("town")}
+              onChange={(e) => setTown(e.target.textContent)}
+              size="sm"
+            >
+              {cities.map((city) => (
+                <Option key={city.abr} value={city.nume}>
+                  {city.nume}
+                </Option>
               ))}
             </Select>
           </Grid>

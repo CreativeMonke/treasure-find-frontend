@@ -6,7 +6,7 @@
   "town": "Oras",
   "register": "Înregistrează-te",
   "emailPlaceholder": "Email",
-  "passwordPlaceholder": "Parola",
+  "passwordPlaceholder": "Parolă",
   "signIn": "Conectează-te",
   "errorMsg": "A apărut o eroare la autentificare",
   "Invalid email or password": "Email sau parolă invalidă",
@@ -64,5 +64,10 @@
   "showQuestion": "Afișează întrebarea",
   "timeLeftText": "rămas",
   "emptyErrorMessage": "Formularul nu poate fi gol",
-  "timeExpired" : "Timpul a expirat!"
+  "timeExpired" : "Timpul a expirat!",
+  "verificationCode": "Cod de verificare",
+  "verifyYourEmail": "Verifică-ți Emailul",
+  "verify": "Verifică",
+  "enterVerificationCode": "Vă rugăm să introduceți codul de verificare trimis pe emailul dvs."
+
 }

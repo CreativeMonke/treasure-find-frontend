@@ -56,6 +56,21 @@ export const login = createAsyncThunk("auth/login", async (credentials, { reject
         return rejectWithValue(err);
     }
 });
+
+export const register = createAsyncThunk("auth/register", async (userData, { rejectWithValue }) => {
+    try {
+        const response = await axios.post(`${apiUrl}auth/register`, userData);
+        if (response.data.status === "success") {
+            localStorage.setItem('emailForVerification', userData.email); // Store email for verification page
+            return response.data;
+        } else {
+            return rejectWithValue(response.data.message);
+        }
+    } catch (err) {
+        return rejectWithValue(err.response.status === 409 ? "redirect" : err.response.data.message);
+    }
+}
+);
 export const logout = createAsyncThunk("auth/logout", async (_, { getState, rejectWithValue }) => {
     try {
         axios.get(`${apiUrl}auth/logout`, {
@@ -69,6 +84,24 @@ export const logout = createAsyncThunk("auth/logout", async (_, { getState, reje
         return rejectWithValue(err);
     }
 });
+
+export const verifyEmail = createAsyncThunk("auth/verifyEmail", async ({ email, verificationCode }, { rejectWithValue }) => {
+    try {
+        const response = await axios.post(`${apiUrl}auth/verifyEmail`, {
+            email,
+            verificationCode
+        });
+        if (response.data.status === "success") {
+            localStorage.removeItem('emailForVerification'); // Clean up after verification
+            return response.data;
+        } else {
+            return rejectWithValue(response.data.message);
+        }
+    } catch (error) {
+        return rejectWithValue(error.response.data.message || "An error occurred during email verification.");
+    }
+}
+);
 
 export const startHunt = createAsyncThunk("users/startHunt", async (_, { getState, rejectWithValue }) => {
     try {
@@ -115,17 +148,6 @@ const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        /*
-        logout(state) {
-            state.isLoggedIn = false;
-            state.user = null;
-            state.sessionId = null;
-            state.status = 'idle';
-            state.error = null;
-            localStorage.removeItem('sessionId');
-            localStorage.removeItem('userInfo');
-        },
-        */
         initializeAuthState(state) {
             const sessionId = sessionStorage.getItem('sessionId');
             const userInfo = sessionStorage.getItem('userInfo');
@@ -187,7 +209,28 @@ const authSlice = createSlice({
                 state.error = null;
                 localStorage.removeItem('sessionId');
                 localStorage.removeItem('userInfo');
-            });
+            })
+            .addCase(register.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.status = 'succeeded'; // You might want to manage state flags specific to registration
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload || "Failed to register";
+            })
+            .addCase(verifyEmail.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            ;
     },
 });
 export const { initializeAuthState } = authSlice.actions;
