@@ -31,7 +31,9 @@ function TitleCard() {
         }}
       >
         <Typography color="primary" level="h3">
-          Vanatoare de comori
+          Vanatoare de comori culturală
+        </Typography>
+        <Typography color="primary" level="h5">
         </Typography>
         <Divider></Divider>
         <Typography color="primary" level="title-md">

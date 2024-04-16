@@ -41,7 +41,7 @@ function LandingPage() {
           <Card size="lg">
             <CardContent>
               <Typography color="primary" level="body-lg">
-                Îmbină distracția cu cultura într-o vânătoare de indicii prin
+                Îmbină distracția și cultura într-o vânătoare de indicii prin
                 Iași! Observă, descoperă și răspunde provocărilor din cele mai
                 emblematice locuri ale orașului. Ești gata să demonstrezi cât de
                 atent poți fi?
@@ -58,10 +58,12 @@ function LandingPage() {
                       flexDirection: "Row",
                       justifyContent: "center",
                       alignItems: "center",
+                      textAlign: "center",
                     }}
                   >
                     <Typography level="body-lg">
-                      Esti gata pentru distractie?
+                      Ești gata de distracție? Autentifică-te sau creează un
+                      cont pentru a începe.
                     </Typography>
                   </CardContent>
                   <CardContent
@@ -84,6 +86,9 @@ function LandingPage() {
                       variant="outlined"
                       onClick={() => {
                         navigate("/register");
+                      }}
+                      sx={{
+                        minWidth: "max-content",
                       }}
                     >
                       {t("register")}

@@ -8,7 +8,10 @@ function HasEndedHuntComponent() {
   
   return (
     <Stack spacing={2}>
-      <Typography level="h2" color="warning">
+      <Typography level="h2" color="warning" sx = {{
+        textAlign: "center",
+
+      }}>
         {t("hasEndedHuntMessage")}
       </Typography>
       <NrOfCorrectAnswers />

@@ -15,7 +15,9 @@ function EventErrors({ hasStarted, hasEnded }) {
 
   return (
     <Stack>
-      <Typography level="h2" color="primary">
+      <Typography level="h2" color="primary" sx = {{
+        textAlign: "center"
+      }}>
         {errorMsg}
       </Typography>
       {hasEnded && hasStarted && <NrOfCorrectAnswers />}

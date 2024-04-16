@@ -7,7 +7,9 @@ function NoLocationComponent() {
 
   return (
     <Stack>
-      <Typography level="h2" color="danger">
+      <Typography level="h2" color="danger" sx = {{
+        textAlign: "center"
+      }}>
         {t("locationPermissionRequired")}
       </Typography>
     </Stack>

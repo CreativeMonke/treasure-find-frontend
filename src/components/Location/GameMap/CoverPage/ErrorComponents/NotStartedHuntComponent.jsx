@@ -14,7 +14,9 @@ function NotStartedHuntComponent() {
   }
   return (
     <Stack spacing={4} sx={{}}>
-      <Typography level="h2" color="primary">
+      <Typography level="h2" color="primary" sx = {{
+        textAlign: "center"
+      }}>
         {t("notStartedHuntMessage")}
       </Typography>
       <Button
