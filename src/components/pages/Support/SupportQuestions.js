@@ -152,7 +152,7 @@ const supportQuestions = [
       },
       {
         isHeader: false,
-        text: "Utilizează formularul Google Forms disponibil pe hartă sau pe pagina de asistență."
+        text: "Utilizează formularul Google Forms disponibil în secțiunea 'Acasă' după finalizarea evenimentului"
       },
     ],
   },
@@ -175,7 +175,29 @@ const supportQuestions = [
         isHeader: false,
         text: "Feedback după Trimitere: În cazul în care răspunsul a fost actualizat cu succes, vei primi o confirmare. Dacă întâmpini probleme tehnice sau ai întrebări suplimentare legate de procesul de răspundere, poți accesa oricând pagina de suport sau contacta echipa tehnică prin email."
       },
+
     ],
   },
+  {
+    question: "Date de contact",
+    content: [
+      {
+        isHeader: true,
+        text: "Pentru întrebări sau suport, poți contacta echipa prin următoarele metode:"
+      },
+      {
+        isHeader: false,
+        text: "Email suport: treasure.find.oni2024@gmail.com"
+      },
+      {
+        isHeader: false,
+        text: "Email personal: rares.cristian.darabana@gmail.com"
+      },
+      {
+        isHeader: true,
+        text: "Mai multe informații: onigim2024.racovita.ro"
+      },
+    ],
+  }
 ];
 export default supportQuestions;

@@ -20,7 +20,6 @@ export default function QuestionCard({ question, content }) {
       sx={{
         perspective: "1500px",
         minHeight: "500px",
-        height: "90vh",
         maxHeight: "600px",
         width: "100%",
         height: "100%",
@@ -28,6 +27,7 @@ export default function QuestionCard({ question, content }) {
         justifyContent: "center",
         alignItems: "center",
         transition: "transform 0.3s, box-shadow 0.3s",
+        borderRadius: "10px",
         boxShadow: flipped
           ? "5px 10px 20px var"
           : "2px 5px 10px var(--joy-palette-neutral-700, #32383E)",
@@ -62,12 +62,15 @@ export default function QuestionCard({ question, content }) {
             alignItems: "center",
             backfaceVisibility: "hidden",
             position: "absolute",
-            p: 2,
           }}
         >
           <Typography
             level="h2"
             textColor={textColor}
+            sx={{
+              width: "100%",
+              textAlign: "center",
+            }}
           >
             {question}
           </Typography>

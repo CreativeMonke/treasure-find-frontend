@@ -5,14 +5,14 @@ import supportQuestions from "./SupportQuestions.js";
 function SupportPage(props) {
   return (
     <Sheet
-    variant="soft"
-    sx={{
-      p: 3,
-      overflow: "auto",
-      display: "flex",
-      flexDirection: "column",
-      borderRadius: "10px",
-    }}
+      variant="soft"
+      sx={{
+        p: 3,
+        overflow: "auto",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: "10px",
+      }}
     >
       <Grid
         container // Specify this Grid as a container
@@ -30,15 +30,13 @@ function SupportPage(props) {
         ))}
       </Grid>
       <Box
-        component="footer"
         sx={{
-          mt: 'auto', // Pushes the footer to the bottom of the sheet
-          mt: 5, // Padding on the top and bottom
-          textAlign: 'center', // Center the text
+          mt: 20, // Padding on the top and bottom
+          textAlign: "center", // Center the text
         }}
       >
-        <Typography level = "title-lg">
-        Realizat de Darabana Rares Cristian
+        <Typography level="title-lg" >
+          Realizat de Darabana Rares Cristian
         </Typography>
       </Box>
     </Sheet>

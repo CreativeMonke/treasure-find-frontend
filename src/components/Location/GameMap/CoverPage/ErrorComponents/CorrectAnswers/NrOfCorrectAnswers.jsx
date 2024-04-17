@@ -3,7 +3,7 @@ import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { getNumberOfCorrectAnswers } from "../../../../../../features/answers/answerSlice";
-import { Typography } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 
 function NrOfCorrectAnswers() {
     const [nrOfCorrectAnswers, setNrOfCorrectAnswers] = useState(0);
@@ -19,7 +19,7 @@ function NrOfCorrectAnswers() {
     waitForNumberOfCorrectAnswers();
   }, []);
   return (
-    <Fragment>
+    <Box textAlign="center">
       <Typography level="title-md" color="primary">
         {`${t("preliminaryResults")}: `}
         <Typography level="title-lg" color="success">
@@ -31,7 +31,7 @@ function NrOfCorrectAnswers() {
         </Typography>
         {` ${t("answers").toLowerCase()}`}
       </Typography>
-    </Fragment>
+    </Box>
   );
 }
 export default NrOfCorrectAnswers;
