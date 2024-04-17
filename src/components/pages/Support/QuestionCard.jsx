@@ -19,8 +19,9 @@ export default function QuestionCard({ question, content }) {
     <Box
       sx={{
         perspective: "1500px",
-        minHeight: "45vh",
-        maxHeight: "400px",
+        minHeight: "500px",
+        height: "90vh",
+        maxHeight: "600px",
         width: "100%",
         height: "100%",
         display: "flex",
