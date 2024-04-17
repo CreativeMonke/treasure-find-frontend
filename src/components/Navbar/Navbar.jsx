@@ -329,8 +329,8 @@ function NavBar() {
           <ListItem>
             <ListItemButton
               component={Link}
-              to="/about/support"
-              selected={isCurrent("/about/support")}
+              to="/support"
+              selected={isCurrent("/support")}
               onClick={toggleDrawer}
             >
               <SupportRounded />

@@ -12,6 +12,7 @@ import UserAnswersPage from '../pages/UserAnswers/userView/userAnswersPage.jsx';
 import AdminAnswersLandingPage from '../pages/UserAnswers/adminView/answersAdminLandingPage.jsx';
 import LandingPage from '../pages/Landing/LandingPage.jsx';
 import VerifyEmailPage from '../pages/Auth Pages/VerifyEmail/VerifyEmailPage.jsx';
+import SupportPage from '../pages/Support/SupportPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -99,6 +100,13 @@ const routeConfig = [
     element: GlobalSettingsPage,
     protected: true,
     permissionLevel : "0x60",
+
+  },
+  {
+    path: '/support',
+    element: SupportPage,
+    protected: true,
+    permissionLevel : "0x01",
 
   },
   
