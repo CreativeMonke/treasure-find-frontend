@@ -8,32 +8,41 @@ import {
   Typography,
   Grid,
   Card,
-  CardOverflow,
   CardContent,
-  AspectRatio,
   Stack,
-  Divider,
-  Avatar,
   Button,
   Box,
-  CircularProgress,
+  useTheme,
 } from "@mui/joy";
-import About from "../About";
 import RemainingTime from "../components/RemainingTime";
-import { FestivalRounded, PeopleRounded } from "@mui/icons-material";
+import { PeopleRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import "./LandingPage.css"
 function LandingPage() {
   const navigate = useNavigate();
+  const theme = useTheme();
   const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
   const { t } = useTranslation();
+  const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
+
+  const backgroundImageUrl = isDarkMode
+    ? "./icons/backgroundDark.jpg"
+    : "./icons/backgroundLight.jpg";
+
   return (
     <React.Fragment>
       <Sheet
+        component="main"
+        className="MainContent"
+        boxSizing="border-box"
+        maxHeight="100vh"
         sx={{
-          height: "100%",
           overflow: "auto",
+          width:"100dvw",
           p: 2,
-          borderRadius: "10px",
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
         }}
       >
         <Stack spacing={3}>
@@ -59,6 +68,7 @@ function LandingPage() {
                       justifyContent: "center",
                       alignItems: "center",
                       textAlign: "center",
+                     
                     }}
                   >
                     <Typography level="body-lg">
@@ -119,6 +129,44 @@ function LandingPage() {
                   icon={<PeopleRounded />}
                   isPercent
                 />
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <Card size="lg">
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "Row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography level="body-lg">
+                      Întâmpini probleme sau ai întrebări? Suntem aici să te
+                      ajutăm! Accesează pagina noastră de suport!
+                    </Typography>
+                  </CardContent>
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "Row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        navigate("/docs/support");
+                      }}
+                      sx={{
+                        minWidth: "max-content",
+                      }}
+                    >
+                      {t("support")}
+                    </Button>
+                  </CardContent>
+                </Card>
               </Grid>
               {/*  <Grid item xs={12}>
                 <About />

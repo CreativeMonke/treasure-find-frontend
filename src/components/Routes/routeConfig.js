@@ -13,6 +13,7 @@ import AdminAnswersLandingPage from '../pages/UserAnswers/adminView/answersAdmin
 import LandingPage from '../pages/Landing/LandingPage.jsx';
 import VerifyEmailPage from '../pages/Auth Pages/VerifyEmail/VerifyEmailPage.jsx';
 import SupportPage from '../pages/Support/SupportPage.jsx';
+import DocsSupportPage from '../Docs/Support/DocsSupportPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -107,6 +108,13 @@ const routeConfig = [
     element: SupportPage,
     protected: true,
     permissionLevel : "0x01",
+
+  },
+  {
+    path: 'docs/support',
+    element: DocsSupportPage,
+    protected: false,
+    permissionLevel : null,
 
   },
   

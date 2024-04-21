@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 function PageStructureWithRouter() {
   const location = useLocation();
-  const singleBodyPages = ["/login", "/register", "/landing" , "/verifyEmail"];
+  const singleBodyPages = ["/login", "/register", "/landing" , "/verifyEmail","/docs/support"];
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <>
