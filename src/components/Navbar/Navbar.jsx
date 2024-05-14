@@ -13,7 +13,7 @@ import {
 } from "@mui/joy";
 import Drawer from "@mui/joy/Drawer";
 import IconButton from "@mui/joy/IconButton";
-import MenuIcon from "@mui/icons-material/Menu"; // Ensure you have @mui/icons-material installed
+import MenuIcon from "@mui/icons-material/Menu";
 import "./navbar.css";
 import {
   Group,
