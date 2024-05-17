@@ -20,7 +20,14 @@ function Home() {
     [answers]
   );
   return (
-    <Box className="page-root" backgroundColor="background.body">
+    <Box
+      className="page-root"
+      backgroundColor="background.body"
+      sx={{
+        borderRadius: 7,
+        opacity: 0.95
+      }}
+    >
       {huntInfo.status === "succeeded" ? (
         <MapWithLocations
           locations={locations}

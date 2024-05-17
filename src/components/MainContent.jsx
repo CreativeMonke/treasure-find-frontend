@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@mui/joy/Box";
-import { GlobalStyles } from "@mui/joy";
+import { GlobalStyles, useTheme } from "@mui/joy";
 import routeConfig from "./Routes/routeConfig.js";
 import ProtectedRoute from "./ProtectedRoute.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
@@ -8,9 +8,19 @@ import Layout from "./Layout.tsx";
 
 function MainContent() {
   const location = useLocation();
-  const hideForRoutes = ["/login", "/register", "/verifyEmail","/docs/support","/landing"];
+  const hideForRoutes = [
+    "/login",
+    "/register",
+    "/verifyEmail",
+    "/docs/support",
+    "/landing",
+  ];
   const shouldHideBox = hideForRoutes.includes(location.pathname);
-
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === "dark";
+  const backgroundImageUrl = isDarkMode
+    ? "./icons/backgroundDark.jpg"
+    : "./icons/backgroundLight.jpg";
   return !shouldHideBox ? (
     <Box
       component="main"
@@ -19,6 +29,9 @@ function MainContent() {
       maxHeight="100vh"
       sx={{
         backgroundColor: "background.body",
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
         px: { xs: 2, md: 3 },
         pt: {
           xs: "calc(22px + var(--Header-height))",

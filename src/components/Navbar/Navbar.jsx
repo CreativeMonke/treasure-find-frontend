@@ -22,7 +22,6 @@ import {
   LogoutRounded,
   MapOutlined,
   QuestionAnswerRounded,
-  StickyNote2Rounded,
   SupportRounded,
 } from "@mui/icons-material";
 import Header from "../pages/PageStructure/Header";
