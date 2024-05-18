@@ -264,16 +264,6 @@ function NavBar() {
                       <ListItem>
                         <ListItemButton
                           component={Link}
-                          to="/user/overview"
-                          selected={isCurrent("/user/overview")}
-                          onClick={toggleDrawer}
-                        >
-                          {t("userOverview")}
-                        </ListItemButton>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemButton
-                          component={Link}
                           to="/answers/adminView"
                           selected={isCurrent("/answers/adminView")}
                           onClick={toggleDrawer}

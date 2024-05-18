@@ -5,10 +5,10 @@ import LocationRow from "./LocationRow";
 import { useSelector } from "react-redux";
 import { Divider, Grid, Typography } from "@mui/joy";
 import CreateButton from "./Create/CreateButton";
-
+import { useTranslation } from "react-i18next";
 function LocationsTable() {
   const locations = useSelector((state) => state.locations.locations);
-
+  const { t } = useTranslation();
   return (
     <Sheet
       variant="soft"
@@ -20,30 +20,27 @@ function LocationsTable() {
         borderRadius: "10px",
       }}
     >
-      <Grid container spacing={4}>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography level="h1">Locations admin view</Typography>
+          <Typography level="h1">{`${t("edit")} ${t("the_locations")}`}</Typography>
         </Grid>
         <Grid item xs={12}>
-          <Divider>All Locations</Divider>
+          <Divider>{`${t("all")} ${t("the_locations")}`}</Divider>
         </Grid>
         <Grid item xs={12}>
-          <Sheet
-            variant="plain"
-          >
+          <Sheet variant="plain">
             <Table
               borderAxis="xBetween"
               size="md"
               noWrap
               stickyFooter={false}
-              stickyHeader
             >
               <thead>
                 <tr>
                   <th width="10%">#</th>
-                  <th>Name</th>
-                  <th>Question</th>
-                  <th>Correct Answer</th>
+                  <th>{`${t("name")}`}</th>
+                  <th>{`${t("question")}`}</th>
+                  <th>{`${t("correctAnswer")}`}</th>
                   <th width="80px"></th>
                 </tr>
               </thead>
