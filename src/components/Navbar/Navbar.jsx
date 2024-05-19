@@ -317,10 +317,9 @@ function NavBar() {
           )}
           <ListItem>
             <ListItemButton
-              component={Link}
-              to="/support"
-              selected={isCurrent("/support")}
-              onClick={toggleDrawer}
+              onClick={() =>
+                (window.location.href = "https://docs-treasure-find.vercel.app")
+              }
             >
               <SupportRounded />
               {t("support")}
