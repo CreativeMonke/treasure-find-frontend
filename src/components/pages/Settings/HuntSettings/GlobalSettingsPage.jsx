@@ -7,8 +7,10 @@ import {
 } from "../../../../features/hunt/huntSlice"; // Ensure this import path matches your project structure
 import TimePick from "./TimePick";
 import { BlockRounded, CheckCircleRounded } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 export default function GlobalSettingsPage() {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   // Access your Redux state; ensure this selector matches your state shape
   const { startTime, endTime } = useSelector(
@@ -54,7 +56,7 @@ export default function GlobalSettingsPage() {
         borderRadius: "10px",
       }}
     >
-      <Typography level="h1">Global Settings</Typography>
+      <Typography level="h1">{`${t("globalSettings")}`}</Typography>
       <Grid container spacing={2}>
         <Grid
           item
@@ -101,7 +103,7 @@ export default function GlobalSettingsPage() {
                 "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
             }}
           >
-            <Typography level="title-lg">Answers Ready:</Typography>
+            <Typography level="title-lg">{`${t("showAnswers")}?`}</Typography>
             <IconButton onClick={handleButtonClick}>
               {!answersReady ? <BlockRounded color = "danger"/> : <CheckCircleRounded color = "success"/>}
             </IconButton>

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import MapModal from "../../../../Location/Modal/MapModal";
 import { Button, Grid } from "@mui/joy";
 import InputField from "../../../components/InputField";
+import { useTranslation } from "react-i18next";
 function SelectLocationSection(props) {
+  const {t} = useTranslation();
   const [lat,setLat] = useState(null);
   const [lng,setLng] = useState(null);
   ///On latlng update, uptade lat and lng values also
@@ -27,10 +29,10 @@ function SelectLocationSection(props) {
         }}
       >
         <Grid item xs={6} xl = {3}>
-          <InputField label="Lat" placeholder = "No value set" setValue={setLat} value = {lat}/>
+          <InputField label="Lat" placeholder = {t("noValue")} setValue={setLat} value = {lat}/>
         </Grid>
         <Grid item xs={6} xl = {3}>
-          <InputField label="Lng" placeholder = "No value set" setValue={setLng} value = {lng}/>
+          <InputField label="Lng" placeholder = {t("noValue")} setValue={setLng} value = {lng}/>
         </Grid>
         <Grid
           item

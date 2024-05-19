@@ -13,7 +13,7 @@ import {
   Typography,
   AspectRatio,
 } from "@mui/joy";
-import {  useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   fetchLocations,
   updateLocation,
@@ -26,8 +26,10 @@ import {
   ShareLocationRounded,
 } from "@mui/icons-material";
 import ImageIconRounded from "@mui/icons-material/Image";
+import { useTranslation } from "react-i18next";
 
-function EditLocationModal({open,setOpen,location}) {
+function EditLocationModal({ open, setOpen, location }) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const dispatch = useDispatch();
@@ -39,9 +41,7 @@ function EditLocationModal({open,setOpen,location}) {
     radius: location.radius,
     lat: location.lat,
     lng: location.lng,
-    // Potentially add more fields as needed
   });
-
 
   const handleFieldChange = (field) => (value) => {
     if (!value) setHasError(true);
@@ -99,7 +99,7 @@ function EditLocationModal({open,setOpen,location}) {
             justifyContent: "center",
           }}
         >
-          <Typography level="title-lg">Editing</Typography>
+          <Typography level="title-lg">{t("editing")}</Typography>
           <ArrowRightAlt />
           <Typography level="title-lg" color="warning">
             {location.name}
@@ -111,7 +111,7 @@ function EditLocationModal({open,setOpen,location}) {
             <Grid container spacing={2} sx={{ overflow: "auto", margin: 1 }}>
               <Grid item xs={6}>
                 <GridItem
-                  label="Question"
+                  label={t("question")}
                   hasError={hasError}
                   value={locationFields.question}
                   onChange={handleFieldChange("question")}
@@ -119,7 +119,7 @@ function EditLocationModal({open,setOpen,location}) {
               </Grid>
               <Grid item xs={6}>
                 <GridItem
-                  label="Answer"
+                  label={t("answers")}
                   hasError={hasError}
                   value={locationFields.answer}
                   onChange={handleFieldChange("answer")}
@@ -127,7 +127,7 @@ function EditLocationModal({open,setOpen,location}) {
               </Grid>
               <Grid item xs={6}>
                 <GridItem
-                  label="Image"
+                  label={t("image")}
                   hasError={hasError}
                   value={locationFields.imgSrc}
                   onChange={handleFieldChange("imgSrc")}
@@ -171,7 +171,7 @@ function EditLocationModal({open,setOpen,location}) {
               </Grid>
               <Grid item xs={6}>
                 <GridItem
-                  label="Radius"
+                  label={t("radius")}
                   hasError={hasError}
                   value={locationFields.radius}
                   onChange={handleFieldChange("radius")}
@@ -205,7 +205,7 @@ function EditLocationModal({open,setOpen,location}) {
                 color="neutral"
                 onClick={() => setOpen(false)}
               >
-                Cancel
+                {t("cancel")}
               </Button>
             </Grid>
             <Grid item xs={6}>
@@ -216,7 +216,7 @@ function EditLocationModal({open,setOpen,location}) {
                 endDecorator={<SaveRounded />}
                 onClick={handleSave}
               >
-                Save
+                {t("save")}
               </Button>
             </Grid>
           </Grid>

@@ -9,8 +9,9 @@ import {
 } from "@mui/joy";
 import React, { useState } from "react";
 import InputField from "../../../components/InputField";
+import { useTranslation } from "react-i18next";
 function ImageSection(props) {
-
+  const { t } = useTranslation();
   return (
     <Grid
       container
@@ -27,9 +28,9 @@ function ImageSection(props) {
         }}
       >
         <InputField
-          label="Image Source"
+          label={t("imageSource")}
           setValue={props.setValue}
-          placeholder="Enter img address"
+          placeholder={`${t("enter")} ${t("imageSource")}`}
         />
       </Grid>
       <Grid item xs={6} />

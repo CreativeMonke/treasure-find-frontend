@@ -18,8 +18,10 @@ import {
   DialogActions,
 } from "@mui/joy";
 import { DeleteForeverOutlined, DetailsRounded } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 function DeleteLocationModal({ open, setOpen, index, location }) {
+  const {t} = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -43,7 +45,7 @@ function DeleteLocationModal({ open, setOpen, index, location }) {
         <ModalClose variant="plain" />
         <DialogTitle id="modal-title">
           <DetailsRounded />
-          Confirm Deletion of{" "}
+          {t("confirm_delete_location")}{" "}
           <Typography level="title-lg" color="warning">
             {location?.name}
           </Typography>
@@ -52,7 +54,7 @@ function DeleteLocationModal({ open, setOpen, index, location }) {
         <DialogContent sx={{ width: "40dvh", maxWidth: 800 }}>
           <Sheet>
             <Typography level="body-lg">
-              This action cannot be undone!
+              {t("actionUndoable")}
             </Typography>
           </Sheet>
         </DialogContent>
@@ -65,7 +67,7 @@ function DeleteLocationModal({ open, setOpen, index, location }) {
                 color="primary"
                 onClick={() => setOpen(false)}
               >
-                Cancel
+                {t("cancel")}
               </Button>
             </Grid>
             <Grid item xs={6}>
@@ -77,7 +79,7 @@ function DeleteLocationModal({ open, setOpen, index, location }) {
                 onClick={handleDelete}
                 loading={isLoading}
               >
-                Delete
+                {t("delete")}
               </Button>
             </Grid>
           </Grid>

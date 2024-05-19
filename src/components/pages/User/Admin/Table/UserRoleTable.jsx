@@ -3,8 +3,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Row from "./Row";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function UserRoleTable() {
+  const { t } = useTranslation();
   const { isLoggedIn, sessionId } = useSelector((state) => state.auth); // Assuming your store is set up correctly
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +27,7 @@ function UserRoleTable() {
           },
           withCredentials: true,
         });
-        const usersData = response.data.data.map(user => ({
+        const usersData = response.data.data.map((user) => ({
           id: user._id,
           firstName: user.first_name,
           lastName: user.last_name,
@@ -41,7 +43,7 @@ function UserRoleTable() {
     };
 
     getAllUsers();
-  }, [isLoggedIn, sessionId]); // Add sessionId as a dependency to re-fetch when it changes
+  }, [isLoggedIn, sessionId, apiUrl]);
 
   return (
     <Sheet variant="plain" sx={{ overflow: "auto", borderRadius: "5px", p: 1 }}>
@@ -49,16 +51,20 @@ function UserRoleTable() {
         <thead>
           <tr>
             <th width="25px">#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th width="40%">Email</th>
-            <th width="20%">Role</th>
+            <th>{t("firstName")}</th>
+            <th>{t("lastName")}</th>
+            <th width="40%">{t("emailPlaceholder")}</th>
+            <th width="20%">{t("role")}</th>
             <th width="60px"></th>
           </tr>
         </thead>
         <tbody>
           {isLoading ? (
-            <tr style={{ height: '100px' }}><td colSpan="6"><LinearProgress size="lg" /></td></tr>
+            <tr style={{ height: "100px" }}>
+              <td colSpan="6">
+                <LinearProgress size="lg" />
+              </td>
+            </tr>
           ) : (
             users.map((user, index) => (
               <Row

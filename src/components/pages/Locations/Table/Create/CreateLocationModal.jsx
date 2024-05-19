@@ -24,7 +24,9 @@ import { PlaceRounded } from "@mui/icons-material";
 import ImageSection from "./ImageSection";
 import SelectLocationSection from "./SelectLocationSection";
 import InputField from "../../../components/InputField";
+import { useTranslation } from "react-i18next";
 function CreateLocationModal(props) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
@@ -87,7 +89,7 @@ function CreateLocationModal(props) {
         <ModalClose variant="plain" />
         <DialogTitle id="modalTitle">
           <PlaceRounded />
-          Create a new location
+          {t("create_a_new_location")}
         </DialogTitle>
         <Divider />
         <DialogContent>
@@ -95,37 +97,43 @@ function CreateLocationModal(props) {
             <Grid container spacing={4} sx={{ overflow: "auto", margin: 3 }}>
               <Grid item xs={6} lg={2}>
                 <InputField
-                  label="Name"
+                  label={t("name")}
                   id="name"
-                  placeholder="Enter the desired value"
+                  placeholder={`${t("enter")} ${t("desiredValue")}(${t(
+                    "name"
+                  )})`}
                   setValue={setName}
                 />
               </Grid>
               <Grid item xs={8} lg={10} />
               <Grid item xs={6} lg={3}>
                 <InputField
-                  label="Question"
+                  label={t("question")}
                   id="question"
-                  placeholder="Enter the desired question"
+                  placeholder={`${t("enter")} ${t("desiredValue")}(${t(
+                    "question"
+                  )})`}
                   setValue={setQuestion}
                 />
               </Grid>
               <Grid item xs={6} lg={3}>
                 <InputField
-                  label="Correct answer"
+                  label={t("correctAnswer")}
                   id="answer"
-                  placeholder="Enter the correct answer to the question"
+                  placeholder={`${t("enter")} ${t("desiredValue")}(${t(
+                    "correctAnswer"
+                  )})`}
                   setValue={setAnswer}
                 />
               </Grid>
               <Grid item xs={12}>
-                <Divider>Image</Divider>
+                <Divider>{t("image")}</Divider>
               </Grid>
               <Grid item xs={12}>
                 <ImageSection setValue={setImgSrc} value={imgSrc} />
               </Grid>
               <Grid item xs={12}>
-                <Divider>Location</Divider>
+                <Divider>{t("location")}</Divider>
               </Grid>
               <Grid item xs={12}>
                 <SelectLocationSection setValue={setLatlng} value={latLng} />
@@ -139,7 +147,7 @@ function CreateLocationModal(props) {
             disabled={isFormIncomplete || isLoading}
             loading={isLoading}
           >
-            Create location
+            {t("createLocation")}
           </Button>
         </DialogActions>
       </ModalDialog>

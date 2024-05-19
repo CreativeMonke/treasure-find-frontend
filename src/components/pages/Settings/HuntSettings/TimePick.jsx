@@ -3,8 +3,9 @@ import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 import "react-datepicker/dist/react-datepicker.css";
 import { Sheet, Box, Typography, Grid, Button, Switch } from "@mui/joy";
+import { useTranslation } from "react-i18next";
 const TimePick = ({ onSave, start, end, setStart, setEnd }) => {
-  // Handle Save button click
+  const { t } = useTranslation();
   const handleSave = () => {
     // Format dates to ISO string and include timezone information
     const startTime = moment(start).tz(moment.tz.guess()).format();
@@ -25,15 +26,20 @@ const TimePick = ({ onSave, start, end, setStart, setEnd }) => {
           "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
       }}
     >
-      <Typography level="title-lg">Set Hunt Times</Typography>
+      <Typography level="title-lg">{t("huntOptions")}</Typography>
       <Grid container spacing={4}>
-        <Grid item xs={12} md={6} sx = {{
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap : 3
-        }}>
-          <Typography level="body-md">Start Time:</Typography>
+            gap: 3,
+          }}
+        >
+          <Typography level="body-md">{`${t("startTime")}:`}</Typography>
           <DatePicker
             selected={start}
             onChange={(date) => setStart(date)}
@@ -44,13 +50,18 @@ const TimePick = ({ onSave, start, end, setStart, setEnd }) => {
             dateFormat="MMMM d, yyyy h:mm aa"
           />
         </Grid>
-        <Grid item xs={12} md={6} sx = {{
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap : 3
-        }}>
-          <Typography level="body-md">End Time:</Typography>
+            gap: 3,
+          }}
+        >
+          <Typography level="body-md">{`${t("endTime")}:`}</Typography>
           <DatePicker
             selected={end}
             onChange={(date) => setEnd(date)}
@@ -64,7 +75,7 @@ const TimePick = ({ onSave, start, end, setStart, setEnd }) => {
       </Grid>
       <Grid item xs={12}>
         <Button onClick={handleSave} fullWidth sx={{ bottom: 1 }}>
-          Save Changes
+          {t("save")}
         </Button>
       </Grid>
     </Box>

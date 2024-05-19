@@ -1,6 +1,8 @@
 import { Divider, Grid, Sheet, Typography } from "@mui/joy";
 import UserRoleTable from "./Table/UserRoleTable";
+import { useTranslation } from "react-i18next";
 function UserRolesHomePage() {
+  const {t} = useTranslation(); 
   return (
     <Sheet
       variant="soft"
@@ -17,9 +19,9 @@ function UserRolesHomePage() {
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <Typography level="h1">
-            User Roles admin view
+            {`${t("users")} - ${t("rolesPermissions")}`}
           </Typography>
-          <Divider>All Roles</Divider>
+          <Divider>{`${t("users")}`}</Divider>
         </Grid>
         <Grid item xs={12}>
           <UserRoleTable />

@@ -1,7 +1,7 @@
 import React from "react";
 import { EditNoteRounded } from "@mui/icons-material";
 import { Box, IconButton, Option, Select } from "@mui/joy";
-import { Fragment, useState } from "react";
+import {  useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
@@ -39,12 +39,10 @@ function Row({
     }
   }
 
-  function handleChange(evt ,newValue) {
-    console.log(newValue)
+  function handleChange(evt, newValue) {
+    console.log(newValue);
     const newRole = newValue;
-    updateUserRole(newRole).then(()=>{
-      
-    });
+    updateUserRole(newRole).then(() => {});
   }
   return (
     <tr>
@@ -66,10 +64,10 @@ function Row({
             alignItems: "center",
           }}
         >
-          <IconButton color="primary" variant="plain" size="md">
+          <IconButton color="primary" variant="plain" size="md" disabled>
             <EditNoteRounded />
           </IconButton>
-          <IconButton color="danger" variant="plain" size="sm">
+          <IconButton color="danger" variant="plain" size="sm" disabled>
             <DeleteIcon />
           </IconButton>
         </Box>
