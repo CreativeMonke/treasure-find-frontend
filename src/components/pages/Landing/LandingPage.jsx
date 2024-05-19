@@ -17,7 +17,7 @@ import {
 import RemainingTime from "../components/RemainingTime";
 import { PeopleRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
-import "./LandingPage.css"
+import "./LandingPage.css";
 function LandingPage() {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -38,7 +38,7 @@ function LandingPage() {
         maxHeight="100vh"
         sx={{
           overflow: "auto",
-          width:"100dvw",
+          width: "100dvw",
           p: 2,
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundRepeat: "no-repeat",
@@ -68,7 +68,6 @@ function LandingPage() {
                       justifyContent: "center",
                       alignItems: "center",
                       textAlign: "center",
-                     
                     }}
                   >
                     <Typography level="body-lg">
@@ -156,9 +155,10 @@ function LandingPage() {
                   >
                     <Button
                       variant="outlined"
-                      onClick={() => {
-                        navigate("/docs/support");
-                      }}
+                      onClick={() =>
+                        (window.location.href =
+                          "https://docs-treasure-find.vercel.app")
+                      }
                       sx={{
                         minWidth: "max-content",
                       }}
