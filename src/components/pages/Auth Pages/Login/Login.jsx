@@ -28,11 +28,9 @@ function LoginPage(props) {
     dispatch(login({ email, password }))
       .unwrap()
       .then(() => {
-        dispatch(getGlobalHuntInfo()).then((action) => {
+        dispatch(getAnswersByUserId()).then((action) => {
           if (action.error == null) {
             navigate("/");
-            dispatch(fetchLocations());
-            dispatch(getAnswersByUserId());
           }
         });
       })

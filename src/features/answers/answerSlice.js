@@ -48,7 +48,7 @@ export const submitAnswer = createAsyncThunk("answer/submitAnswer", async (answe
     }
     catch (err) {
         console.error(err);
-        rejectWithValue(err);
+        return rejectWithValue(err);
     }
 });
 export const updateAnswerById = createAsyncThunk("answer/updateAnswerById", async ({ answerId, answerData }, { getState, rejectWithValue }) => {
@@ -69,7 +69,7 @@ export const updateAnswerById = createAsyncThunk("answer/updateAnswerById", asyn
     }
     catch (err) {
         console.error(err);
-        rejectWithValue(err);
+        return rejectWithValue(err);
     }
 });
 
@@ -86,7 +86,7 @@ export const getAnswer = createAsyncThunk("answer/getAnswer", async (locationId,
     }
     catch (err) {
         console.error(err);
-        rejectWithValue(err);
+        return rejectWithValue(err);
     }
 });
 
@@ -102,8 +102,8 @@ export const getAnswersByUserId = createAsyncThunk("answer/getAnswersByUserId", 
         return res.data;
     }
     catch (err) {
-        console.error(err);
-        rejectWithValue(err);
+        console.error("err",err);
+        return rejectWithValue(err);
     }
 });
 
@@ -179,6 +179,10 @@ const answerSlice = createSlice({
             .addCase(getAnswersByUserId.fulfilled, (state, action) => {
                 if (action.payload)
                     state.answers = action.payload.data;
+            })
+            .addCase(getAnswersByUserId.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
             });
     },
 });

@@ -14,6 +14,7 @@ import LandingPage from '../pages/Landing/LandingPage.jsx';
 import VerifyEmailPage from '../pages/Auth Pages/VerifyEmail/VerifyEmailPage.jsx';
 import SupportPage from '../pages/Support/SupportPage.jsx';
 import DocsSupportPage from '../Docs/Support/DocsSupportPage.jsx';
+import HuntsPage from '../pages/Hunts/HuntsPage.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -117,6 +118,12 @@ const routeConfig = [
     permissionLevel : null,
 
   },
+  {
+    path: "/hunts",
+    element: HuntsPage,
+    protected: true,
+    permissionLevel : "0x01",
+  }
   
 ];
 

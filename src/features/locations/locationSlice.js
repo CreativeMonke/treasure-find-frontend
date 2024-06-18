@@ -26,6 +26,62 @@ export const fetchLocations = createAsyncThunk("locations/fetchLocations", async
     }
 });
 
+export const getAllLocationsByUserHuntId = createAsyncThunk("locations/getAllLocationsByUserHuntId", async (_, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+    if (!auth.isLoggedIn) {
+        console.log("Not logged in");
+        return rejectWithValue("Not logged in");
+    }
+    try {
+        const res = await axios.get(`${apiUrl}locations/huntid`, {
+            headers: {
+                "sessionid": auth.sessionId,
+            },
+            withCredentials: true,
+        });
+        return res.data.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
+export const getAllLocationsByHuntId = createAsyncThunk("locations/getAllLocationsByHuntId", async (huntId, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+    if (!auth.isLoggedIn) {
+        console.log("Not logged in");
+        return rejectWithValue("Not logged in");
+    }
+    try {
+        const res = await axios.get(`${apiUrl}locations/huntid/${huntId}`, {
+            headers: {
+                "sessionid": auth.sessionId,
+            },
+            withCredentials: true,
+        });
+        return res.data.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+});
+
+export const getAllLocationsByAuthorId = createAsyncThunk("locations/getAllLocationsByAuthorId", async (_, {getState, rejectWithValue}) => {
+    const { auth } = getState();
+    if (!auth.isLoggedIn) {
+        console.log("Not logged in");
+        return rejectWithValue("Not logged in");
+    }
+    try {
+        const res = await axios.get(`${apiUrl}locations/authorid`, {
+            headers: {
+                "sessionid": auth.sessionId,
+            },
+            withCredentials: true,
+        });
+        return res.data.data;
+    } catch (err) {
+        return rejectWithValue(err.response.data);
+    }
+})
 
 export const updateLocation = createAsyncThunk(
     'locations/updateLocation',
@@ -61,7 +117,7 @@ export const addNewLocation = createAsyncThunk(
                     },
                     withCredentials: true,
                 });
-            return res.data; // Assuming the API returns the newly created location
+            return res.data;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -91,6 +147,8 @@ const locationSlice = createSlice({
     name: 'locations',
     initialState: {
         locations: [],
+        authorLocations: [],
+        huntLocations: [],
         status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
         error: null,
     },
@@ -112,9 +170,14 @@ const locationSlice = createSlice({
             .addCase(addNewLocation.fulfilled, (state, action) => {
                 state.locations.push(action.payload);
             })
-            // We don't need to handle pending or rejected for addNewLocation if we don't want to change the state
             .addCase(deleteLocation.fulfilled, (state, action) => {
                 state.locations = state.locations.filter(location => location.id !== action.payload);
+            })
+            .addCase(getAllLocationsByAuthorId.fulfilled, (state, action) => {
+                state.authorLocations = action.payload;
+            })
+            .addCase(getAllLocationsByUserHuntId.fulfilled, (state, action) => {
+                state.huntLocations = action.payload;
             });
     },
 });

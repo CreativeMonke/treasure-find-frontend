@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import NavBar from "./Navbar/Navbar.jsx";
 import MainContent from "./MainContent";
 import { useSelector } from "react-redux";
+import AlertBox from "./General/AlertBox.jsx";
 
 function PageStructureWithRouter() {
   const location = useLocation();
@@ -12,6 +13,7 @@ function PageStructureWithRouter() {
     <>
       {!singleBodyPages.includes(location.pathname) && isLoggedIn && <NavBar />}
       <MainContent />
+      <AlertBox />
     </>
   );
 }

@@ -11,7 +11,6 @@ function Home() {
   const { huntState } = useSelector((state) => state.auth);
   const huntInfo = useSelector((state) => state.hunt);
 
-  ///only
   const answeredIds = useMemo(
     () =>
       answers
