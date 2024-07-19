@@ -1,6 +1,21 @@
-import { getAllHunts, joinHuntById } from "../../../../features/hunt/huntSlice";
+import { useDispatch } from "react-redux";
+import {
+  createHunt,
+  deleteHuntById,
+  editHuntOptionsById,
+  exitHuntByUserHuntId,
+  getAllHunts,
+  joinHuntById,
+} from "../../../../features/hunt/huntSlice";
 
-export const handleRequestSort = (event, property, order, setOrder, setOrderBy, orderBy) => {
+export const handleRequestSort = (
+  event,
+  property,
+  order,
+  setOrder,
+  setOrderBy,
+  orderBy
+) => {
   const isAsc = orderBy === property && order === "asc";
   setOrder(isAsc ? "desc" : "asc");
   setOrderBy(property);
@@ -19,39 +34,39 @@ export const handleStatusChange = (e, newValue, setHuntStatus) => {
 };
 
 export const handleRowClick = (hunt, setSelectedHunt) => {
-    setSelectedHunt((prevSelectedHunt) => 
-      prevSelectedHunt && prevSelectedHunt._id === hunt._id ? null : hunt
-    );
-  };
-
-export const handleCreate = () => {
-  // Logic for creating a new hunt
+  setSelectedHunt((prevSelectedHunt) =>
+    prevSelectedHunt && prevSelectedHunt._id === hunt._id ? null : hunt
+  );
 };
+
+export async function handleCreate(dispatch, updatedHunt) {
+  if (updatedHunt) {
+    await dispatch(createHunt(updatedHunt));
+  }
+}
 
 export const handleJoin = (dispatch, selectedHunt) => {
   if (selectedHunt) {
-     dispatch(joinHuntById(selectedHunt._id));
+    dispatch(joinHuntById(selectedHunt._id));
   }
 };
 
-export const handleEdit = (selectedHunt) => {
-  if (selectedHunt) {
-    // Logic for editing the selected hunt
+export async function handleEdit(dispatch, updatedHunt) {
+  if (updatedHunt) {
+    await dispatch(editHuntOptionsById(updatedHunt));
+  }
+}
+
+export const handleDelete = (dispatch, huntId, setSelectedHuntId) => {
+  if (huntId) {
+    dispatch(deleteHuntById(huntId));
+    setSelectedHuntId(null);
   }
 };
 
-export const handleDelete = (dispatch, selectedHunt, setSelectedHunt) => {
-  if (selectedHunt) {
-   // dispatch(deleteHunt(selectedHunt._id));
-    setSelectedHunt(null);
-  }
-};
-
-export const handleExit = (dispatch, selectedHunt, setSelectedHunt) => {
-  if (selectedHunt) {
-    //dispatch(exitHunt(selectedHunt._id));
-    setSelectedHunt(null);
-  }
+export const handleExit = (dispatch, setSelectedHuntId) => {
+    dispatch(exitHuntByUserHuntId());
+    setSelectedHuntId(null);
 };
 
 export const getFilteredHunts = (hunts, search, filterBy, huntStatus) => {

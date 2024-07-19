@@ -21,7 +21,7 @@ import "./LandingPage.css";
 function LandingPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const huntInfo = useSelector((state) => state.hunt.globalHuntInfo);
+  const huntInfo = useSelector((state) => state.hunt.currentHuntInfo);
   const { t } = useTranslation();
   const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
 

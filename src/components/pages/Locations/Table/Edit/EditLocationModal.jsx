@@ -16,6 +16,7 @@ import {
 import { useDispatch } from "react-redux";
 import {
   fetchLocations,
+  getAllLocationsByAuthorId,
   updateLocation,
 } from "../../../../../features/locations/locationSlice";
 import MapModal from "../../../../Location/Modal/MapModal";
@@ -70,7 +71,7 @@ function EditLocationModal({ open, setOpen, location }) {
     )
       .unwrap()
       .then(() => {
-        dispatch(fetchLocations()).unwrap();
+        dispatch(getAllLocationsByAuthorId()).unwrap();
         setIsLoading(false);
         setOpen(false);
       })

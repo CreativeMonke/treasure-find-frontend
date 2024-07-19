@@ -12,6 +12,7 @@ export const ModalProvider = ({ children }) => {
     isExitModalOpen: false,
     isJoinModalOpen: false,
     isEditModalOpen: false,
+    isCreateModalOpen: false,
     modalProps: {},
   });
 

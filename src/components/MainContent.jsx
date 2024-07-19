@@ -57,6 +57,7 @@ function MainContent() {
           },
         })}
       />
+
       <Routes>
         {routeConfig.map((route, index) => {
           const Element = route.element;

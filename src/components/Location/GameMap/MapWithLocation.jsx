@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useDispatch } from "react-redux";
 import QuestionModal from "./Modals/QuestionModal";
@@ -11,47 +11,116 @@ import { clearCurrentAnswerId } from "../../../features/answers/answerSlice.js";
 import MapCoverPage from "./CoverPage/MapCoverPage.jsx";
 import { StopCircleRounded } from "@mui/icons-material";
 import EndHuntModal from "./Modals/EndHuntModal.jsx";
-
-///Placeholder -> api querry answerByUserId
-//const answered = [1, 0, 3, 4, 5, 6, 7, 8, 9];
+import JoinHuntNow from "./CoverPage/JoinHuntNow";
 function MapWithLocations({ locations, answeredIds, huntState, huntInfo }) {
-  console.log(huntInfo);
   const dispatch = useDispatch();
   const mapRef = useRef(null);
   const [activeLocation, setActiveLocation] = useState(null);
   const [userLocation, setUserLocation] = useState([1, 1]);
   const [showEndHuntModal, setShowEndHuntModal] = useState(false);
-  if (!huntState) {
-    huntState = {
-      hasStartedHunt: false,
-      hasEndedHunt: false,
-    };
-  }
-  // Determine if locations have been answered based on `answeredIds`
+
   const answered = locations.map((location) =>
     answeredIds.includes(location._id) ? 1 : 0
   );
 
-  // Handles location selection, potentially activating a location based on proximity
-  function handleLocationSelect(location, distance) {
-    console.log(location);
+  const handleLocationSelect = (location, distance) => {
     if (distance <= location.radius || answeredIds.includes(location._id)) {
       setActiveLocation(location);
     }
-  }
+  };
 
-  // Closes the modal and clears the current answer ID from Redux state
-  function closeModal() {
+  const closeModal = () => {
     dispatch(clearCurrentAnswerId());
     setActiveLocation(null);
-  }
+  };
 
-  function toggleEndHuntModal() {
+  const toggleEndHuntModal = () => {
     setShowEndHuntModal(!showEndHuntModal);
-  }
-  function handleEndHuntModalClose() {
-    setShowEndHuntModal(false);
-  }
+  };
+
+  const renderMap = () => (
+    <Fragment>
+      <MapContainer
+        center={[47.15728152, 27.58697648]}
+        zoom={16}
+        style={{ width: "100%", height: "100%" }}
+        whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
+        {locations.map((location, index) => (
+          <RangeCircle
+            id={location._id}
+            key={location._id}
+            answered={answered[index]}
+            location={location}
+            userLocation={userLocation}
+            handleLocationSelect={handleLocationSelect}
+          />
+        ))}
+        <LiveLocationTracker
+          userLocation={userLocation}
+          setUserLocation={setUserLocation}
+        />
+        <IconButton
+          variant="soft"
+          color="danger"
+          size="lg"
+          sx={{
+            position: "absolute",
+            right: 16,
+            top: 16,
+            zIndex: 1000,
+          }}
+          onClick={toggleEndHuntModal}
+        >
+          <StopCircleRounded />
+        </IconButton>
+      </MapContainer>
+      {activeLocation && (
+        <QuestionModal
+          open={Boolean(activeLocation)}
+          hasBeenUpdated={activeLocation.hasBeenUpdated}
+          handleClose={closeModal}
+          locationId={activeLocation._id}
+          question={activeLocation.question}
+          name={activeLocation.name}
+        />
+      )}
+      {showEndHuntModal && (
+        <EndHuntModal
+          showEndHuntModal={showEndHuntModal}
+          handleEndHuntModalClose={toggleEndHuntModal}
+        />
+      )}
+    </Fragment>
+  );
+
+  const shouldRenderMap = () => {
+    return (
+      userLocation &&
+      huntState?.hasStartedHunt &&
+      !huntState.hasEndedHunt &&
+      !huntInfo?.hasEnded &&
+      huntInfo?.hasStarted
+    );
+  };
+
+  const renderContent = () => {
+    if (!huntState || huntState.length === 0) {
+      return <JoinHuntNow />;
+    }
+    return shouldRenderMap() ? renderMap() : (
+      <MapCoverPage
+        userLocationError={!!userLocation}
+        huntState={huntState}
+        huntInfo={huntInfo}
+      />
+    );
+  };
+
   return (
     <Sheet
       variant="soft"
@@ -63,78 +132,7 @@ function MapWithLocations({ locations, answeredIds, huntState, huntInfo }) {
         borderRadius: "10px",
       }}
     >
-      {userLocation &&
-      huntState &&
-      huntState.hasStartedHunt &&
-      !huntState.hasEndedHunt &&
-      !huntInfo.hasEnded &&
-      huntInfo.hasStarted ? (
-        <Fragment>
-          <MapContainer
-            center={[47.15728152, 27.58697648]}
-            zoom={16}
-            style={{ width: "100%", height: "100%" }}
-            whenCreated={(mapInstance) => (mapRef.current = mapInstance)}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors '
-              /*url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &amp; © <a href="https://carto.com/attribution">CARTO</a>'*/
-            />
-            {locations.map((location, index) => (
-              <RangeCircle
-                id={location._id}
-                key={location._id}
-                answered={answered[index]}
-                location={location}
-                userLocation={userLocation}
-                handleLocationSelect={handleLocationSelect}
-              />
-            ))}
-            <LiveLocationTracker
-              userLocation={userLocation}
-              setUserLocation={setUserLocation}
-            />
-            <IconButton
-              variant="soft"
-              color="danger"
-              size="lg"
-              sx={{
-                position: "absolute",
-                right: 16,
-                top: 16,
-                zIndex: 1000, // Ensure the button is above map layers
-              }}
-              onClick={toggleEndHuntModal}
-            >
-              <StopCircleRounded />
-            </IconButton>
-          </MapContainer>
-          {activeLocation && (
-            <QuestionModal
-              open={Boolean(activeLocation)}
-              hasBeenUpdated={activeLocation.hasBeenUpdated}
-              handleClose={closeModal}
-              locationId={activeLocation._id}
-              question={activeLocation.question}
-              name={activeLocation.name}
-            />
-          )}
-          {showEndHuntModal && (
-            <EndHuntModal
-              showEndHuntModal={showEndHuntModal}
-              handleEndHuntModalClose={handleEndHuntModalClose}
-            />
-          )}
-        </Fragment>
-      ) : (
-        <MapCoverPage
-          userLocationError={!!userLocation}
-          huntState={huntState}
-          huntInfo={huntInfo}
-        />
-      )}
+      {renderContent()}
     </Sheet>
   );
 }

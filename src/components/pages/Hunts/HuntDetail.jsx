@@ -13,6 +13,7 @@ import { DeleteForeverRounded, MapRounded } from "@mui/icons-material";
 import ConfirmationModal from "../../General/ConfirmationModal";
 import { useModal } from "./Context/modalContext";
 import EditHuntModal from "./Modals/EditHuntModal";
+import { useDispatch } from "react-redux";
 
 function HuntDetail({
   hunt,
@@ -21,9 +22,10 @@ function HuntDetail({
   handleDelete,
   handleExit,
 }) {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
-  const { openModal , modalState } = useModal();
+  const { openModal, modalState } = useModal();
 
   return (
     <Grid
@@ -105,11 +107,11 @@ function HuntDetail({
                 openModal("isEditModalOpen", {
                   huntId: hunt._id,
                   hunt,
-                  title: "Edit Hunt",
-                  content: "Edit hunt details here.",
+                  titleText: "Editing",
                   cancelText: "Cancel",
                   saveText: "Save",
-                  onSave: () => handleEdit(hunt),
+                  handleSave: (updatedHunt) =>
+                    handleEdit(dispatch, updatedHunt),
                 })
               }
             >
@@ -131,7 +133,7 @@ function HuntDetail({
                   cancelText: "Cancel",
                   saveText: "Delete",
                   saveColor: "danger",
-                  onSave: () => handleDelete(hunt),
+                  handleSave: () => handleDelete(hunt._id),
                 })
               }
             >
@@ -149,7 +151,7 @@ function HuntDetail({
                   content: "Are you sure you want to exit this hunt?",
                   cancelText: "No",
                   saveText: "Yes",
-                  onSave: () => handleExit(hunt),
+                  handleSave: () => handleExit(),
                 })
               }
             >
@@ -158,8 +160,12 @@ function HuntDetail({
           </Grid>
         </Grid>
       </Grid>
-      {modalState["isJoinModalOpen"] && <ConfirmationModal modalName="isJoinModalOpen" />}
-      {modalState["isEditModalOpen"] && <EditHuntModal modalName="isEditModalOpen" />}{" "}
+      {modalState["isJoinModalOpen"] && (
+        <ConfirmationModal modalName="isJoinModalOpen" />
+      )}
+      {modalState["isEditModalOpen"] && (
+        <EditHuntModal modalName="isEditModalOpen" />
+      )}{" "}
       <ConfirmationModal modalName="isDeleteModalOpen" />
       <ConfirmationModal modalName="isExitModalOpen" />
     </Grid>

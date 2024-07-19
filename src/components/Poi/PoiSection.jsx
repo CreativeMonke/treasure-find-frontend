@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/joy/Box";
 import PoiCard from "./PoiCard";
 import { useMediaQuery } from "usehooks-ts";
 import TimelineCard from "./TimelineCard";
-import { useSelector } from "react-redux";
-import { Sheet, Grid , Typography} from "@mui/joy";
+import { useDispatch, useSelector } from "react-redux";
+import { Sheet, Grid, Typography } from "@mui/joy";
+import { getAllLocationsByUserHuntId } from "../../features/locations/locationSlice";
 function PoiSection(props) {
-  const locations = useSelector((state) => state.locations.locations);
-  console.log(locations);
+  ///Add loading
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllLocationsByUserHuntId(props.huntId));
+  }, []);
+  const locations = useSelector((state) => state.locations.huntLocations);
   const desktop = useMediaQuery("(min-width: 900px)");
   return (
     <Sheet
@@ -19,14 +25,17 @@ function PoiSection(props) {
         flexDirection: "column",
         borderRadius: "10px",
         height: "100%",
-        overflow:"hidden",
+        overflow: "hidden",
       }}
     >
-      <Typography></Typography>
-      <Grid container spacing={5} sx={{ overflow: "auto", justifyContent:"center"}}>
+      <Grid
+        container
+        spacing={5}
+        sx={{ overflow: "auto", justifyContent: "center" }}
+      >
         {desktop
           ? locations.map((location, index) => (
-              <Grid item key={location._id} xs={6} md = {4} xl = {3}>
+              <Grid item key={location._id} xs={6} md={4} xl={3}>
                 <PoiCard
                   key={index}
                   pic={location.imgSrc}
@@ -36,7 +45,7 @@ function PoiSection(props) {
               </Grid>
             ))
           : locations.map((location, index) => (
-              <Grid item key={location._id} xs={12} md = {10} xl = {3}>
+              <Grid item key={location._id} xs={12} md={10} xl={3}>
                 <TimelineCard
                   key={index}
                   name={location.name}

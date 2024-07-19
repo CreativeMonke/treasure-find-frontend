@@ -9,8 +9,7 @@ import { useTranslation } from "react-i18next";
 function UserAnswersPage() {
   const { t } = useTranslation();
   const { hasEnded } = useSelector((state) => state.hunt);
-  const {answersReady} = useSelector((state) => state.hunt.globalHuntInfo);
-  console.log(answersReady);
+  const {areAnswersReady} = useSelector((state) => state.hunt.currentHuntInfo);
   return (
     <Sheet
       variant="outlined"
@@ -29,7 +28,7 @@ function UserAnswersPage() {
       <Divider>
         <KeyboardArrowDownRounded />
       </Divider>
-      {hasEnded && answersReady? (
+      {hasEnded && areAnswersReady? (
         <HuntTimeline />
       ) : (
         <Box sx = {{

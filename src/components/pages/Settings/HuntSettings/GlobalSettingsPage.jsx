@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Sheet, Typography, Grid, IconButton, Switch, Box } from "@mui/joy";
 import {
-  editGlobalHuntInfo,
+  editHuntOptionsById,
   toggleHasEnded,
 } from "../../../../features/hunt/huntSlice"; // Ensure this import path matches your project structure
 import TimePick from "./TimePick";
@@ -32,7 +32,7 @@ export default function GlobalSettingsPage() {
   }, [startTime, endTime]);
   const handleSave = () => {
     dispatch(
-      editGlobalHuntInfo({
+      editHuntOptionsById({
         startTime: start,
         endTime: end,
       })
@@ -40,7 +40,7 @@ export default function GlobalSettingsPage() {
   };
   function handleButtonClick() {
     dispatch(
-      editGlobalHuntInfo({
+      editHuntOptionsById({
         answersReady: !answersReady,
       })
     );

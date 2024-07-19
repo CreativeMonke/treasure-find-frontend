@@ -2,12 +2,24 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { login } from "../../../../features/auth/authSlice.js";
-import { Card, Button, Typography, Box, Link, Alert, Grid, useTheme } from "@mui/joy";
+import {
+  Card,
+  Button,
+  Typography,
+  Box,
+  Link,
+  Alert,
+  Grid,
+  useTheme,
+} from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
 import { fetchLocations } from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
-import { getGlobalHuntInfo } from "../../../../features/hunt/huntSlice.js";
+import {
+  getCurrentHunt,
+  getGlobalHuntInfo,
+} from "../../../../features/hunt/huntSlice.js";
 import { useTranslation } from "react-i18next";
 
 function LoginPage(props) {
@@ -20,26 +32,30 @@ function LoginPage(props) {
   const isLoading = status === "loading";
   const { t } = useTranslation();
   const theme = useTheme(); // This hook provides the theme context
-  const isDarkMode = theme.palette.mode === 'dark'; // Check if the theme mode is 'dark'
-  const backgroundImageUrl = isDarkMode ? "./icons/backgroundDark.jpg" : "./icons/backgroundLight.jpg";
+  const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
+  const backgroundImageUrl = isDarkMode
+    ? "./icons/backgroundDark.jpg"
+    : "./icons/backgroundLight.jpg";
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    dispatch(login({ email, password }))
-      .unwrap()
-      .then(() => {
-        dispatch(getAnswersByUserId()).then((action) => {
-          if (action.error == null) {
-            navigate("/");
-          }
+    try {
+      await dispatch(login({ email, password }))
+        .unwrap()
+        .then(() => {
+          navigate("/");
+          dispatch(getCurrentHunt()).then((action) => {
+            if (action.error == null) {
+              dispatch(getAnswersByUserId());
+            }
+          });
         });
-      })
-      .catch((err) => {
-        console.error("Failed to login: ", err);
-        const errorMessage =
-          err?.response?.data?.message || "An error occurred durin login";
-        setErrorMsg(errorMessage);
-      });
+    } catch (err) {
+      console.error("Failed to login: ", err);
+      const errorMessage =
+        err?.response?.data?.message || "An error occurred durin login";
+      setErrorMsg(errorMessage);
+    }
   }
 
   return (
@@ -104,7 +120,7 @@ function LoginPage(props) {
           </Grid>
           <Grid item xs={12}>
             <Typography className="linkText">
-              {t("dontHaveAccount")} 
+              {t("dontHaveAccount")}
               <Link component={RouterLink} to="/register">
                 {t("register")}
               </Link>

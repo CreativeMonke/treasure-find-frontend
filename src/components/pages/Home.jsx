@@ -7,8 +7,8 @@ import { getAnswersByUserId } from "../../features/answers/answerSlice";
 import { LinearProgress } from "@mui/joy";
 function Home() {
   const answers = useSelector((state) => state.answers.answers);
-  const locations = useSelector((state) => state.locations.locations);
-  const { huntState } = useSelector((state) => state.auth);
+  const locations = useSelector((state) => state.locations.huntLocations);
+  const huntState = useSelector((state) => state.auth.currentHuntState);
   const huntInfo = useSelector((state) => state.hunt);
 
   const answeredIds = useMemo(
@@ -24,10 +24,10 @@ function Home() {
       backgroundColor="background.body"
       sx={{
         borderRadius: 7,
-        opacity: 0.95
+        opacity: 0.95,
       }}
     >
-      {huntInfo.status === "succeeded" ? (
+      {huntInfo.status === "success" ? (
         <MapWithLocations
           locations={locations}
           answeredIds={answeredIds}

@@ -4,7 +4,6 @@ import { MoreHorizRounded } from "@mui/icons-material";
 import GenericTable from "../GenericTable/GenericTable";
 
 export default function SelectionTable({
-  huntTown,
   label,
   onChange,
   locations = [],
@@ -17,8 +16,7 @@ export default function SelectionTable({
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedLocationIds, setSelectedLocationIds] = useState();
-
+  const [selectedLocationIds, setSelectedLocationIds] = useState([]);
   useEffect(() => {
     setSelectedLocationIds(selectedLocations.map((location) => location._id));
   }, [selectedLocations]);

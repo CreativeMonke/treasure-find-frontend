@@ -15,6 +15,9 @@ import VerifyEmailPage from '../pages/Auth Pages/VerifyEmail/VerifyEmailPage.jsx
 import SupportPage from '../pages/Support/SupportPage.jsx';
 import DocsSupportPage from '../Docs/Support/DocsSupportPage.jsx';
 import HuntsPage from '../pages/Hunts/HuntsPage.jsx';
+import Hunts from '../pages/Hunts/Hunts.jsx';
+import HuntDetailsPage from '../pages/Hunts/Other Pages/HuntDetailsPage.jsx';
+import CurrentHuntDetails from '../pages/Hunts/Other Pages/CurrentHuntDetails.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -44,10 +47,10 @@ const routeConfig = [
 
   },
   {
-    path: '/locations/admin',
+    path: '/locations/myLocations/edit',
     element: LocationsTable,
     protected: true,
-    permissionLevel : "0x60"
+    permissionLevel : "0x01"
 
   },
   {
@@ -120,11 +123,22 @@ const routeConfig = [
   },
   {
     path: "/hunts",
-    element: HuntsPage,
+    element: Hunts,
+    protected: true,
+    permissionLevel : "0x01",
+  },
+  {
+  path: "/hunts/details/:id",
+  element: HuntDetailsPage,
+  protected: true,
+  permissionLevel : "0x01",
+  },
+  {
+    path : `/hunts/currentHuntDetails`,
+    element: CurrentHuntDetails,
     protected: true,
     permissionLevel : "0x01",
   }
-  
 ];
 
 export default routeConfig;

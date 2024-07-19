@@ -96,6 +96,15 @@
   "startTime" : "Start Time",
   "endTime" : "End Time",
   "showAnswers" : "Show Answers",
-  "globalSettings" : "Global Settings"
-
+  "globalSettings" : "Global Settings",
+  "redirectText" : "Take me there", 
+  "hunts" : "Hunts",
+  "myHunts" : "My Hunts",
+  "joinHuntNowMessage" : "Join a hunt now!",
+  "joinHunt" : "Join Hunt",
+  "leaveHunt" : "Leave hunt",
+  "theHunt" : "Hunt",
+  "currentHunt": "Current Hunt",
+  "myDashboard": "My Dashboard",
+  "adminPanel": "Admin Panel"
 }

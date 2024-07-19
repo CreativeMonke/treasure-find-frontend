@@ -19,6 +19,5 @@ function PoiCard(props) {
     </Card>
   );
 }
-///This <Typography level="body2">{props.desc}</Typography> needs to be an input field!
 
 export default PoiCard;

@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 
 export default function CityPicker({ onChange, label, value }) {
     const { t } = useTranslation();
-  function handleChange(e) {
-    onChange(e.target.value);
+  function handleChange(e,newValue) {
+    onChange(newValue);
   }
   return (
     <React.Fragment>
@@ -20,7 +20,7 @@ export default function CityPicker({ onChange, label, value }) {
         </Divider>
         <Select
           placeholder={value}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           size="md"
         >
           {cities.map((city) => (

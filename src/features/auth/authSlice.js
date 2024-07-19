@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { joinHuntById } from "../hunt/huntSlice";
+import {
+  createHunt,
+  deleteHuntById,
+  exitHuntByUserHuntId,
+  joinHuntById,
+} from "../hunt/huntSlice";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 function saveToLocalStorage(key, value) {
@@ -53,10 +58,11 @@ export const login = createAsyncThunk(
     try {
       const res = await axios.post(`${apiUrl}auth/login`, credentials);
       const { user, sessionId } = res.data;
-      const huntState = user[0].huntState;
+      const huntState = user.huntState;
       saveToLocalStorage("sessionId", sessionId);
       saveToLocalStorage("userInfo", user);
       saveToLocalStorage("huntState", huntState);
+      saveToLocalStorage("currentHuntState", huntState);
       return { user, sessionId, huntState };
     } catch (err) {
       return rejectWithValue(err);
@@ -129,16 +135,19 @@ export const startHunt = createAsyncThunk(
   "users/startHunt",
   async (_, { getState, rejectWithValue }) => {
     try {
-      await axios.get(`${apiUrl}users/startHunt`, {
+      const res = await axios.get(`${apiUrl}users/startHunt`, {
         headers: {
           sessionid: getState().auth.sessionId,
         },
         withCredentials: true,
       });
-      saveToLocalStorage("huntState", {
+      const { currentHuntState } = getState().auth;
+      saveToLocalStorage("currentHuntState", {
         hasEndedHunt: false,
         hasStartedHunt: true,
+        ...currentHuntState,
       });
+      return res;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -167,6 +176,7 @@ const initialState = {
   isLoggedIn: !!loadFromLocalStorage("sessionId"), //!! -> gets a boolean value from local storage
   sessionId: loadFromLocalStorage("sessionId"),
   huntState: loadFromLocalStorage("huntState"),
+  currentHuntState: loadFromLocalStorage("currentHuntState"),
   user: loadFromLocalStorage("userInfo"),
   status: "idle", // "idle" , "loading" , "succeeded" , "failed",
   error: null,
@@ -183,6 +193,9 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.sessionId = sessionId;
         state.user = userInfo;
+        state.currentHuntState = state.huntState.find(
+          (hunt) => hunt.huntId === state.user.currentHuntId
+        );
       }
     },
   },
@@ -195,8 +208,11 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.sessionId = action.payload.sessionId;
-        state.huntState = action.payload.user[0].huntState;
-        state.status = "succeeded";
+        state.huntState = action.payload.user.huntState;
+        state.currentHuntState = action.payload.user.huntState.find(
+          (hunt) => hunt.huntId === action.payload.user.currentHuntId
+        );
+        state.status = "success";
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoggedIn = false;
@@ -210,10 +226,12 @@ const authSlice = createSlice({
       })
       .addCase(checkLogin.fulfilled, (state, action) => {
         state.isLoggedIn = true;
-        state.user = loadFromLocalStorage("userInfo");
-        //state.user = action.payload.user; // Make sure your backend returns user info
-        //state.sessionId = action.payload.sessionId; // Ensure sessionId is returned or managed appropriately
-        state.status = "succeeded";
+        state.user = action.payload.data;
+        state.huntState = action.payload.data.huntState;
+        state.currentHuntState = action.payload.data.huntState.find(
+          (hunt) => hunt.huntId === action.payload.data.currentHuntId
+        );
+        state.status = "success";
       })
       .addCase(checkLogin.rejected, (state, action) => {
         state.isLoggedIn = false;
@@ -223,12 +241,20 @@ const authSlice = createSlice({
         state.error = action.payload || "Session invalid/expired";
       })
       .addCase(startHunt.fulfilled, (state, action) => {
-        state.huntState.hasStartedHunt = true;
-        state.status = "idle";
+        state.currentHuntState.hasStartedHunt = true;
+        const index = state.huntState.findIndex(
+          (hunt) => hunt.huntId === state.currentHuntState.huntId
+        );
+        state.huntState[index] = state.currentHuntState;
+        state.status = "success";
       })
       .addCase(endHunt.fulfilled, (state, action) => {
-        state.huntState.hasEndedHunt = true;
-        state.status = "idle";
+        state.currentHuntState.hasEndedHunt = true;
+        const index = state.huntState.findIndex(
+          (hunt) => hunt.huntId === state.currentHuntState.huntId
+        );
+        state.huntState[index] = state.currentHuntState;
+        state.status = "success";
       })
       .addCase(logout.fulfilled, (state, action) => {
         state.isLoggedIn = false;
@@ -238,6 +264,8 @@ const authSlice = createSlice({
         state.error = null;
         localStorage.removeItem("sessionId");
         localStorage.removeItem("userInfo");
+        localStorage.removeItem("huntState");
+        localStorage.removeItem("currentHuntState");
       })
       .addCase(register.pending, (state) => {
         state.status = "loading";
@@ -258,14 +286,67 @@ const authSlice = createSlice({
       .addCase(verifyEmail.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-        
       })
       .addCase(joinHuntById.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        if (state.user && state.user[0]) {
-          state.user[0].currentHuntId = action.payload.huntId;
+        if (state.user) {
+          state.user.currentHuntId = action.payload.huntId;
+          state.huntState = state.user.huntState;
+          state.currentHuntState = state.huntState.find(
+            (hunt) => hunt.huntId === state.user.currentHuntId
+          );
+          ///Update huntState if it doesn't exist
+          if (
+            !state.user.huntState.find(
+              (huntState) => huntState.huntId === action.payload.huntId
+            )
+          ) {
+            state.user.huntState.push({
+              huntId: action.payload.huntId,
+              hasEndedHunt: false,
+              hasStartedHunt: false,
+            });
+            state.huntState = state.user.huntState;
+            state.currentHuntState = state.huntState.find(
+              (hunt) => hunt.huntId === state.user.currentHuntId
+            );
+          }
+          state.currentHuntState = state.huntState.find(
+            (hunt) => hunt.huntId === action.payload.huntId
+          );
         }
-        saveToLocalStorage("userInfo" , state.user);
+        saveToLocalStorage("userInfo", state.user);
+      })
+      .addCase(createHunt.fulfilled, (state, action) => {
+        if (state.user) {
+          state.user.createdHuntIds.push(action.payload.hunt._id);
+        }
+        saveToLocalStorage("userInfo", state.user);
+      })
+      .addCase(deleteHuntById.fulfilled, (state, action) => {
+        const deletedHuntId = action.payload.huntId;
+
+        if (state.user) {
+          state.user.createdHuntIds = state.user.createdHuntIds.filter(
+            (id) => id !== deletedHuntId
+          );
+          if (state.user.currentHuntId === deletedHuntId) {
+            state.user.currentHuntId = null;
+            state.currentHuntState = [];
+          }
+          state.user.huntState = state.user.huntState.filter(
+            (hunt) => hunt.huntId !== deletedHuntId
+          );
+          saveToLocalStorage("userInfo", state.user);
+        }
+        state.status = "idle";
+      })
+      .addCase(exitHuntByUserHuntId.fulfilled, (state, action) => {
+        if (state.user) {
+          state.user.currentHuntId = null;
+          state.currentHuntState = null;
+          saveToLocalStorage("userInfo", state.user);
+        }
+        state.status = "idle";
       });
   },
 });

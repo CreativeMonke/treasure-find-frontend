@@ -1,56 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import Box from "@mui/joy/Box";
-import {
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemContent,
-  Sheet,
-  Typography,
-} from "@mui/joy";
-import Drawer from "@mui/joy/Drawer";
-import IconButton from "@mui/joy/IconButton";
+import { Divider, Drawer, IconButton, Sheet } from "@mui/joy";
 import MenuIcon from "@mui/icons-material/Menu";
-import "./navbar.css";
-import {
-  Group,
-  HomeRounded,
-  KeyboardArrowDownOutlined,
-  LogoutRounded,
-  MapOutlined,
-  QuestionAnswerRounded,
-  SupportRounded,
-} from "@mui/icons-material";
 import Header from "../pages/PageStructure/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
-import RemainingTime from "../pages/components/RemainingTime";
 import LanguageSwitcher from "./Language/LanguageSelect";
-import { useTranslation } from "react-i18next"; // Import useTranslation
-
-function Toggler({ defaultExpanded = false, children, renderToggle }) {
-  const [open, setOpen] = React.useState(defaultExpanded);
-  return (
-    <React.Fragment>
-      {renderToggle({ open, setOpen })}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateRows: open ? "1fr" : "0fr",
-          transition: "0.2s ease",
-          "& > *": {
-            overflow: "hidden",
-          },
-        }}
-      >
-        {children}
-      </Box>
-    </React.Fragment>
-  );
-}
+import { useTranslation } from "react-i18next";
+import SidebarContents from "./SidebarContents";
+import { getSidebarItems } from "./sidebarItems"; // Import the sidebarItems
 
 function NavBar() {
   const { t } = useTranslation();
@@ -59,7 +18,10 @@ function NavBar() {
   const [isMobileView, setIsMobileView] = useState(
     typeof window !== "undefined" && window.innerWidth < 900
   );
-  const userInfo = useSelector((state) => state.auth.user[0]);
+  const userInfo = useSelector((state) => state.auth.user);
+  const completeHuntData = useSelector(
+    (state) => state.hunt.currentHuntInfo.completeHuntData
+  );
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -82,276 +44,26 @@ function NavBar() {
     setIsDrawerOpen(false);
   }
 
-  function handleLogout() {
-    dispatch(logout())
-      .unwrap()
-      .then(navigate("/login"))
-      .catch((err) => {
-        console.error("Failed to logout: ", err);
-      });
-  }
+  const sidebarItems = getSidebarItems(t, isCurrent, completeHuntData);
 
-  function sidebarContents() {
-    ///BorderSizing property for scrolling!!!
-    return (
-      <Sheet
-        invertedColors
-        className="Sidebar"
-        sx={{
-          boxSizing: "border-box",
-          top: 0,
-          p: 2,
-          gap: 2,
-          height: "100dvh",
-          width: "var(--Sidebar-width)",
-        }}
-      >
-        <Box
-          className="Sidebar-overlay"
-          sx={{
-            position: "fixed",
-            zIndex: 9998,
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100dvh",
-            opacity: "var(--SideNavigation-slideIn)",
-            backgroundColor: "var(--joy-palette-background-backdrop)",
-            transition: "opacity 0.4s",
-            transform: {
-              xs: "translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--Sidebar-width, 0px)))",
-              lg: "translateX(-100%)",
-            },
-          }}
-          onClick={closeDrawer}
-        />
-        <Box className="SidebarHeader">
-          <Typography level="title-lg">{t("appName")}</Typography>
-          <LanguageSwitcher />
-        </Box>
+  const filteredSidebarItems = [];
 
-        <Box className="NavigationLinks">
-          <List
-            className="TopList"
-            sx={{
-              "--ListItem-radius": (theme) => theme.vars.radius.sm,
-            }}
-          >
-            <ListItemButton
-              component={Link}
-              to="/"
-              selected={isCurrent("/")}
-              onClick={toggleDrawer}
-            >
-              <HomeRounded />
-              <ListItemContent>
-                <Typography level="title-sm">{t("home")}</Typography>
-              </ListItemContent>
-            </ListItemButton>
+  const itemsMap = new Map();
 
-            {userInfo.role >= "0x60" ? (
-              <ListItem nested>
-                <Toggler
-                  renderToggle={({ open, setOpen }) => (
-                    <ListItemButton onClick={() => setOpen(!open)}>
-                      <MapOutlined />
-                      <ListItemContent>
-                        <Typography level="title-sm">
-                          {t("locations")}
-                        </Typography>
-                      </ListItemContent>
-                      <KeyboardArrowDownOutlined
-                        sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                      />
-                    </ListItemButton>
-                  )}
-                >
-                  <List sx={{ gap: 0.5 }}>
-                    <ListItem>
-                      <ListItemButton
-                        component={Link}
-                        to="/poi"
-                        selected={isCurrent("/poi")}
-                        onClick={toggleDrawer}
-                      >
-                        {t("overview")}
-                      </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                      <ListItemButton
-                        component={Link}
-                        to="/locations/admin"
-                        selected={isCurrent("/locations/admin")}
-                        onClick={toggleDrawer}
-                      >
-                        {t("edit")}
-                      </ListItemButton>
-                    </ListItem>
-                  </List>
-                </Toggler>
-              </ListItem>
-            ) : (
-              <ListItem>
-                <ListItemButton
-                  component={Link}
-                  to="/poi"
-                  selected={isCurrent("/poi")}
-                  onClick={toggleDrawer}
-                >
-                  <MapOutlined />
-                  {t("locations")}
-                </ListItemButton>
-              </ListItem>
-            )}
-            {
-              <ListItem>
-                <ListItemButton
-                  component={Link}
-                  to="/answers/myAnswers"
-                  selected={isCurrent("/answers/myAnswers")}
-                  onClick={toggleDrawer}
-                >
-                  <QuestionAnswerRounded />
-                  {t("myAnswers")}
-                </ListItemButton>
-              </ListItem>
-            }
-            {/*<ListItem nested>
-              <Toggler
-                renderToggle={({ open, setOpen }) => (
-                  <ListItemButton onClick={() => setOpen(!open)}>
-                    <MapOutlined />
-                    <ListItemContent>
-                      <Typography level="title-sm">Hunts</Typography>
-                    </ListItemContent>
-                    <KeyboardArrowDownOutlined
-                      sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                    />
-                  </ListItemButton>
-                )}
-              >
-                <List sx={{ gap: 0.5 }}>
-                  <ListItem>
-                    <ListItemButton>Overview</ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton>Active Hunts</ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton>Compleated</ListItemButton>
-                  </ListItem>
-                </List>
-              </Toggler>
-            </ListItem>
-                */}
-            {userInfo.role >= "0x60" && (
-              <>
-                <ListItem nested>
-                  <Toggler
-                    renderToggle={({ open, setOpen }) => (
-                      <ListItemButton onClick={() => setOpen(!open)}>
-                        <Group />
-                        <ListItemContent>
-                          <Typography level="title-sm">{t("users")}</Typography>
-                        </ListItemContent>
-                        <KeyboardArrowDownOutlined
-                          sx={{ transform: open ? "rotate(180deg)" : "none" }}
-                        />
-                      </ListItemButton>
-                    )}
-                  >
-                    <List sx={{ gap: 0.5 }}>
-                      <ListItem>
-                        <ListItemButton
-                          component={Link}
-                          to="/answers/adminView"
-                          selected={isCurrent("/answers/adminView")}
-                          onClick={toggleDrawer}
-                        >
-                          {
-                            //  <StickyNote2Rounded />
-                          }
-                          {t("answers")}
-                        </ListItemButton>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemButton
-                          component={Link}
-                          to="/user/roles"
-                          selected={isCurrent("/user/roles")}
-                          onClick={toggleDrawer}
-                        >
-                          {t("rolesPermissions")}
-                        </ListItemButton>
-                      </ListItem>
-                    </List>
-                  </Toggler>
-                </ListItem>
-                {/*Answers*/}
-              </>
-            )}
-          </List>
-        </Box>
-        <List
-          size="sm"
-          sx={{
-            mt: "auto",
-            flexGrow: 0,
-            gap: 0.7,
+  sidebarItems.forEach((item) => {
+    if (item.permissionLevel > userInfo.role) return;
 
-            "--ListItem-radius": (theme) => theme.vars.radius.sm,
-          }}
-        >
-          {userInfo.role >= "0x60" && (
-            <ListItem>
-              <ListItemButton
-                component={Link}
-                to="/globalSettings"
-                selected={isCurrent("/globalSettings")}
-                onClick={toggleDrawer}
-              >
-                <SupportRounded />
-                {t("settings")}
-              </ListItemButton>
-            </ListItem>
-          )}
-          <ListItem>
-            <ListItemButton
-              onClick={() =>
-                (window.location.href = "https://docs-treasure-find.vercel.app")
-              }
-            >
-              <SupportRounded />
-              {t("support")}
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider>
-          <RemainingTime />
-        </Divider>
+    const key = `${item.title}-${item.link}`;
 
-        <Grid container sx={{ width: "100%" }}>
-          <Grid item xs={10}>
-            <Box>
-              <Typography level="title-sm">{userInfo.first_name}</Typography>
+    if (
+      !itemsMap.has(key) ||
+      itemsMap.get(key).permissionLevel < item.permissionLevel
+    ) {
+      itemsMap.set(key, item);
+    }
+  });
 
-              <Typography level="body-xs">{userInfo.email}</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton
-              size="sm"
-              variant="plain"
-              color="neutral"
-              onClick={handleLogout}
-            >
-              <LogoutRounded />
-            </IconButton>
-          </Grid>
-        </Grid>
-      </Sheet>
-    );
-  }
+  itemsMap.forEach((value) => filteredSidebarItems.push(value));
 
   const renderMobileMenu = () => (
     <Drawer
@@ -368,13 +80,19 @@ function NavBar() {
         width: "var(--Sidebar-width)",
       }}
     >
-      {sidebarContents()}
+      <SidebarContents
+        sidebarItems={sidebarItems}
+        isCurrent={isCurrent}
+        closeDrawer={closeDrawer}
+        toggleDrawer={toggleDrawer}
+      />
     </Drawer>
   );
+
   return (
-    <>
+    <React.Fragment>
       {isMobileView ? (
-        <>
+        <React.Fragment>
           <Sheet
             className="Header"
             sx={{
@@ -404,11 +122,16 @@ function NavBar() {
             <Header />
           </Sheet>
           {renderMobileMenu()}
-        </>
+        </React.Fragment>
       ) : (
-        sidebarContents()
+        <SidebarContents
+          sidebarItems={filteredSidebarItems}
+          isCurrent={isCurrent}
+          closeDrawer={closeDrawer}
+          toggleDrawer={toggleDrawer}
+        />
       )}
-    </>
+    </React.Fragment>
   );
 }
 

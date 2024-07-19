@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useModal } from "../Context/modalContext";
 import {
   Box,
+  Button,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Divider,
@@ -32,10 +34,8 @@ export default function EditHuntModal({ modalName }) {
   const {
     huntId,
     handleSave,
-    hunt,
-    additionalInfo,
-    AdditionalInfoIcon = InfoRounded,
-    additionalInfoIconColor = "neutral",
+    hunt = {},
+    titleText,
     cancelText = "Cancel",
     cancelColor = "neutral",
     saveText = "Save",
@@ -71,7 +71,13 @@ export default function EditHuntModal({ modalName }) {
             getAllLocationsByHuntId(huntId)
           ).unwrap();
           setLocationsInHunt(huntLocations);
-          setMergedLocations([...authorLocations, ...huntLocations]);
+          const merged = [...authorLocations, ...huntLocations];
+
+          const uniqueMergedLocations = Array.from(
+            new Set(merged.map((location) => location._id))
+          ).map((id) => merged.find((location) => location._id === id));
+
+          setMergedLocations(uniqueMergedLocations);
         } catch (error) {
           console.error("Failed to fetch hunt locations:", error);
         } finally {
@@ -89,6 +95,29 @@ export default function EditHuntModal({ modalName }) {
     }
   }, [dispatch, huntId, modalName, modalState, authorLocations.length]);
 
+  async function handleSaveClick() {
+    setLoading(true);
+    const updatedHunt = {
+      _id: huntId,
+      huntName: fieldHuntName,
+      townName: fieldHuntTown,
+      location_ids: fieldHuntLocationsIds,
+      startTime: fieldHuntStartTime,
+      endTime: fieldHuntEndTime,
+      areAnswersReady: fieldAreAnswersReady,
+    };
+    try {
+      await handleSave(updatedHunt);
+      handleClose();
+    } catch (error) {
+      console.error("Failed to save the hunt:", error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
+    }
+  }
+
   function handleClose() {
     if (!loading) closeModal(modalName);
   }
@@ -105,12 +134,21 @@ export default function EditHuntModal({ modalName }) {
           }}
         >
           <ModalClose variant="plain" size="md" onClick={handleClose} />
+
           <DialogTitle>
-            <Typography level="title-lg">Editing</Typography>
-            <ArrowRightAlt />
-            <Typography level="title-lg" color="warning">
-              {hunt.huntName}
-            </Typography>
+            {hunt.huntName ? (
+              <React.Fragment>
+                <Typography level="title-lg">{titleText}</Typography>
+                <ArrowRightAlt />
+                <Typography level="title-lg" color="warning">
+                  {hunt.huntName}
+                </Typography>{" "}
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Typography level="title-lg">{titleText}</Typography>
+              </React.Fragment>
+            )}
           </DialogTitle>
           <Divider />
 
@@ -185,6 +223,43 @@ export default function EditHuntModal({ modalName }) {
               </Grid>
             </Box>
           </DialogContent>
+          <DialogActions>
+            <Grid
+              container
+              spacing={1.5}
+              sx={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Grid item xs={6}>
+                <Button
+                  color={cancelColor}
+                  onClick={handleClose}
+                  disabled={loading}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {cancelText}
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  color={saveColor}
+                  onClick={handleSaveClick}
+                  loading={loading}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {saveText}
+                </Button>
+              </Grid>
+            </Grid>
+          </DialogActions>
         </ModalDialog>
       </Modal>
     </React.Fragment>

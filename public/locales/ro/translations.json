@@ -98,5 +98,15 @@
   "startTime": "Ora de începere",
   "endTime": "Ora de sfârșit",
   "showAnswers": "Arată răspunsurile",
-  "globalSettings" : "Setări Globale"
+  "globalSettings" : "Setări Globale",
+  "redirectText": "Du-mă acolo",
+  "hunts" : "Vânători",
+  "myHunts" : "Vânătorile mele",
+  "joinHuntNowMessage": "Alăturați-vă acum unei vânători!",
+  "joinHunt": "Alătură-te vânătorii",
+  "leaveHunt": "Părăsiți vânătoarea",
+  "theHunt": "Vânătoarea",
+  "currentHunt": "Vânătoare Curentă",
+  "myDashboard": "Tabloul Meu de Bord",
+  "adminPanel": "Panou Admin"
 }

@@ -36,7 +36,7 @@ function QuestionModal(props) {
   const [showQuestion, setShowQuestion] = useState(false); // State to control question visibility
   const dispatch = useDispatch();
   const currentAnswerId = useSelector((state) => state.answers.currentAnswerId);
-  const userId = useSelector((state) => state.auth.user[0]._id); // Adjust according to your state shape
+  const userId = useSelector((state) => state.auth.user._id); // Adjust according to your state shape
   const {t} = useTranslation();
   useEffect(() => {
     if (props.open) {

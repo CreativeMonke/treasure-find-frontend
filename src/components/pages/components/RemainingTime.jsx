@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { setHasEnded } from "../../../features/hunt/huntSlice";
 
 function RemainingTime() {
-  const { globalHuntInfo } = useSelector((state) => state.hunt);
+  const { currentHuntInfo } = useSelector((state) => state.hunt);
   const [color, setColor] = useState("primary");
   const [timeLeft, setTimeLeft] = useState("");
   const [eventStatus, setEventStatus] = useState("upcoming");
@@ -15,8 +15,8 @@ function RemainingTime() {
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
-      const endTime = new Date(globalHuntInfo.endTime).getTime();
-      const startTime = new Date(globalHuntInfo.startTime).getTime();
+      const endTime = new Date(currentHuntInfo.endTime).getTime();
+      const startTime = new Date(currentHuntInfo.startTime).getTime();
 
       if (now > endTime) {
         clearInterval(timer);
@@ -59,7 +59,7 @@ function RemainingTime() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [globalHuntInfo.endTime, globalHuntInfo.startTime, t , dispatch]);
+  }, [currentHuntInfo.endTime, currentHuntInfo.startTime, t , dispatch]);
 
   const prefix = eventStatus === "upcoming" ? t("startingIn") : eventStatus === "ongoing" ? t("endingIn") : "";
 

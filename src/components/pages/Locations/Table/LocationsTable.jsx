@@ -7,7 +7,7 @@ import { Divider, Grid, Typography } from "@mui/joy";
 import CreateButton from "./Create/CreateButton";
 import { useTranslation } from "react-i18next";
 function LocationsTable() {
-  const locations = useSelector((state) => state.locations.locations);
+  const locations = useSelector((state) => state.locations.authorLocations);
   const { t } = useTranslation();
   return (
     <Sheet

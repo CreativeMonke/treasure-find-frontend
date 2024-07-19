@@ -6,7 +6,8 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { visuallyHidden } from "@mui/utils";
 import HuntDetail from "./HuntDetail";
 import { stableSort, getComparator } from "./Utils/tableUtils";
-
+import EditHuntModal from "./Modals/EditHuntModal";
+import { useModal } from "./Context/modalContext";
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -96,7 +97,6 @@ function Row({
   handleExit,
   color,
 }) {
-  console.log(row.huntName, color);
   return (
     <React.Fragment>
       <tr
@@ -161,44 +161,46 @@ export default function HuntsTable({
   const handleExpandClick = (id) => {
     setSelectedHuntId((prevId) => (prevId === id ? null : id));
   };
-  console.log(userActiveHuntId);
+
   return (
-    <Table
-      aria-labelledby="tableTitle"
-      hoverRow
-      sx={{
-        "--TableCell-headBackground": "transparent",
-        "--TableCell-selectedBackground": (theme) =>
-          theme.vars.palette.success.softBg,
-      }}
-    >
-      <EnhancedTableHead
-        order={order}
-        orderBy={orderBy}
-        onRequestSort={onRequestSort}
-      />
-      <tbody>
-        {stableSort(hunts, getComparator(order, orderBy)).map((hunt) => (
-          <Row
-            color={
-              hunt._id === userActiveHuntId
-                ? "success"
-                : Array.isArray(userCreatedHuntIds) &&
-                  userCreatedHuntIds.includes(hunt._id)
-                ? "primary"
-                : "neutral"
-            }
-            key={hunt._id}
-            row={hunt}
-            isOpen={selectedHuntId === hunt._id}
-            onExpandClick={handleExpandClick}
-            handleJoin={handleJoin}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-            handleExit={handleExit}
-          />
-        ))}
-      </tbody>
-    </Table>
+    <React.Fragment>
+      <Table
+        aria-labelledby="tableTitle"
+        hoverRow
+        sx={{
+          "--TableCell-headBackground": "transparent",
+          "--TableCell-selectedBackground": (theme) =>
+            theme.vars.palette.success.softBg,
+        }}
+      >
+        <EnhancedTableHead
+          order={order}
+          orderBy={orderBy}
+          onRequestSort={onRequestSort}
+        />
+        <tbody>
+          {stableSort(hunts, getComparator(order, orderBy)).map((hunt) => (
+            <Row
+              color={
+                hunt._id === userActiveHuntId
+                  ? "success"
+                  : Array.isArray(userCreatedHuntIds) &&
+                    userCreatedHuntIds.includes(hunt._id)
+                  ? "primary"
+                  : "neutral"
+              }
+              key={hunt._id}
+              row={hunt}
+              isOpen={selectedHuntId === hunt._id}
+              onExpandClick={handleExpandClick}
+              handleJoin={handleJoin}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              handleExit={handleExit}
+            />
+          ))}
+        </tbody>
+      </Table>
+    </React.Fragment>
   );
 }

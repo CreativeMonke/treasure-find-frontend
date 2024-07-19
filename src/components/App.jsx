@@ -3,26 +3,38 @@ import { BrowserRouter } from "react-router-dom";
 import { CssVarsProvider } from "@mui/joy/styles";
 import PageStructureWithRouter from "./PageStructureWithRouter";
 import { useDispatch } from "react-redux";
-import { getAllLocationsByHuntId } from "../features/locations/locationSlice.js";
+import {
+  getAllLocationsByAuthorId,
+  getAllLocationsByUserHuntId,
+} from "../features/locations/locationSlice.js";
 import { checkLogin } from "../features/auth/authSlice.js";
 import { getAnswersByUserId } from "../features/answers/answerSlice.js";
-import { getGlobalHuntInfo } from "../features/hunt/huntSlice.js";
+import { getCurrentHunt } from "../features/hunt/huntSlice.js";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import theme from "../theme/theme.js";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(checkLogin()).then((action) => {
+  useEffect(async () => {
+    try {
+      const action = await dispatch(checkLogin());
+      console.log("action",action);
       if (action.error == null) {
-        dispatch(getAnswersByUserId()).then(
-          dispatch(getAllLocationsByHuntId())
-        );
+        dispatch(getAnswersByUserId());
+        dispatch(getAllLocationsByAuthorId());
+        dispatch(getAllLocationsByUserHuntId());
+        dispatch(getCurrentHunt());
       }
-    });
+    } catch (err) {
+      console.error("Failed to login: ", err);
+      const errorMessage =
+        err?.response?.data?.message || "An error occurred durin login";
+      console.error(errorMessage);
+    }
   }, [dispatch]);
   return (
-    <CssVarsProvider defaultMode="system">
+    <CssVarsProvider theme={theme} defaultMode="system">
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <BrowserRouter>
           <PageStructureWithRouter />
