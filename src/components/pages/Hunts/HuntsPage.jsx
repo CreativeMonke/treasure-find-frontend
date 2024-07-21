@@ -147,31 +147,36 @@ function HuntsPage() {
             {error}
           </Typography>
         ) : (
-          <HuntsTable
-            hunts={filteredHunts}
-            userActiveHuntId={userActiveHuntId}
-            userCreatedHuntIds={userCreatedHuntIds}
-            order={order}
-            orderBy={orderBy}
-            onRequestSort={(e, property) =>
-              handleRequestSort(
-                e,
-                property,
-                order,
-                setOrder,
-                setOrderBy,
-                orderBy
-              )
-            }
-            selectedHuntId={selectedHuntId}
-            setSelectedHuntId={setSelectedHuntId}
-            handleJoin={(hunt) => handleJoin(dispatch, hunt)}
-            handleEdit={handleEdit}
-            handleDelete={(huntId) =>
-              handleDelete(dispatch, huntId, setSelectedHuntId)
-            }
-            handleExit={() => handleExit(dispatch, setSelectedHuntId)}
-          />
+          <Box sx = {{
+            maxWidth: "100%",
+            overflow: "auto",
+          }}>
+            <HuntsTable
+              hunts={filteredHunts}
+              userActiveHuntId={userActiveHuntId}
+              userCreatedHuntIds={userCreatedHuntIds}
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={(e, property) =>
+                handleRequestSort(
+                  e,
+                  property,
+                  order,
+                  setOrder,
+                  setOrderBy,
+                  orderBy
+                )
+              }
+              selectedHuntId={selectedHuntId}
+              setSelectedHuntId={setSelectedHuntId}
+              handleJoin={(hunt) => handleJoin(dispatch, hunt)}
+              handleEdit={handleEdit}
+              handleDelete={(huntId) =>
+                handleDelete(dispatch, huntId, setSelectedHuntId)
+              }
+              handleExit={() => handleExit(dispatch, setSelectedHuntId)}
+            />
+          </Box>
         )}
       </Sheet>
       {modalState["isCreateModalOpen"] && (

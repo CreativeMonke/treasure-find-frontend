@@ -19,6 +19,7 @@ function WidgetCard({
       variant="outlined"
       sx={{
         display: "flex",
+        maxWidth: "320px",
       }}
     >
       <CardContent sx = {{
@@ -55,7 +56,7 @@ function WidgetCard({
             ) : (
               <Box>
                 <Typography level="body-md" color="neutral">
-                  <Typography color="primary" level="title-lg">
+                  <Typography color="primary" level="title-lg" textAlign="center">
                     {value}
                   </Typography>
                   {` ${ofWhat}`}

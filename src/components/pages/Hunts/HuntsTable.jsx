@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Table, IconButton, Link, Sheet, Typography } from "@mui/joy";
+import {
+  Box,
+  Table,
+  IconButton,
+  Link,
+  Sheet,
+  Typography,
+  Tooltip,
+} from "@mui/joy";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -8,6 +16,8 @@ import HuntDetail from "./HuntDetail";
 import { stableSort, getComparator } from "./Utils/tableUtils";
 import EditHuntModal from "./Modals/EditHuntModal";
 import { useModal } from "./Context/modalContext";
+import { OpenInNewRounded } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -82,6 +92,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
             </th>
           );
         })}
+        <th style={{ width: 40 }} aria-label="empty" />
       </tr>
     </thead>
   );
@@ -97,6 +108,12 @@ function Row({
   handleExit,
   color,
 }) {
+  const navigate = useNavigate();
+  const handleHuntMoreInfoClick = (event) => {
+    console.log(row);
+    event.stopPropagation();
+    navigate(`/hunts/details/${row._id}`, { state: { huntData: row } });
+  };
   return (
     <React.Fragment>
       <tr
@@ -124,11 +141,30 @@ function Row({
         <td>{row.townName}</td>
         <td>{new Date(row.startTime).toLocaleString()}</td>
         <td>{new Date(row.endTime).toLocaleString()}</td>
+        <td>
+          <Tooltip
+            title="More Details"
+            arrow
+            placement="left"
+            size="md"
+            variant="soft"
+          >
+            <IconButton
+              aria-label="more info"
+              variant="plain"
+              color="neutral"
+              size="sm"
+              onClick={handleHuntMoreInfoClick}
+            >
+              <OpenInNewRounded />
+            </IconButton>
+          </Tooltip>
+        </td>
       </tr>
       <tr>
-        <td style={{ height: 0, padding: 0 }} colSpan={5}>
+        <td style={{ height: 0, padding: 0 }} colSpan={6}>
           {isOpen && (
-            <Sheet variant="plain" sx={{ p: 2, borderRadius: "md" }}>
+            <Sheet variant="plain" sx={{ p: 2, borderRadius: "md"}}>
               <HuntDetail
                 hunt={row}
                 handleJoin={handleJoin}
@@ -164,43 +200,48 @@ export default function HuntsTable({
 
   return (
     <React.Fragment>
-      <Table
-        aria-labelledby="tableTitle"
-        hoverRow
-        sx={{
-          "--TableCell-headBackground": "transparent",
-          "--TableCell-selectedBackground": (theme) =>
-            theme.vars.palette.success.softBg,
-        }}
-      >
-        <EnhancedTableHead
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={onRequestSort}
-        />
-        <tbody>
-          {stableSort(hunts, getComparator(order, orderBy)).map((hunt) => (
-            <Row
-              color={
-                hunt._id === userActiveHuntId
-                  ? "success"
-                  : Array.isArray(userCreatedHuntIds) &&
-                    userCreatedHuntIds.includes(hunt._id)
-                  ? "primary"
-                  : "neutral"
-              }
-              key={hunt._id}
-              row={hunt}
-              isOpen={selectedHuntId === hunt._id}
-              onExpandClick={handleExpandClick}
-              handleJoin={handleJoin}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-              handleExit={handleExit}
-            />
-          ))}
-        </tbody>
-      </Table>
+      <Box sx = {{
+        minWidth : "300px",
+        overflow: 'auto'
+      }}>
+        <Table
+          aria-labelledby="tableTitle"
+          hoverRow
+          sx={{
+            "--TableCell-headBackground": "transparent",
+            "--TableCell-selectedBackground": (theme) =>
+              theme.vars.palette.success.softBg,
+          }}
+        >
+          <EnhancedTableHead
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={onRequestSort}
+          />
+          <tbody>
+            {stableSort(hunts, getComparator(order, orderBy)).map((hunt) => (
+              <Row
+                color={
+                  hunt._id === userActiveHuntId
+                    ? "success"
+                    : Array.isArray(userCreatedHuntIds) &&
+                      userCreatedHuntIds.includes(hunt._id)
+                    ? "primary"
+                    : "neutral"
+                }
+                key={hunt._id}
+                row={hunt}
+                isOpen={selectedHuntId === hunt._id}
+                onExpandClick={handleExpandClick}
+                handleJoin={handleJoin}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                handleExit={handleExit}
+              />
+            ))}
+          </tbody>
+        </Table>
+      </Box>
     </React.Fragment>
   );
 }

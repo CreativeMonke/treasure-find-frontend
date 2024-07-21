@@ -1,11 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getAllLocationsByUserHuntId } from "../locations/locationSlice";
+import {
+  getAllLocationsByHuntId,
+  getAllLocationsByUserHuntId,
+} from "../locations/locationSlice";
 import { useDispatch } from "react-redux";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 export const editHuntOptionsById = createAsyncThunk(
   "/hunt/edit",
-  async (updatedHunt, { getState, rejectWithValue }) => {
+  async (updatedHunt, { dispatch, getState, rejectWithValue }) => {
     try {
       const res = await axios.put(
         `${apiUrl}hunt/${updatedHunt._id}/edit`,
@@ -17,6 +20,9 @@ export const editHuntOptionsById = createAsyncThunk(
           withCredentials: true,
         }
       );
+      if (updatedHunt._id === getState().auth.currentHuntState.huntId)
+        await dispatch(getAllLocationsByUserHuntId());
+      else await dispatch(getAllLocationsByHuntId(updatedHunt._id));
       return {
         hunt: res.data.data,
         status: res.data.status,
@@ -68,6 +74,27 @@ export const getCurrentHunt = createAsyncThunk(
     }
   }
 );
+export const getHuntOptionsByHuntId = createAsyncThunk(
+  "/hunt/getHuntOptionsByHuntId",
+  async (huntId, { getState, rejectWithValue }) => {
+    try {
+      const res = await axios.get(`${apiUrl}hunt/${huntId}/options`, {
+        headers: {
+          sessionid: getState().auth.sessionId,
+        },
+        withCredentials: true,
+      });
+      return {
+        hunt: res.data.data,
+        status: res.data.status,
+        message: res.data.message,
+      };
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const joinHuntById = createAsyncThunk(
   "/hunt/joinHuntById",
   async (huntId, { getState, dispatch, rejectWithValue }) => {

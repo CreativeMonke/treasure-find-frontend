@@ -64,10 +64,12 @@ export const handleDelete = (dispatch, huntId, setSelectedHuntId) => {
   }
 };
 
-export const handleExit = (dispatch, setSelectedHuntId) => {
-    dispatch(exitHuntByUserHuntId());
+export async function handleExit(dispatch, setSelectedHuntId) {
+  await dispatch(exitHuntByUserHuntId());
+  if (setSelectedHuntId) {
     setSelectedHuntId(null);
-};
+  }
+}
 
 export const getFilteredHunts = (hunts, search, filterBy, huntStatus) => {
   const searchTerm = search.toLowerCase();

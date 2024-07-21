@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { exitHuntByUserHuntId } from "../hunt/huntSlice";
+import { editHuntOptionsById, exitHuntByUserHuntId } from "../hunt/huntSlice";
 
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -39,7 +39,7 @@ export const getAllLocationsByUserHuntId = createAsyncThunk(
         },
         withCredentials: true,
       });
-      return res.data.data;
+      return { locations: res.data.data, huntId: auth.currentHuntState.huntId };
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -57,7 +57,7 @@ export const getAllLocationsByHuntId = createAsyncThunk(
         },
         withCredentials: true,
       });
-      return res.data.data;
+      return { locations: res.data.data, huntId: huntId };
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -150,9 +150,10 @@ export const deleteLocation = createAsyncThunk(
 const locationSlice = createSlice({
   name: "locations",
   initialState: {
-    locations: [],
+    locationsByHuntId: {},
     authorLocations: [],
     huntLocations: [],
+    locations: [],
     status: "idle", // 'idle', 'loading', 'succeeded', 'failed'
     error: null,
   },
@@ -182,26 +183,48 @@ const locationSlice = createSlice({
         state.authorLocations = action.payload;
       })
       .addCase(getAllLocationsByUserHuntId.fulfilled, (state, action) => {
-        state.huntLocations = action.payload;
+        const { huntId, locations } = action.payload;
+        state.huntLocations = locations;
+        state.locationsByHuntId[huntId] = locations;
+        state.status = "success";
+      })
+      .addCase(getAllLocationsByHuntId.fulfilled, (state, action) => {
+        const { huntId, locations } = action.payload;
+        state.locationsByHuntId[huntId] = locations;
+        state.status = "success";
       })
       .addCase(updateLocation.fulfilled, (state, action) => {
-        console.log("action" , action);
-        const {location} = action.payload;
-        const index = state.authorLocations.findIndex(
-          (poi) => poi._id === location._id
+        const { location, huntId } = action.payload;
+
+        // Update locations in authorLocations
+        const authorIndex = state.authorLocations.findIndex(
+          (loc) => loc._id === location._id
         );
-        if (index !== -1) {
-          state.authorLocations[index] = location;
+        if (authorIndex !== -1) {
+          state.authorLocations[authorIndex] = location;
         }
+
+        // Update locations in huntLocations
         const huntIndex = state.huntLocations.findIndex(
-          (poi) => poi._id === location._id
+          (loc) => loc._id === location._id
         );
         if (huntIndex !== -1) {
           state.huntLocations[huntIndex] = location;
         }
 
-        state.status = "success";
+        // Update locations in locationsByHuntId
+        if (state.locationsByHuntId[huntId]) {
+          const huntLocationsIndex = state.locationsByHuntId[huntId].findIndex(
+            (loc) => loc._id === location._id
+          );
+          if (huntLocationsIndex !== -1) {
+            state.locationsByHuntId[huntId][huntLocationsIndex] = location;
+          } else {
+            state.locationsByHuntId[huntId].push(location);
+          }
+        }
 
+        state.status = "success";
       })
       .addCase(updateLocation.rejected, (state, action) => {
         state.error = action.payload;

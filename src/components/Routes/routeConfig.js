@@ -18,6 +18,7 @@ import HuntsPage from '../pages/Hunts/HuntsPage.jsx';
 import Hunts from '../pages/Hunts/Hunts.jsx';
 import HuntDetailsPage from '../pages/Hunts/Other Pages/HuntDetailsPage.jsx';
 import CurrentHuntDetails from '../pages/Hunts/Other Pages/CurrentHuntDetails.jsx';
+import GeneralHuntDetails from '../pages/Hunts/Other Pages/GeneralHuntDetails.jsx';
 const routeConfig = [
   {
     path: '/user',
@@ -129,7 +130,7 @@ const routeConfig = [
   },
   {
   path: "/hunts/details/:id",
-  element: HuntDetailsPage,
+  element: GeneralHuntDetails,
   protected: true,
   permissionLevel : "0x01",
   },

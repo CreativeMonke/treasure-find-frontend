@@ -4,24 +4,21 @@ import { Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 import { setHasEnded } from "../../../features/hunt/huntSlice";
 
-function RemainingTime() {
-  const { currentHuntInfo } = useSelector((state) => state.hunt);
+function RemainingTimeGeneral({ huntInfo }) {
   const [color, setColor] = useState("primary");
   const [timeLeft, setTimeLeft] = useState("");
   const [eventStatus, setEventStatus] = useState("upcoming");
   const { t } = useTranslation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setInterval(() => {
       const now = Date.now();
-      const endTime = new Date(currentHuntInfo.endTime).getTime();
-      const startTime = new Date(currentHuntInfo.startTime).getTime();
+      const endTime = new Date(huntInfo.endTime).getTime();
+      const startTime = new Date(huntInfo.startTime).getTime();
 
       if (now > endTime) {
         clearInterval(timer);
         setTimeLeft(t("eventEnded"));
-        dispatch(setHasEnded());
         setColor("default");
         setEventStatus("ended");
       } else {
@@ -61,7 +58,7 @@ function RemainingTime() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [currentHuntInfo.endTime, currentHuntInfo.startTime, t, dispatch]);
+  }, [huntInfo.endTime, huntInfo.startTime, t]);
 
   const prefix =
     eventStatus === "upcoming"
@@ -77,4 +74,4 @@ function RemainingTime() {
   );
 }
 
-export default RemainingTime;
+export default RemainingTimeGeneral;

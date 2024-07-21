@@ -15,7 +15,10 @@ function LocationMarkers({ locations }) {
       const bounds = L.latLngBounds(
         locations.map((location) => [location.lat, location.lng])
       );
-      map.fitBounds(bounds);
+
+      const padding = 0.2; /// 5%
+      const paddedBounds = bounds.pad(padding);
+      map.fitBounds(paddedBounds);
     }
   }, [locations, map]);
 
@@ -46,7 +49,12 @@ function LocationMapOverview({ locations }) {
   return (
     <React.Fragment>
       <MapContainer
-        style={{ width: "100%", height: "100%", minHeight: "60dvh" }}
+        style={{
+          width: "100%",
+          height: "100%",
+          minHeight: "60dvh",
+          borderRadius : "10px",
+        }}
         zoomControl={false}
         dragging={false}
         boxZoom={false}

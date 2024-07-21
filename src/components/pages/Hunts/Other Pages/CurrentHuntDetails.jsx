@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import HuntDetailsPage from "./HuntDetailsPage";
 import { Button, Box, Typography } from "@mui/joy";
 import { getAllLocationsByUserHuntId } from "../../../../features/locations/locationSlice";
+import { ModalProvider } from "../Context/modalContext";
 
 export default function CurrentHuntDetails() {
   const [loading, setLoading] = useState(false);
@@ -41,13 +42,13 @@ export default function CurrentHuntDetails() {
   }
 
   const {
-    _id: huntId,
+    _id,
     huntName,
     townName,
     startTime,
     endTime,
-    location_ids,
-    participating_user_ids,
+    location_ids = [],
+    participating_user_ids = [],
   } = currentHuntDetails;
 
   const nrOfLocations = location_ids.length;
@@ -55,16 +56,22 @@ export default function CurrentHuntDetails() {
 
   return (
     <React.Fragment>
-      <HuntDetailsPage
-        huntName={huntName}
-        townName={townName}
-        startTime={startTime}
-        endTime={endTime}
-        numberOfLocations={nrOfLocations}
-        numberOfUsers={nrOfUsers}
-        locations={locations}
-        loading = {loading}
-      />
+      <ModalProvider>
+        {currentHuntDetails._id && (
+          <HuntDetailsPage
+            _id={_id}
+            completeHuntData={currentHuntDetails}
+            huntName={huntName}
+            townName={townName}
+            startTime={startTime}
+            endTime={endTime}
+            numberOfLocations={nrOfLocations}
+            numberOfUsers={nrOfUsers}
+            locations={locations}
+            loading={loading}
+          />
+        )}
+      </ModalProvider>
     </React.Fragment>
   );
 }

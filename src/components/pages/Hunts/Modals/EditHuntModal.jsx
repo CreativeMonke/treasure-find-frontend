@@ -67,7 +67,7 @@ export default function EditHuntModal({ modalName }) {
       const fetchHuntLocations = async () => {
         setLoading(true);
         try {
-          const huntLocations = await dispatch(
+          const {locations : huntLocations} = await dispatch(
             getAllLocationsByHuntId(huntId)
           ).unwrap();
           setLocationsInHunt(huntLocations);
