@@ -18,16 +18,17 @@ import EditHuntModal from "./Modals/EditHuntModal";
 import { useModal } from "./Context/modalContext";
 import { OpenInNewRounded } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-
+  const { t } = useTranslation();
   const headCells = [
-    { id: "huntName", label: "Hunt Name" },
-    { id: "townName", label: "Town Name" },
-    { id: "startTime", label: "Start Time" },
-    { id: "endTime", label: "End Time" },
+    { id: "huntName", label: t("huntName") },
+    { id: "townName", label: t("townName") },
+    { id: "startTime", label: t("startTime") },
+    { id: "endTime", label: t("endTime") },
   ];
 
   return (
@@ -106,6 +107,7 @@ function Row({
   handleEdit,
   handleDelete,
   handleExit,
+  userActiveHuntId,
   color,
 }) {
   const navigate = useNavigate();
@@ -164,9 +166,10 @@ function Row({
       <tr>
         <td style={{ height: 0, padding: 0 }} colSpan={6}>
           {isOpen && (
-            <Sheet variant="plain" sx={{ p: 2, borderRadius: "md"}}>
+            <Sheet variant="plain" sx={{ p: 2, borderRadius: "md" }}>
               <HuntDetail
                 hunt={row}
+                userActiveHuntId={userActiveHuntId}
                 handleJoin={handleJoin}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
@@ -200,10 +203,12 @@ export default function HuntsTable({
 
   return (
     <React.Fragment>
-      <Box sx = {{
-        minWidth : "300px",
-        overflow: 'auto'
-      }}>
+      <Box
+        sx={{
+          minWidth: "300px",
+          overflow: "auto",
+        }}
+      >
         <Table
           aria-labelledby="tableTitle"
           hoverRow
@@ -231,6 +236,7 @@ export default function HuntsTable({
                 }
                 key={hunt._id}
                 row={hunt}
+                userActiveHuntId={userActiveHuntId}
                 isOpen={selectedHuntId === hunt._id}
                 onExpandClick={handleExpandClick}
                 handleJoin={handleJoin}

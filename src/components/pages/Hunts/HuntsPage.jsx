@@ -31,7 +31,7 @@ import {
 import { useModal } from "./Context/modalContext";
 import CreateHuntModal from "./Modals/CreateHuntModal";
 
-function HuntsPage() {
+function HuntsPage({ globalFilter = { key: "", value: "" } }) {
   const dispatch = useDispatch();
   const { hunts, status, error } = useSelector((state) => state.hunt);
   const [order, setOrder] = useState("asc");
@@ -45,7 +45,13 @@ function HuntsPage() {
     dispatch(getAllHunts());
   }, []);
 
-  const filteredHunts = getFilteredHunts(hunts, search, filterBy, huntStatus);
+  const filteredHunts = getFilteredHunts(
+    hunts,
+    search,
+    filterBy,
+    huntStatus,
+    globalFilter
+  );
   const userActiveHuntId = useSelector(
     (state) => state.auth.user.currentHuntId
   );
@@ -147,10 +153,12 @@ function HuntsPage() {
             {error}
           </Typography>
         ) : (
-          <Box sx = {{
-            maxWidth: "100%",
-            overflow: "auto",
-          }}>
+          <Box
+            sx={{
+              maxWidth: "100%",
+              overflow: "auto",
+            }}
+          >
             <HuntsTable
               hunts={filteredHunts}
               userActiveHuntId={userActiveHuntId}

@@ -5,7 +5,10 @@ import MuiToSvgIcon from "../../../../General/MuiToSvgIcon";
 import { PlaceRounded } from "@mui/icons-material";
 import TimelineCard from "../../../../Poi/TimelineCard";
 import "./Popup.css";
-const customIcon = MuiToSvgIcon({ name: PlaceRounded, color: "primary" });
+const customIcon = MuiToSvgIcon({
+  name: PlaceRounded,
+  color: "var(--joy-palette-primary-200, #0B6BCB)",
+});
 
 function LocationMarkers({ locations }) {
   const map = useMap();
@@ -53,7 +56,7 @@ function LocationMapOverview({ locations }) {
           width: "100%",
           height: "100%",
           minHeight: "60dvh",
-          borderRadius : "10px",
+          borderRadius: "10px",
         }}
         zoomControl={false}
         dragging={false}

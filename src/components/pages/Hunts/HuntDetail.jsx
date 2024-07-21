@@ -13,7 +13,7 @@ import { DeleteForeverRounded, MapRounded } from "@mui/icons-material";
 import ConfirmationModal from "../../General/ConfirmationModal";
 import { useModal } from "./Context/modalContext";
 import EditHuntModal from "./Modals/EditHuntModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function HuntDetail({
   hunt,
@@ -21,11 +21,13 @@ function HuntDetail({
   handleEdit,
   handleDelete,
   handleExit,
+  userActiveHuntId
 }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const { openModal, modalState } = useModal();
+  const currentUserId = useSelector((state) => state.auth.user._id);
 
   return (
     <Grid
@@ -98,66 +100,72 @@ function HuntDetail({
               Join Hunt
             </Button>
           </Grid>
-          <Grid item xs={6} md={3}>
-            <Button
-              variant="solid"
-              color="neutral"
-              size="md"
-              onClick={() =>
-                openModal("isEditModalOpen", {
-                  huntId: hunt._id,
-                  hunt,
-                  titleText: "Editing",
-                  cancelText: "Cancel",
-                  saveText: "Save",
-                  handleSave: (updatedHunt) =>
-                    handleEdit(dispatch, updatedHunt),
-                })
-              }
-            >
-              Edit Hunt
-            </Button>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Button
-              variant="solid"
-              color="danger"
-              size="md"
-              onClick={() =>
-                openModal("isDeleteModalOpen", {
-                  title: "Confirm Deletion",
-                  TitleIcon: DeleteForeverRounded,
-                  titleIconColor: "danger",
-                  content: "Are you sure you want to delete this hunt?",
-                  additionalInfo: "Action is not reversible!",
-                  cancelText: "Cancel",
-                  saveText: "Delete",
-                  saveColor: "danger",
-                  handleSave: () => handleDelete(hunt._id),
-                })
-              }
-            >
-              Delete Hunt
-            </Button>
-          </Grid>
-          <Grid item xs={6} md={3}>
-            <Button
-              variant="solid"
-              size="md"
-              color="warning"
-              onClick={() =>
-                openModal("isExitModalOpen", {
-                  title: "Confirm Exit",
-                  content: "Are you sure you want to exit this hunt?",
-                  cancelText: "No",
-                  saveText: "Yes",
-                  handleSave: () => handleExit(),
-                })
-              }
-            >
-              Exit Hunt
-            </Button>
-          </Grid>
+          {currentUserId === hunt.author_id && (
+            <Grid item xs={6} md={3}>
+              <Button
+                variant="solid"
+                color="neutral"
+                size="md"
+                onClick={() =>
+                  openModal("isEditModalOpen", {
+                    huntId: hunt._id,
+                    hunt,
+                    titleText: "Editing",
+                    cancelText: "Cancel",
+                    saveText: "Save",
+                    handleSave: (updatedHunt) =>
+                      handleEdit(dispatch, updatedHunt),
+                  })
+                }
+              >
+                Edit Hunt
+              </Button>
+            </Grid>
+          )}
+          {currentUserId === hunt.author_id && (
+            <Grid item xs={6} md={3}>
+              <Button
+                variant="solid"
+                color="danger"
+                size="md"
+                onClick={() =>
+                  openModal("isDeleteModalOpen", {
+                    title: "Confirm Deletion",
+                    TitleIcon: DeleteForeverRounded,
+                    titleIconColor: "danger",
+                    content: "Are you sure you want to delete this hunt?",
+                    additionalInfo: "Action is not reversible!",
+                    cancelText: "Cancel",
+                    saveText: "Delete",
+                    saveColor: "danger",
+                    handleSave: () => handleDelete(hunt._id),
+                  })
+                }
+              >
+                Delete Hunt
+              </Button>
+            </Grid>
+          )}
+          {userActiveHuntId === hunt._id && (
+            <Grid item xs={6} md={3}>
+              <Button
+                variant="solid"
+                size="md"
+                color="warning"
+                onClick={() =>
+                  openModal("isExitModalOpen", {
+                    title: "Confirm Exit",
+                    content: "Are you sure you want to exit this hunt?",
+                    cancelText: "No",
+                    saveText: "Yes",
+                    handleSave: () => handleExit(),
+                  })
+                }
+              >
+                Exit Hunt
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
       {modalState["isJoinModalOpen"] && (

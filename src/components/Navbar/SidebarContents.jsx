@@ -32,6 +32,8 @@ function SidebarContents({
 }) {
   const { t } = useTranslation();
   const userInfo = useSelector((state) => state.auth.user);
+  const { currentHuntInfo } = useSelector((state) => state.hunt);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -156,14 +158,17 @@ function SidebarContents({
               )
             ) : (
               sidebarItem.type === "divider" && (
-                <Divider key={baseKey} sx = {{
-                  mt:sidebarItem.mt,
-                  mb:sidebarItem.mb
-                }}>
+                <Divider
+                  key={baseKey}
+                  sx={{
+                    mt: sidebarItem.mt,
+                    mb: sidebarItem.mb,
+                  }}
+                >
                   <Typography
                     startDecorator={sidebarItem.icon}
                     color={sidebarItem.color}
-                    level = {sidebarItem.level}
+                    level={sidebarItem.level}
                   >
                     {sidebarItem.title}
                   </Typography>
@@ -208,7 +213,11 @@ function SidebarContents({
         </ListItem>
       </List>
       <Divider>
-        <RemainingTime />
+        {currentHuntInfo.startTime ? (
+          <RemainingTime />
+        ) : (
+          <Typography level = "body-xs" color = "neutral">{t("joinHuntNowMessage")}</Typography>
+        )}
       </Divider>
 
       <Grid container sx={{ width: "100%" }}>

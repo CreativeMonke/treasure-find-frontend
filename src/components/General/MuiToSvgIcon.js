@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 function MuiToSvgIcon({ name: MuiIconComponent, color }) {
   const svgString = `
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-      ${renderToStaticMarkup(<MuiIconComponent style={{ fill: 'var(--joy-palette-primary-200, #0B6BCB)'}} />)}
+      ${renderToStaticMarkup(<MuiIconComponent style={{ fill: color }} />)}
     </svg>
   `;
   const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(

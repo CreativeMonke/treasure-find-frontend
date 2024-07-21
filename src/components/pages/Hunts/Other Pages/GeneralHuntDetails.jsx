@@ -57,7 +57,7 @@ export default function GeneralHuntDetails() {
   return (
     <React.Fragment>
       <ModalProvider>
-        {!loading && huntDetails._id && locations.length && (
+        {!loading && huntDetails._id && (
           <HuntDetailsPage
             completeHuntData={huntDetails}
             huntName={huntName}

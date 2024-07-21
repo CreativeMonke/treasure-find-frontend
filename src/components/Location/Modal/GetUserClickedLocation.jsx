@@ -1,43 +1,34 @@
 import { useMap } from "react-leaflet";
 import L from "leaflet";
-import { useState, useEffect } from "react";
-import "leaflet-control-geocoder/dist/Control.Geocoder.js";
+import { useEffect, useRef } from "react";
+import MuiToSvgIcon from "../../General/MuiToSvgIcon";
+import { AddLocationRounded } from "@mui/icons-material";
 
-function GetUserClickedLocation({setClickedLocation}) {
-  const [marker, setMarker] = useState(null);
-
+function GetUserClickedLocation({ setClickedLocation }) {
+  const markerRef = useRef(null);
   const map = useMap();
-
+  const icon = MuiToSvgIcon({
+    name: AddLocationRounded,
+    color: "var(--joy-palette-primary-200, #0B6BCB)",
+  });
   useEffect(() => {
-    const geocoder = new L.Control.Geocoder.Nominatim();
+    function onMapClick(evt) {
+      if (markerRef.current) {
+        markerRef.current.remove();
+      }
 
-    function OnMapClick(evt) {
-      geocoder.reverse(
-        evt.latlng,
-        map.options.crs.scale(map.getZoom()),
-        (results) => {
-          const r = results[0];
-          if (r) {
-            if (marker) {
-              marker.remove();
-            }
-          }
-          const newMarker = L.marker(evt.latlng)
-            .addTo(map)
-            .bindPopup(`${r.name}`)
-            .openPopup();
-
-          setMarker(newMarker);
-          setClickedLocation(evt.latlng);
-        }
-      );
+      const newMarker = L.marker(evt.latlng, { icon }).addTo(map);
+      markerRef.current = newMarker;
+      setClickedLocation(evt.latlng);
     }
 
-    map.on("click", OnMapClick);
+    map.on("click", onMapClick);
     return () => {
-      map.off("click", OnMapClick);
+      map.off("click", onMapClick);
     };
-  }, [map, marker, setClickedLocation]);
+  }, [map, setClickedLocation]);
+
   return null;
 }
+
 export default GetUserClickedLocation;

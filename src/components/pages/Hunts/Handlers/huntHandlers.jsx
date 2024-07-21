@@ -71,10 +71,22 @@ export async function handleExit(dispatch, setSelectedHuntId) {
   }
 }
 
-export const getFilteredHunts = (hunts, search, filterBy, huntStatus) => {
+export const getFilteredHunts = (
+  hunts,
+  search,
+  filterBy,
+  huntStatus,
+  globalFilter
+) => {
   const searchTerm = search.toLowerCase();
   const now = new Date();
   return hunts.filter((hunt) => {
+    const matchesGlobal = globalFilter.key
+      ? hunt[globalFilter.key]
+          ?.toLowerCase()
+          .includes(globalFilter.value.toLowerCase())
+      : true;
+
     const matchesSearch =
       filterBy === "Name"
         ? hunt.huntName.toLowerCase().includes(searchTerm)
@@ -89,6 +101,6 @@ export const getFilteredHunts = (hunts, search, filterBy, huntStatus) => {
         ? new Date(hunt.startTime) <= now && new Date(hunt.endTime) > now
         : new Date(hunt.endTime) < now;
 
-    return matchesSearch && matchesStatus;
+    return matchesGlobal && matchesSearch && matchesStatus;
   });
 };

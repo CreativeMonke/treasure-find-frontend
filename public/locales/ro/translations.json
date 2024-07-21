@@ -108,5 +108,7 @@
   "theHunt": "Vânătoarea",
   "currentHunt": "Vânătoare Curentă",
   "myDashboard": "Tabloul Meu de Bord",
-  "adminPanel": "Panou Admin"
+  "adminPanel": "Panou Admin",
+  "huntName": "Nume Vânătoare",
+  "townName": "Nume Oraș"
 }

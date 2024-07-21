@@ -25,8 +25,8 @@ function RemainingTimeGeneral({ huntInfo }) {
         const remainingTime =
           now >= startTime ? endTime - now : startTime - now;
         const isEndingSoon = remainingTime < 30 * 60 * 1000; // Less than 30 minutes
-        setColor(isEndingSoon ? "danger" : "success");
         setEventStatus(now >= startTime ? "ongoing" : "upcoming");
+        setColor(isEndingSoon ? "danger" : eventStatus === "upcoming" ? "purple" : "success");
 
         const days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
         const hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);

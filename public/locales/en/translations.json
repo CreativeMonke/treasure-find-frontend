@@ -106,5 +106,7 @@
   "theHunt" : "Hunt",
   "currentHunt": "Current Hunt",
   "myDashboard": "My Dashboard",
-  "adminPanel": "Admin Panel"
+  "adminPanel": "Admin Panel",
+  "huntName" : "Hunt Name",
+  "townName" : "Town Name"
 }
