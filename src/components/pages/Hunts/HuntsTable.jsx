@@ -45,6 +45,8 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
                   ? { asc: "ascending", desc: "descending" }[order]
                   : undefined
               }
+              //style={{ position: "sticky", top: 0, backgroundColor: "inherit", zIndex: 1 }}
+
             >
               <Link
                 underline="none"
@@ -139,7 +141,7 @@ function Row({
             {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </td>
-        <th scope="row">{row.huntName}</th>
+        <td>{row.huntName}</td>
         <td>{row.townName}</td>
         <td>{new Date(row.startTime).toLocaleString()}</td>
         <td>{new Date(row.endTime).toLocaleString()}</td>
@@ -207,13 +209,17 @@ export default function HuntsTable({
         sx={{
           minWidth: "300px",
           overflow: "auto",
+          maxHeight: "100%",
+
         }}
       >
         <Table
           aria-labelledby="tableTitle"
           hoverRow
+          stickyHeader
           sx={{
-            "--TableCell-headBackground": "transparent",
+            "--TableCell-headBackground": (theme) =>
+              theme.vars.palette.neutral.softBg,
             "--TableCell-selectedBackground": (theme) =>
               theme.vars.palette.success.softBg,
           }}

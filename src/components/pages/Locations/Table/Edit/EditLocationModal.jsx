@@ -87,7 +87,7 @@ function EditLocationModal({ open, setOpen, location }) {
         layout="center"
         sx={{
           mt: 2,
-          height: "70dvh",
+          height: "80dvh",
           width: "70vw",
           maxWidth: "1000px",
           maxHeight: "800px",
@@ -109,7 +109,7 @@ function EditLocationModal({ open, setOpen, location }) {
         <Divider />
         <DialogContent>
           <Sheet>
-            <Grid container spacing={2} sx={{ overflow: "auto", margin: 1 }}>
+            <Grid container spacing={2} sx={{ overflow: "auto", margin: 0.5 }}>
               <Grid item xs={6}>
                 <GridItem
                   label={t("question")}

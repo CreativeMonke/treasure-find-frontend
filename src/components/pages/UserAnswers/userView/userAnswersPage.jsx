@@ -1,58 +1,53 @@
 import React, { useEffect } from "react";
-import { Sheet, Typography, Divider , Box} from "@mui/joy";
+import { Sheet, Typography, Divider, Box } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import HuntTimeline from "./HuntTimeline";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice";
 import "react-vertical-timeline-component/style.min.css";
 import { KeyboardArrowDownRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import InnerPageSheet from "../../PageStructure/InnerPageSheet";
 function UserAnswersPage() {
   const { t } = useTranslation();
   const { hasEnded } = useSelector((state) => state.hunt);
-  const {areAnswersReady} = useSelector((state) => state.hunt.currentHuntInfo);
+  const { areAnswersReady } = useSelector(
+    (state) => state.hunt.currentHuntInfo
+  );
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        height: "100%",
-        overflow: "auto",
-        display: "flex",
-        gap: 2,
-        flexDirection: "column",
-        borderRadius: "10px",
-      }}
-    >
+    <InnerPageSheet>
       <Typography level="h1" sx={{ width: "100%", textAlign: "center", pt: 1 }}>
         {t("myAnswers")}
       </Typography>
       <Divider>
         <KeyboardArrowDownRounded />
       </Divider>
-      {hasEnded && areAnswersReady? (
+      {hasEnded && areAnswersReady ? (
         <HuntTimeline />
       ) : (
-        <Box sx = {{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          gap: 2,
-          width: "100%",
-          height: "100%",
-        }}>
-          {!hasEnded?
-          <Typography level = "h2" color = "warning">
-            {t("moreInfoAfterEnd")}
-          </Typography>
-          :
-          <Typography level = "h2" color = "warning">
-          {t("responsesWaitingMsg")}
-        </Typography>
-}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            gap: 2,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {!hasEnded ? (
+            <Typography level="h2" color="warning">
+              {t("moreInfoAfterEnd")}
+            </Typography>
+          ) : (
+            <Typography level="h2" color="warning">
+              {t("responsesWaitingMsg")}
+            </Typography>
+          )}
         </Box>
       )}
-    </Sheet>
+    </InnerPageSheet>
   );
 }
 

@@ -6,35 +6,24 @@ import { useSelector } from "react-redux";
 import { Divider, Grid, Typography } from "@mui/joy";
 import CreateButton from "./Create/CreateButton";
 import { useTranslation } from "react-i18next";
+import InnerPageSheet from "../../PageStructure/InnerPageSheet";
 function LocationsTable() {
   const locations = useSelector((state) => state.locations.authorLocations);
   const { t } = useTranslation();
   return (
-    <Sheet
-      variant="soft"
-      sx={{
-        p: 3,
-        overflow: "auto",
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "10px",
-      }}
-    >
+    <InnerPageSheet>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography level="h1">{`${t("edit")} ${t("the_locations")}`}</Typography>
+          <Typography level="h1">{`${t("edit")} ${t(
+            "the_locations"
+          )}`}</Typography>
         </Grid>
         <Grid item xs={12}>
           <Divider>{`${t("all")} ${t("the_locations")}`}</Divider>
         </Grid>
         <Grid item xs={12}>
           <Sheet variant="plain">
-            <Table
-              borderAxis="xBetween"
-              size="md"
-              noWrap
-              stickyFooter={false}
-            >
+            <Table borderAxis="xBetween" size="md" noWrap stickyFooter={false}>
               <thead>
                 <tr>
                   <th width="10%">#</th>
@@ -61,7 +50,7 @@ function LocationsTable() {
           <CreateButton />
         </Grid>
       </Grid>
-    </Sheet>
+    </InnerPageSheet>
   );
 }
 

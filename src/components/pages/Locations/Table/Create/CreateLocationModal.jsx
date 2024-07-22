@@ -82,8 +82,10 @@ function CreateLocationModal(props) {
         layout="center"
         sx={{
           mt: 2,
-          height: "85dvh",
-          width: "95vw",
+          height: "80dvh",
+          width: "70vw",
+          maxWidth: "1000px",
+          maxHeight: "800px",
         }}
       >
         <ModalClose variant="plain" />
@@ -94,8 +96,8 @@ function CreateLocationModal(props) {
         <Divider />
         <DialogContent>
           <Sheet>
-            <Grid container spacing={4} sx={{ overflow: "auto", margin: 3 }}>
-              <Grid item xs={6} lg={2}>
+            <Grid container spacing={4} sx={{ overflow: "auto", margin: 0.5 }}>
+              <Grid item xs={12} lg={3}>
                 <InputField
                   label={t("name")}
                   id="name"
@@ -105,8 +107,8 @@ function CreateLocationModal(props) {
                   setValue={setName}
                 />
               </Grid>
-              <Grid item xs={8} lg={10} />
-              <Grid item xs={6} lg={3}>
+              <Grid item xs={0} lg={9} />
+              <Grid item xs={12} lg={3}>
                 <InputField
                   label={t("question")}
                   id="question"
@@ -116,7 +118,7 @@ function CreateLocationModal(props) {
                   setValue={setQuestion}
                 />
               </Grid>
-              <Grid item xs={6} lg={3}>
+              <Grid item xs={12} lg={3}>
                 <InputField
                   label={t("correctAnswer")}
                   id="answer"

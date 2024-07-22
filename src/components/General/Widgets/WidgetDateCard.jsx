@@ -35,7 +35,7 @@ function WidgetDateCard({ title, icon, dateTime }) {
         alignItems: "center",
         maxWidth: "320px",
         minWidth: "200px",
-        width: "100%",
+        width: "95%",
       }}
     >
       <Box sx={{ position: "absolute", top: "0.875rem", left: "0.875rem" }}>

@@ -30,6 +30,7 @@ import {
 } from "./Handlers/huntHandlers";
 import { useModal } from "./Context/modalContext";
 import CreateHuntModal from "./Modals/CreateHuntModal";
+import InnerPageSheet from "../PageStructure/InnerPageSheet";
 
 function HuntsPage({ globalFilter = { key: "", value: "" } }) {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
 
   return (
     <React.Fragment>
-      <Sheet
+      <InnerPageSheet
         variant="soft"
         sx={{
           opacity: 0.95,
@@ -186,7 +187,7 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
             />
           </Box>
         )}
-      </Sheet>
+      </InnerPageSheet>
       {modalState["isCreateModalOpen"] && (
         <CreateHuntModal modalName="isCreateModalOpen" />
       )}

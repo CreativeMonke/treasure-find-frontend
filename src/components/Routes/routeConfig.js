@@ -20,6 +20,7 @@ import HuntDetailsPage from "../pages/Hunts/Other Pages/HuntDetailsPage.jsx";
 import CurrentHuntDetails from "../pages/Hunts/Other Pages/CurrentHuntDetails.jsx";
 import GeneralHuntDetails from "../pages/Hunts/Other Pages/GeneralHuntDetails.jsx";
 import MyHunts from "../pages/Hunts/Other Pages/MyHunts/MyHunts.jsx";
+import UserSettingPage from "../pages/Settings/UserSetting/UserSettingPage.jsx";
 const routeConfig = [
   {
     path: "/user",
@@ -132,6 +133,12 @@ const routeConfig = [
   {
     path: `/hunts/currentHuntDetails`,
     element: CurrentHuntDetails,
+    protected: true,
+    permissionLevel: "0x01",
+  },
+  {
+    path: `/settings/account`,
+    element: UserSettingPage,
     protected: true,
     permissionLevel: "0x01",
   },

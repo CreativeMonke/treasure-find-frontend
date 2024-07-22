@@ -28,6 +28,7 @@ import { handleEdit, handleExit } from "../Handlers/huntHandlers";
 import { useNavigate } from "react-router-dom";
 import EditHuntModal from "../Modals/EditHuntModal";
 import RemainingTimeGeneral from "../../../General/RemainingTime/RemainingTimeGeneral";
+import InnerPageSheet from "../../PageStructure/InnerPageSheet";
 
 function HuntDetailsPage({
   huntName,
@@ -49,24 +50,10 @@ function HuntDetailsPage({
   const navigate = useNavigate();
   return (
     <React.Fragment>
-      <Sheet
-        variant="outlined"
-        sx={{
-          p: 3,
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: "10px",
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
+      <InnerPageSheet>
         <Typography level="h2">{huntName} - details</Typography>
         <Grid container spacing={3} sx={{ mt: 2, height: "100%" }}>
-          <Grid
-            item
-            xs={12}
-            md={9}
-          >
+          <Grid item xs={12} md={9}>
             <LocationMapOverview locations={locations} />
           </Grid>
           <Grid
@@ -172,7 +159,7 @@ function HuntDetailsPage({
             </Box>
           </Grid>
         </Grid>
-      </Sheet>
+      </InnerPageSheet>
       {modalState["isExitModalOpen"] && (
         <ConfirmationModal modalName="isExitModalOpen" />
       )}

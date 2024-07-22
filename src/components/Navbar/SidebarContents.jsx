@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/joy/Box";
 import {
+  Button,
   Divider,
   Grid,
   IconButton,
@@ -10,6 +11,7 @@ import {
   ListItemButton,
   ListItemContent,
   Sheet,
+  Tooltip,
   Typography,
 } from "@mui/joy";
 import {
@@ -216,17 +218,40 @@ function SidebarContents({
         {currentHuntInfo.startTime ? (
           <RemainingTime />
         ) : (
-          <Typography level = "body-xs" color = "neutral">{t("joinHuntNowMessage")}</Typography>
+          <Typography level="body-xs" color="neutral">
+            {t("joinHuntNowMessage")}
+          </Typography>
         )}
       </Divider>
 
-      <Grid container sx={{ width: "100%" }}>
+      <Grid container sx={{ width: "100%", alignItems: "center" }}>
         <Grid item xs={10}>
-          <Box>
-            <Typography level="title-sm">{userInfo.first_name}</Typography>
-
-            <Typography level="body-xs">{userInfo.email}</Typography>
-          </Box>
+          <Tooltip
+            title="Account Settings"
+            arrow
+            color="neutral"
+            placement="top"
+            size="lg"
+            variant="plain"
+          >
+            <Button
+              size="sm"
+              variant="plain"
+              color = "neutral"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                flexFlow: "column",
+                alignItems: "flex-start",
+                pl: "2px",
+                pr: "2px",
+              }}
+              onClick = {() => {navigate("/settings/account")}}
+            >
+              <Typography level="title-sm">{userInfo.first_name}</Typography>
+              <Typography level="body-xs">{userInfo.email}</Typography>
+            </Button>
+          </Tooltip>
         </Grid>
         <Grid item xs={2}>
           <IconButton

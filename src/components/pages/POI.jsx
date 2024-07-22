@@ -1,16 +1,12 @@
 import React from "react";
 import Box from "@mui/joy/Box";
 import PoiSection from "../Poi/PoiSection";
-import "./Css/Poi.css"
+import "./Css/Poi.css";
 /// -> Get Section (to mongodb)
 /// -> Create a new section
 
 function POI() {
-  return (
-    <Box className = "poiPage">
-      <PoiSection />
-    </Box>
-  );
+  return <PoiSection />;
 }
 
 export default POI;

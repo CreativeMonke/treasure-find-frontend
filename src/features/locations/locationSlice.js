@@ -51,7 +51,7 @@ export const getAllLocationsByHuntId = createAsyncThunk(
   async (huntId, { getState, rejectWithValue }) => {
     const { auth } = getState();
     try {
-      const res = await axios.get(`${apiUrl}locations/huntid/${huntId}`, {
+      const res = await axios.get(`${apiUrl}locations/huntId/${huntId}`, {
         headers: {
           sessionid: auth.sessionId,
         },
@@ -140,7 +140,12 @@ export const deleteLocation = createAsyncThunk(
           withCredentials: true,
         }
       );
-      return locationId; // Return the id to identify which location was deleted
+      console.log("res", res.data);
+      return {
+        locationId: locationId,
+        location: res.data.data,
+        message: res.data.message,
+      };
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -175,9 +180,22 @@ const locationSlice = createSlice({
         state.authorLocations.push(action.payload.data);
       })
       .addCase(deleteLocation.fulfilled, (state, action) => {
+        const { locationId, location } = action.payload;
         state.authorLocations = state.authorLocations.filter(
-          (location) => location._id !== action.payload
+          (aLocation) => aLocation._id !== locationId
         );
+        ///Also remove the location from the huntLocations && locationsByHuntId (based on the info from the "location")
+        state.huntLocations = state.huntLocations.filter(
+          (hLocation) => hLocation._id !== locationId
+        );
+
+        location.hunts.forEach((huntId) => {
+          if (state.locationsByHuntId[huntId]) {
+            state.locationsByHuntId[huntId] = state.locationsByHuntId[
+              huntId
+            ].filter((hl) => hl._id !== locationId);
+          }
+        });
       })
       .addCase(getAllLocationsByAuthorId.fulfilled, (state, action) => {
         state.authorLocations = action.payload;

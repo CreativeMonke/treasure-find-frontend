@@ -19,20 +19,21 @@ function MainContent() {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
   const backgroundImageUrl = isDarkMode
-    ? "./icons/backgroundDark.jpg"
-    : "./icons/backgroundLight.jpg";
+    ? "/icons/backgroundDark.jpg"
+    : "/icons/backgroundLight.jpg";
   return !shouldHideBox ? (
     <Box
       component="main"
       className="MainContent"
       boxSizing="border-box"
       maxHeight="100vh"
+      maxWidth= "100vw"
       sx={{
         backgroundColor: "background.body",
         backgroundImage: `url(${backgroundImageUrl})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        px: { xs: 2, md: 3 },
+        px: { xs: 1, md: 3 },
         pt: {
           xs: "calc(22px + var(--Header-height))",
           sm: "calc(24px + var(--Header-height))",

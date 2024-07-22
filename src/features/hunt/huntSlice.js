@@ -20,9 +20,11 @@ export const editHuntOptionsById = createAsyncThunk(
           withCredentials: true,
         }
       );
-      if (updatedHunt._id === getState().auth.currentHuntState.huntId)
+
+      if (updatedHunt._id === getState().auth.currentHuntState?.huntId)
         await dispatch(getAllLocationsByUserHuntId());
       else await dispatch(getAllLocationsByHuntId(updatedHunt._id));
+
       return {
         hunt: res.data.data,
         status: res.data.status,

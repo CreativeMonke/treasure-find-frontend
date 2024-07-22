@@ -21,14 +21,13 @@ function HuntDetail({
   handleEdit,
   handleDelete,
   handleExit,
-  userActiveHuntId
+  userActiveHuntId,
 }) {
   const dispatch = useDispatch();
   const theme = useTheme();
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const { openModal, modalState } = useModal();
   const currentUserId = useSelector((state) => state.auth.user._id);
-
   return (
     <Grid
       container
@@ -48,10 +47,10 @@ function HuntDetail({
           End Time: {new Date(hunt.endTime).toLocaleString()}
         </Typography>
         <Typography level="body-md">
-          Number of Users: {hunt.participating_user_ids.length}
+          Number of Users: {hunt.participating_user_ids?.length}
         </Typography>
         <Typography level="body-md">
-          Number of Objectives: {hunt.nrOfObjectives}
+          Number of Objectives: {hunt.location_ids?.length}
         </Typography>
         <Typography level="body-md">
           Duration:{" "}

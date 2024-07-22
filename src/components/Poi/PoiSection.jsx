@@ -6,6 +6,7 @@ import TimelineCard from "./TimelineCard";
 import { useDispatch, useSelector } from "react-redux";
 import { Sheet, Grid, Typography } from "@mui/joy";
 import { getAllLocationsByUserHuntId } from "../../features/locations/locationSlice";
+import InnerPageSheet from "../pages/PageStructure/InnerPageSheet";
 function PoiSection(props) {
   ///Add loading
   const [loading, setLoading] = useState(false);
@@ -16,18 +17,7 @@ function PoiSection(props) {
   const locations = useSelector((state) => state.locations.huntLocations);
   const desktop = useMediaQuery("(min-width: 900px)");
   return (
-    <Sheet
-      className="poiList"
-      variant="outlined"
-      sx={{
-        p: 3,
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "10px",
-        height: "100%",
-        overflow: "hidden",
-      }}
-    >
+    <InnerPageSheet>
       <Grid
         container
         spacing={5}
@@ -55,7 +45,7 @@ function PoiSection(props) {
               </Grid>
             ))}
       </Grid>
-    </Sheet>
+    </InnerPageSheet>
   );
 }
 
