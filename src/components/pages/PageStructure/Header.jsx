@@ -1,37 +1,41 @@
 import React from "react";
 import { Box, Typography } from "@mui/joy";
+import { useTranslation } from "react-i18next";
 
 function Header() {
-  const logoPath = process.env.PUBLIC_URL + "/icons/logo/logo.png"; // Construct the path to the logo image
-
+  const logoPath = process.env.PUBLIC_URL + "/icons/logo/logo.png";
+  const { t } = useTranslation();
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "100%",
-        height: "var(--Header-height, 60px)", // Default height or use CSS variable
-      }}
-    >
+    <React.Fragment>
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
           alignContent: "center",
-          width: "100%",
+          minWidth: "120px",
+          position: "absolute",
+          left: "50%",
+          transform: "translateX(-50%)",
         }}
       >
         <img
           src={logoPath}
           alt="Logo"
-          style={{ maxHeight: "100%", maxWidth: "50px" }}
-        />{" "}
+          style={{ maxHeight: "95%", maxWidth: "100px" }}
+        />
       </Box>
-      <Typography level="title-sm" sx={{}}>
-        OniGim 2024
+      <Typography
+        level="title-md"
+        textAlign="right"
+        sx={{
+          right: 20,
+          position: "relative",
+          width: "30%",
+          maxWidth: "120px",
+        }}
+      >
+        {t("appName")}
       </Typography>
-    </Box>
+    </React.Fragment>
   );
 }
 

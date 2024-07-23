@@ -64,7 +64,7 @@ function HuntDetailsPage({
           {huntName} - {t("details").toLowerCase()}
         </Typography>
         <Grid container spacing={3} sx={{ mt: 2, height: "100%" }}>
-          <Grid item xs={12} md={9}>
+          <Grid item xs={12} lg={9}>
             {numberOfLocations !== 0 ? (
               <LocationMapOverview locations={locations} />
             ) : (
@@ -89,13 +89,13 @@ function HuntDetailsPage({
           <Grid
             item
             xs={12}
-            md={3}
+            lg={3}
             sx={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               justifyContent: "space-between",
-              gap: 2,
+              gap: 1,
               flexDirection: "column",
             }}
           >

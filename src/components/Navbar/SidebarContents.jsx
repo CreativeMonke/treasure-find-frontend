@@ -80,8 +80,24 @@ function SidebarContents({
         }}
         onClick={closeDrawer}
       />
-      <Box className="SidebarHeader">
-        <Typography level="title-lg">{t("appName")}</Typography>
+      <Box className="SidebarHeader" sx = {{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+  
+    
+      }}>
+        <Typography
+          level="title-lg"
+          sx={{
+            maxWidth: "120px",
+            display: "flex",
+            flexFlow: "column",
+          }}
+        >
+          {t("appName")}
+          <Typography level="body-sm">{t("appDescription")}</Typography>
+        </Typography>
         <LanguageSwitcher />
       </Box>
 
@@ -237,7 +253,7 @@ function SidebarContents({
             <Button
               size="sm"
               variant="plain"
-              color = "neutral"
+              color="neutral"
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -246,7 +262,9 @@ function SidebarContents({
                 pl: "2px",
                 pr: "2px",
               }}
-              onClick = {() => {navigate("/settings/account")}}
+              onClick={() => {
+                navigate("/settings/account");
+              }}
             >
               <Typography level="title-sm">{userInfo.first_name}</Typography>
               <Typography level="body-xs">{userInfo.email}</Typography>

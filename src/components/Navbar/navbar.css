@@ -1,37 +1,38 @@
-.SidebarDrawer{
+.SidebarDrawer {
   position: sticky;
 }
-.Sidebar{
+.Sidebar {
   display: flex;
   flex-direction: column;
   border-right: 1px solid;
   min-width: max-content;
   background-color: var(--joy-palette-background-surface);
 }
-.SidebarHeader{
+.SidebarHeader {
   display: flex;
-  gap:1rem;
+  gap : 1rem;
   padding: 0.3rem;
   align-items: center;
+  justify-content: space-between;
+
 }
-.NavigationLinks{
+.NavigationLinks {
   min-height: 0;
   overflow: hidden auto;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
-.TopList{
+.TopList {
   size: "sm";
-  gap:0.5rem;
-  --ListnestedInsetStart : "30px";
+  gap: 0.5rem;
+  --ListnestedInsetStart: "30px";
 }
-@media(min-width:900px)
-{
-  .Sidebar{
+@media (min-width: 900px) {
+  .Sidebar {
     position: sticky;
   }
-  .SidebarDrawer{
+  .SidebarDrawer {
     position: fixed;
   }
 }

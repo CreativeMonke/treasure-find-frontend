@@ -116,6 +116,10 @@ function NavBar() {
               variant="outlined"
               color="neutral"
               size="sm"
+              sx = {{
+                left : 5,
+                position : "relative",
+              }}
             >
               <MenuIcon />
             </IconButton>

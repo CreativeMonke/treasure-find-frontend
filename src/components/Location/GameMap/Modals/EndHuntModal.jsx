@@ -23,6 +23,13 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
   const nrOfAnswers = Object.keys(
     useSelector((state) => state.answers.answers)
   ).length;
+
+  const locations =
+    useSelector(
+      (state) => state.hunt.currentHuntInfo.completeHuntData.location_ids
+    ) || [];
+
+  const nrOfLocations = locations.length;
   async function handleDeleteClick() {
     dispatch(endHunt())
       .unwrap()
@@ -82,7 +89,7 @@ function EndHuntModal({ showEndHuntModal, handleEndHuntModalClose }) {
             </Typography>
             {t("outOf")}
             <Typography color="primary" level="body-md" sx={{ mx: 1 }}>
-              12
+              {nrOfLocations}
             </Typography>
             {t("locationsLowerCase")}
           </Typography>

@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { getNumberOfCorrectAnswers } from "../../../../../../features/answers/answerSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getNumberOfCorrectAnswersByHId } from "../../../../../../features/answers/answerSlice";
 import { Box, Typography } from "@mui/joy";
 
 function NrOfCorrectAnswers() {
-    const [nrOfCorrectAnswers, setNrOfCorrectAnswers] = useState(0);
+  const [nrOfCorrectAnswers, setNrOfCorrectAnswers] = useState(0);
   const [nrOfAnswers, setNrOfAnswers] = useState(0);
   const dispatch = useDispatch();
-  const {t} = useTranslation()
+  const { t } = useTranslation();
+  const huntId = useSelector((state) => state.auth.currentHuntState.huntId);
   async function waitForNumberOfCorrectAnswers() {
-    const res = await dispatch(getNumberOfCorrectAnswers()).unwrap();
+    const res = await dispatch(getNumberOfCorrectAnswersByHId(huntId)).unwrap();
     setNrOfCorrectAnswers(res.numberOfCorrectAnswers);
     setNrOfAnswers(res.numberOfAnswers);
   }

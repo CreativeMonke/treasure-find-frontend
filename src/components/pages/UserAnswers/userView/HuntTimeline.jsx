@@ -6,10 +6,10 @@ import TimelineCard from "./TimelineComponent";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice";
 
 function HuntTimeline(props) {
-  const { locations } = useSelector((state) => state.locations);
+  const locations = useSelector((state) => state.locations.huntLocations);
   const dispatch = useDispatch();
 
- /* useEffect(() => {
+  /* useEffect(() => {
     dispatch(getAnswersByUserId);
   });
   */

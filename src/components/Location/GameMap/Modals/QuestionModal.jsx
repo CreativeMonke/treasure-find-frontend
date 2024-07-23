@@ -26,7 +26,7 @@ import {
 } from "../../../../features/answers/answerSlice";
 import { useTranslation } from "react-i18next";
 
-function QuestionModal(props) {
+function QuestionModal({ open, locationId, handleClose, name, question }) {
   const [timeLeft, setTimeLeft] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -37,10 +37,10 @@ function QuestionModal(props) {
   const dispatch = useDispatch();
   const currentAnswerId = useSelector((state) => state.answers.currentAnswerId);
   const userId = useSelector((state) => state.auth.user._id); // Adjust according to your state shape
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
-    if (props.open) {
-      dispatch(getAnswer(props.locationId))
+    if (open) {
+      dispatch(getAnswer(locationId))
         .unwrap()
         .then((action) => {
           if (action && action.data) {
@@ -57,7 +57,7 @@ function QuestionModal(props) {
     return () => {
       dispatch(clearCurrentAnswerId());
     };
-  }, [props.open, dispatch, props.locationId]);
+  }, [open, dispatch, locationId]);
 
   const calculateTimeLeft = (createdAt) => {
     const creationTime = new Date(createdAt).getTime();
@@ -72,10 +72,10 @@ function QuestionModal(props) {
     if (!currentAnswerId) {
       // No existing answer; submit a preliminary answer
       const preliminaryAnswer = {
-        question: props.question,
+        question: question,
         answer: " ",
         userId: userId,
-        locationId: props.locationId,
+        locationId: locationId,
       };
       dispatch(submitAnswer(preliminaryAnswer));
     }
@@ -130,16 +130,16 @@ function QuestionModal(props) {
         })
       ).unwrap();
       console.log("Answer submitted: ", userAnswer);
-      props.handleClose();
+      handleClose();
     } catch (error) {
       console.error("Failed to update answer:", error);
     } finally {
       setIsLoading(false);
-      dispatch(getAnswersByUserId()); 
+      dispatch(getAnswersByUserId());
     }
   };
   return (
-    <Modal open={props.open} onClose={props.handleClose}>
+    <Modal open={open} onClose={handleClose}>
       <ModalDialog
         layout="center"
         sx={{
@@ -152,15 +152,17 @@ function QuestionModal(props) {
         <DialogTitle id="modalTitle">
           <PlaceRounded />
           <Typography color="primary" level="title-lg">
-            {props.name}
+            {name}
           </Typography>
         </DialogTitle>
-        <Divider sx={{ mt: 1, mb: 1 }}>{hasBeenUpdated?t("answerAlreadySubmitted") : formatTimeLeft()}</Divider>
+        <Divider sx={{ mt: 1, mb: 1 }}>
+          {hasBeenUpdated ? t("answerAlreadySubmitted") : formatTimeLeft()}
+        </Divider>
         <DialogContent>
           <FormControl>
             <FormLabel sx={{ mb: 2, width: "100%" }}>
               {showQuestion ? (
-                <Typography level="title-lg">{props.question}</Typography>
+                <Typography level="title-lg">{question}</Typography>
               ) : (
                 <Button
                   size="lg"
@@ -183,14 +185,17 @@ function QuestionModal(props) {
                   variant="soft"
                   size="lg"
                   minRows={6}
-                  placeholder= {t("emptyErrorMessage")}
+                  placeholder={t("emptyErrorMessage")}
                   value={userAnswer}
                   onChange={handleAnswerChange}
                 />
                 {!hasBeenUpdated && (
                   <FormHelperText>
-                    <Typography level = "body-xs" startDecorator = {<InfoRounded />}>
-                    {t("actionUndoable")}
+                    <Typography
+                      level="body-xs"
+                      startDecorator={<InfoRounded />}
+                    >
+                      {t("actionUndoable")}
                     </Typography>
                   </FormHelperText>
                 )}
@@ -200,7 +205,6 @@ function QuestionModal(props) {
         </DialogContent>
 
         <DialogActions>
-          
           {showQuestion && (
             <Button
               disabled={
@@ -211,9 +215,9 @@ function QuestionModal(props) {
               }
               sx={{ width: "100%", mt: 2 }}
               onClick={handleSubmitAnswer}
-              loading = {isLoading}
+              loading={isLoading}
             >
-              {isLoading ? "Submitting..." :t("saveAnswer")}
+              {isLoading ? "Submitting..." : t("saveAnswer")}
             </Button>
           )}
         </DialogActions>
