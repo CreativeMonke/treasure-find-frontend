@@ -1,0 +1,5 @@
+.MuiGrid-root .ButtonGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

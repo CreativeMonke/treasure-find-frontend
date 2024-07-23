@@ -13,7 +13,8 @@ import {
   CircularProgress,
   Grid,
 } from "@mui/joy";
-import HuntsTable from "./HuntsTable";
+import { useTranslation } from "react-i18next";
+import HuntsTable from "./HuntsTable/HuntsTable";
 import { getAllHunts } from "../../../features/hunt/huntSlice";
 import {
   handleRequestSort,
@@ -33,6 +34,7 @@ import CreateHuntModal from "./Modals/CreateHuntModal";
 import InnerPageSheet from "../PageStructure/InnerPageSheet";
 
 function HuntsPage({ globalFilter = { key: "", value: "" } }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { hunts, status, error } = useSelector((state) => state.hunt);
   const [order, setOrder] = useState("asc");
@@ -44,7 +46,7 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
 
   useEffect(() => {
     dispatch(getAllHunts());
-  }, []);
+  }, [dispatch]);
 
   const filteredHunts = getFilteredHunts(
     hunts,
@@ -78,9 +80,9 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
         <Grid container spacing={3}>
           <Grid item xs={6} md={3.66}>
             <FormControl>
-              <FormLabel>Search</FormLabel>
+              <FormLabel>{t('search')}</FormLabel>
               <Input
-                label="Search"
+                label={t('search')}
                 placeholder="..."
                 value={search}
                 onChange={(e) => handleSearchChange(e, setSearch)}
@@ -89,31 +91,31 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
           </Grid>
           <Grid item xs={6} md={3.66}>
             <FormControl variant="outlined">
-              <FormLabel>Search In</FormLabel>
+              <FormLabel>{t('searchIn')}</FormLabel>
               <Select
                 onChange={(e, newValue) =>
                   handleFilterByChange(e, newValue, setFilterBy)
                 }
                 defaultValue={filterBy}
               >
-                <Option value="Name">Name</Option>
-                <Option value="Town">Town</Option>
+                <Option value="Name">{t('name')}</Option>
+                <Option value="Town">{t('town')}</Option>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={6} md={3.66}>
             <FormControl variant="outlined">
-              <FormLabel>Status</FormLabel>
+              <FormLabel>{t('status')}</FormLabel>
               <Select
                 onChange={(e, newValue) =>
                   handleStatusChange(e, newValue, setHuntStatus)
                 }
                 defaultValue={huntStatus}
               >
-                <Option value="Any">Any</Option>
-                <Option value="Not Started">Not Started</Option>
-                <Option value="Active">Active</Option>
-                <Option value="Ended">Ended</Option>
+                <Option value="Any">{t('any')}</Option>
+                <Option value="Not Started">{t('notStarted')}</Option>
+                <Option value="Active">{t('active')}</Option>
+                <Option value="Ended">{t('ended')}</Option>
               </Select>
             </FormControl>
           </Grid>
@@ -132,16 +134,16 @@ function HuntsPage({ globalFilter = { key: "", value: "" } }) {
               color="primary"
               onClick={() =>
                 openModal("isCreateModalOpen", {
-                  titleText: "Create Hunt",
-                  cancelText: "Cancel",
-                  saveText: "Create Hunt",
+                  titleText: t('createHunt'),
+                  cancelText: t('cancel'),
+                  saveText: t('createHunt'),
                   handleSave: (updatedHunt) =>
                     handleCreate(dispatch, updatedHunt),
                 })
               }
               sx={{ width: "100%", height: "100%" }}
             >
-              Create Hunt
+              {t('createHunt')}
             </Button>
           </Grid>
         </Grid>

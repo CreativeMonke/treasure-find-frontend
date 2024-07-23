@@ -20,17 +20,19 @@ import DatePick from "../../../General/DatePick/DatePick";
 import SwitchBox from "../../../General/SwitchBox/SwitchBox";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLocationsByAuthorId } from "../../../../features/locations/locationSlice";
+import { useTranslation } from "react-i18next";
 
 export default function CreateHuntModal({ modalName }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { modalState, closeModal } = useModal();
   const { modalProps } = modalState;
   const {
     handleSave,
-    titleText = "Create Hunt",
-    cancelText = "Cancel",
+    titleText = t("createHunt"),
+    cancelText = t("cancel"),
     cancelColor = "neutral",
-    saveText = "Save",
+    saveText = t("save"),
     saveColor = "primary",
   } = modalProps;
   const [loading, setLoading] = useState(false);
@@ -140,7 +142,7 @@ export default function CreateHuntModal({ modalName }) {
             >
               <Grid item xs={12} md={4}>
                 <GridItem
-                  label="Name"
+                  label={t("name")}
                   value={fieldHuntName}
                   onChange={setFieldHuntName}
                 />
@@ -148,7 +150,7 @@ export default function CreateHuntModal({ modalName }) {
 
               <Grid item xs={12} md={4}>
                 <CityPicker
-                  label="Town"
+                  label={t("town")}
                   value={fieldHuntTown}
                   onChange={setFieldHuntTown}
                 />
@@ -156,30 +158,32 @@ export default function CreateHuntModal({ modalName }) {
 
               <Grid item xs={12} md={4} xl={2}>
                 <DatePick
-                  label="Start Time"
+                  label={t("startTime")}
                   onChange={setFieldHuntStartTime}
                   date={fieldHuntStartTime}
                 />
               </Grid>
               <Grid item xs={12} md={4} xl={2}>
                 <DatePick
-                  label="End Time"
+                  label={t("endTime")}
                   onChange={setFieldHuntEndTime}
                   date={fieldHuntEndTime}
                 />
               </Grid>
-              <Grid item xs={12} md={4} xl={2}>
+              <Grid item xs={12} md={8} xl={4}>
                 <SwitchBox
-                  text="Are the answers to be shown by default?"
-                  helperText="They will be visible to all users upon the completion of the hunt"
-                  label="Show Answers by default"
+                  checkedText={t("yes")}
+                  uncheckedText={t("no")}
+                  text={t("showAnswersByDefault") + "?"}
+                  helperText={t("showAnswersHelper")}
+                  label={t("showAnswers")}
                   checked={fieldAreAnswersReady}
                   setChecked={setFieldAreAnswersReady}
                 />
               </Grid>
               <Grid item xs={12}>
                 <SelectionTable
-                  label="Locations"
+                  label={t("locations")}
                   locations={mergedLocations}
                   selectedLocations={locationsInHunt}
                   onChange={setFieldHuntLocationsIds}

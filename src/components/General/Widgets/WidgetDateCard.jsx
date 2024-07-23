@@ -51,11 +51,7 @@ function WidgetDateCard({ title, icon, dateTime }) {
           justifyContent: "center",
         }}
       >
-        <Typography
-          level="title-lg"
-          mb={0.5}
-          sx={{ maxWidth: "70%", textAlign: "center" }}
-        >
+        <Typography level="title-lg" mb={0.5} sx={{ textAlign: "center" }}>
           {title}
         </Typography>
         <Divider />

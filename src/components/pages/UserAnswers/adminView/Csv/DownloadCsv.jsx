@@ -2,12 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { CSVLink } from "react-csv";
 import Button from "@mui/joy/Button";
-import { getAllAnswersForCSV } from "../../../../../features/answers/answerSlice";
 import { Box } from "@mui/joy";
 import { DownloadRounded, FileDownloadOutlined } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
+import { getAllAnswersCsvByHuntId } from "../../../../../features/hunt/huntSlice";
 
-const DownloadCSVButton = () => {
+function DownloadCSVButton({ huntId, huntName }) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -18,12 +18,16 @@ const DownloadCSVButton = () => {
   const handleDownload = async () => {
     setLoading(true);
     try {
-      let fetchedData = await dispatch(getAllAnswersForCSV()).unwrap();
-      console.log(fetchedData);
-      setData(fetchedData);
-      setTimeout(() => {
-        csvLinkRef.current.link.click();
-      }, 0);
+      const result = await dispatch(getAllAnswersCsvByHuntId(huntId)).unwrap();
+      console.log(result);
+      if (result.status === "success") {
+        setData(result.data);
+        setTimeout(() => {
+          csvLinkRef.current.link.click();
+        }, 0);
+      } else {
+        setError(result.message);
+      }
     } catch (err) {
       console.error("Error fetching data:", err);
       setError(err.toString());
@@ -31,47 +35,32 @@ const DownloadCSVButton = () => {
     setLoading(false);
   };
 
-  // Ensure the CSVLink is always in the DOM
   useEffect(() => {
-    setData([]); // Initialize with an empty array
+    setData([]);
   }, []);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <React.Fragment>
       <Button
         onClick={handleDownload}
         loading={loading}
         variant="outlined"
-        size="lg"
         loadingPosition="end"
-        error={error}
+        color="success"
         endDecorator={<FileDownloadOutlined />}
       >
         {loading ? t("loading") : `${t("download")} CSV`}
       </Button>
-      {error && (
-        <p>
-          {t("error")}: {error}
-        </p>
-      )}
-      {/* Render CSVLink invisibly with conditional data */}
       <CSVLink
         data={data}
-        filename="raspunsuriTreasureHunt.csv"
+        filename={`${t("answers")} ${huntName}.csv`}
         className="hidden" // Ensure it's hidden
         style={{ display: "none" }} // Use inline style to hide
         ref={csvLinkRef}
         target="_blank"
       />
-    </Box>
+    </React.Fragment>
   );
-};
+}
 
 export default DownloadCSVButton;

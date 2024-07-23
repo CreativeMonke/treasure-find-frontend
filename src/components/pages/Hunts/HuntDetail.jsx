@@ -9,11 +9,20 @@ import {
   useTheme,
 } from "@mui/joy";
 import { useMediaQuery } from "@mui/material";
-import { DeleteForeverRounded, MapRounded } from "@mui/icons-material";
+import {
+  AddBoxRounded,
+  DeleteForeverRounded,
+  EditNoteRounded,
+  LogoutRounded,
+  MapRounded,
+} from "@mui/icons-material";
 import ConfirmationModal from "../../General/ConfirmationModal";
 import { useModal } from "./Context/modalContext";
 import EditHuntModal from "./Modals/EditHuntModal";
 import { useDispatch, useSelector } from "react-redux";
+import DownloadCSVButton from "../UserAnswers/adminView/Csv/DownloadCsv";
+import "./Other Pages/Css/HuntDetailsPage.css";
+import { useTranslation } from "react-i18next";
 
 function HuntDetail({
   hunt,
@@ -28,6 +37,7 @@ function HuntDetail({
   const matchesMd = useMediaQuery(theme.breakpoints.up("md"));
   const { openModal, modalState } = useModal();
   const currentUserId = useSelector((state) => state.auth.user._id);
+  const { t } = useTranslation();
   return (
     <Grid
       container
@@ -35,28 +45,31 @@ function HuntDetail({
       justifyContent="center"
       alignItems="center"
       spacing={2}
+      columns={30}
       sx={{ border: "1px solid" }}
     >
-      <Grid item xs={12} md={5}>
+      <Grid item xs={30} md={14}>
         <Typography level="title-md">{hunt.huntName}</Typography>
-        <Typography level="body-md">Town: {hunt.townName}</Typography>
         <Typography level="body-md">
-          Start Time: {new Date(hunt.startTime).toLocaleString()}
+          {t("town")}: {hunt.townName}
         </Typography>
         <Typography level="body-md">
-          End Time: {new Date(hunt.endTime).toLocaleString()}
+          {t("startTime")}: {new Date(hunt.startTime).toLocaleString()}
         </Typography>
         <Typography level="body-md">
-          Number of Users: {hunt.participating_user_ids?.length}
+          {t("endTime")}: {new Date(hunt.endTime).toLocaleString()}
         </Typography>
         <Typography level="body-md">
-          Number of Objectives: {hunt.location_ids?.length}
+          {t("numberOfUsers")}: {hunt.participating_user_ids?.length}
         </Typography>
         <Typography level="body-md">
-          Duration:{" "}
+          {t("numberOfObjectives")}: {hunt.location_ids?.length}
+        </Typography>
+        <Typography level="body-md">
+          {t("duration")}:{" "}
           {(new Date(hunt.endTime) - new Date(hunt.startTime)) /
             (1000 * 60 * 60)}{" "}
-          hours
+          {t("hours")}
         </Typography>
       </Grid>
       <Divider orientation="vertical">
@@ -65,107 +78,106 @@ function HuntDetail({
           size="md"
           sx={{ transform: matchesMd ? "rotate(90deg)" : "rotate(0deg)" }}
         >
-          Actions
+          {t("actions")}
         </Chip>
       </Divider>
-      <Grid item xs={12} md={5}>
-        <Grid
-          container
-          spacing={2}
-          rowSpacing={2}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Grid item xs={6} md={3}>
-            <Button
-              variant="solid"
-              color="primary"
-              size="md"
-              onClick={() =>
-                openModal("isJoinModalOpen", {
-                  title: hunt.huntName,
-                  TitleIcon: MapRounded,
-                  content: "Are you sure you want to join this hunt?",
-                  additionalInfo: "Your current hunt will be ended!",
-                  cancelText: "Cancel",
-                  saveText: "Join",
-                  handleSave: () => handleJoin(hunt),
-                })
-              }
-            >
-              Join Hunt
-            </Button>
+      <Grid item xs={30} md={14}>
+        <Box>
+          <Grid container spacing={2} rowSpacing={2}>
+            {userActiveHuntId !== hunt._id && (
+              <Grid item xs={6} lg={3} className="ButtonGrid">
+                <Button
+                  variant="solid"
+                  color="primary"
+                  startDecorator={<AddBoxRounded />}
+                  onClick={() =>
+                    openModal("isJoinModalOpen", {
+                      title: hunt.huntName,
+                      TitleIcon: MapRounded,
+                      content: t("confirmJoinHunt"),
+                      cancelText: t("cancel"),
+                      saveText: t("join"),
+                      handleSave: () => handleJoin(hunt),
+                    })
+                  }
+                >
+                  {t("joinHunt")}
+                </Button>
+              </Grid>
+            )}
+            {currentUserId === hunt.author_id && (
+              <Grid item xs={6} lg={3} className="ButtonGrid">
+                <Button
+                  variant="solid"
+                  color="neutral"
+                  startDecorator={<EditNoteRounded />}
+                  onClick={() =>
+                    openModal("isEditModalOpen", {
+                      huntId: hunt._id,
+                      hunt,
+                      titleText: t("editing"),
+                      cancelText: t("cancel"),
+                      saveText: t("save"),
+                      handleSave: (updatedHunt) =>
+                        handleEdit(dispatch, updatedHunt),
+                    })
+                  }
+                >
+                  {t("editHunt")}
+                </Button>
+              </Grid>
+            )}
+            {currentUserId === hunt.author_id && (
+              <Grid item xs={6} lg={3} className="ButtonGrid">
+                <Button
+                  variant="solid"
+                  color="danger"
+                  startDecorator={<DeleteForeverRounded />}
+                  onClick={() =>
+                    openModal("isDeleteModalOpen", {
+                      title: t("confirmDeletion"),
+                      TitleIcon: DeleteForeverRounded,
+                      titleIconColor: "danger",
+                      content: t("areYouSureDeleteHunt"),
+                      additionalInfo: t("notReversible"),
+                      cancelText: t("cancel"),
+                      saveText: t("deleteHunt"),
+                      saveColor: "danger",
+                      handleSave: () => handleDelete(hunt._id),
+                    })
+                  }
+                >
+                  {t("deleteHunt")}
+                </Button>
+              </Grid>
+            )}
+            {currentUserId === hunt.author_id && (
+              <Grid item xs={6} lg={3} className="ButtonGrid">
+                <DownloadCSVButton huntId={hunt._id} huntName={hunt.huntName} />
+              </Grid>
+            )}
+            {userActiveHuntId === hunt._id && (
+              <Grid item xs={6} lg={3} className="ButtonGrid">
+                <Button
+                  variant="solid"
+                  color="warning"
+                  startDecorator={<LogoutRounded />}
+                  onClick={() =>
+                    openModal("isExitModalOpen", {
+                      title: t("confirmExitHunt"),
+                      content: t("confirmExit"),
+                      cancelText: t("no"),
+                      saveText: t("yes"),
+                      handleSave: () => handleExit(),
+                    })
+                  }
+                >
+                  {t("exitHunt")}
+                </Button>
+              </Grid>
+            )}
           </Grid>
-          {currentUserId === hunt.author_id && (
-            <Grid item xs={6} md={3}>
-              <Button
-                variant="solid"
-                color="neutral"
-                size="md"
-                onClick={() =>
-                  openModal("isEditModalOpen", {
-                    huntId: hunt._id,
-                    hunt,
-                    titleText: "Editing",
-                    cancelText: "Cancel",
-                    saveText: "Save",
-                    handleSave: (updatedHunt) =>
-                      handleEdit(dispatch, updatedHunt),
-                  })
-                }
-              >
-                Edit Hunt
-              </Button>
-            </Grid>
-          )}
-          {currentUserId === hunt.author_id && (
-            <Grid item xs={6} md={3}>
-              <Button
-                variant="solid"
-                color="danger"
-                size="md"
-                onClick={() =>
-                  openModal("isDeleteModalOpen", {
-                    title: "Confirm Deletion",
-                    TitleIcon: DeleteForeverRounded,
-                    titleIconColor: "danger",
-                    content: "Are you sure you want to delete this hunt?",
-                    additionalInfo: "Action is not reversible!",
-                    cancelText: "Cancel",
-                    saveText: "Delete",
-                    saveColor: "danger",
-                    handleSave: () => handleDelete(hunt._id),
-                  })
-                }
-              >
-                Delete Hunt
-              </Button>
-            </Grid>
-          )}
-          {userActiveHuntId === hunt._id && (
-            <Grid item xs={6} md={3}>
-              <Button
-                variant="solid"
-                size="md"
-                color="warning"
-                onClick={() =>
-                  openModal("isExitModalOpen", {
-                    title: "Confirm Exit",
-                    content: "Are you sure you want to exit this hunt?",
-                    cancelText: "No",
-                    saveText: "Yes",
-                    handleSave: () => handleExit(),
-                  })
-                }
-              >
-                Exit Hunt
-              </Button>
-            </Grid>
-          )}
-        </Grid>
+        </Box>
       </Grid>
       {modalState["isJoinModalOpen"] && (
         <ConfirmationModal modalName="isJoinModalOpen" />

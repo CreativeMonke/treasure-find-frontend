@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Stack, Divider, Grid, Input } from "@mui/joy";
 import { MoreHorizRounded } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import GenericTable from "../GenericTable/GenericTable";
 
 export default function SelectionTable({
@@ -9,14 +10,17 @@ export default function SelectionTable({
   locations = [],
   selectedLocations = [],
 }) {
+  const { t } = useTranslation();
+  
   const columns = [
-    { field: "name", headerName: "Name" },
-    { field: "question", headerName: "Question" },
-    { field: "answer", headerName: "Correct Answer" },
+    { field: "name", headerName: t("name") },
+    { field: "question", headerName: t("question") },
+    { field: "answer", headerName: t("correctAnswer") },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLocationIds, setSelectedLocationIds] = useState([]);
+  
   useEffect(() => {
     setSelectedLocationIds(selectedLocations.map((location) => location._id));
   }, [selectedLocations]);
@@ -55,18 +59,18 @@ export default function SelectionTable({
           <MoreHorizRounded />
         </Divider>
         <Input
-              placeholder="Search locations"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              fullWidth
-              sx = {{
-                mb : 2
-              }}
-            />
+          placeholder={t("searchLocations")}
+          value={searchTerm}
+          onChange={handleSearchChange}
+          fullWidth
+          sx={{
+            mb: 2,
+          }}
+        />
         <Grid container spacing={2} rowSpacing={8}>
           <Grid item xs={12} md={6}>
             <GenericTable
-              title="Available Locations"
+              title={t("availableLocations")}
               columns={columns}
               rows={availableLocations.filter((location) =>
                 location.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -76,7 +80,7 @@ export default function SelectionTable({
           </Grid>
           <Grid item xs={12} md={6}>
             <GenericTable
-              title="Locations in the Hunt"
+              title={t("locationsInHunt")}
               columns={columns}
               rows={locationsInHunt}
               onSelect={handleSelect}

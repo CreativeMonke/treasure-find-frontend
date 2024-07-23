@@ -17,9 +17,9 @@ const alertMiddleware = (store) => (next) => async (action) => {
       const { type, payload, error } = action;
 
       if (action.type.endsWith("/fulfilled")) {
-        severity = payload.data?.status || payload?.status || "success";
+        severity = payload?.data?.status || payload?.status || "success";
         message =
-          payload.data?.message || payload?.message || "Operation successful";
+          payload?.data?.message || payload?.message || "Operation successful";
       } else if (action.type.endsWith("/rejected")) {
         severity = "error";
         message = error?.message || "An error occurred";

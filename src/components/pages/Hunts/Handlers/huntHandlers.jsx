@@ -6,6 +6,7 @@ import {
   exitHuntByUserHuntId,
   getAllHunts,
   joinHuntById,
+  joinHuntByIdAndGetLocations,
 } from "../../../../features/hunt/huntSlice";
 
 export const handleRequestSort = (
@@ -45,9 +46,9 @@ export async function handleCreate(dispatch, updatedHunt) {
   }
 }
 
-export const handleJoin = (dispatch, selectedHunt) => {
+export const handleJoin = async (dispatch, selectedHunt) => {
   if (selectedHunt) {
-    dispatch(joinHuntById(selectedHunt._id));
+    dispatch(joinHuntByIdAndGetLocations(selectedHunt._id));
   }
 };
 

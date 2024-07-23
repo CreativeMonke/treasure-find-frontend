@@ -33,14 +33,21 @@ export const getAllLocationsByUserHuntId = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { auth } = getState();
     try {
-      const res = await axios.get(`${apiUrl}locations/huntid`, {
+      const res = await axios.get(`${apiUrl}locations/huntId`, {
         headers: {
           sessionid: auth.sessionId,
         },
         withCredentials: true,
       });
-      return { locations: res.data.data, huntId: auth.currentHuntState.huntId };
+      console.log("res", res);
+      return {
+        locations: res.data.data,
+        huntId: auth.currentHuntState?.huntId,
+        messages: res.data.message,
+        status: res.data.status,
+      };
     } catch (err) {
+      console.error(err);
       return rejectWithValue(err.response.data);
     }
   }
@@ -140,7 +147,6 @@ export const deleteLocation = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log("res", res.data);
       return {
         locationId: locationId,
         location: res.data.data,

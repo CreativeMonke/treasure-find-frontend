@@ -107,16 +107,25 @@ export const joinHuntById = createAsyncThunk(
         },
         withCredentials: true,
       });
-      dispatch(getAllLocationsByUserHuntId());
+      //await dispatch(getAllLocationsByUserHuntId());
       return {
         huntId,
-        hunt: res.data.data,
+        hunt: res.data?.data,
         status: res.data.status,
         message: res.data.message,
       };
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
+  }
+);
+
+export const joinHuntByIdAndGetLocations = createAsyncThunk(
+  "hunt/joinHuntByIdAndGetLocations",
+  async (huntId, { dispatch, getState }) => {
+    await dispatch(joinHuntById(huntId));
+
+    await dispatch(getAllLocationsByUserHuntId());
   }
 );
 
@@ -179,6 +188,28 @@ export const deleteHuntById = createAsyncThunk(
       };
     } catch (err) {
       return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const getAllAnswersCsvByHuntId = createAsyncThunk(
+  "answer/getAllAnswersCsvByHuntId",
+  async (huntId, { getState, rejectWithValue }) => {
+    const { auth } = getState();
+    try {
+      const response = await axios.get(
+        `${apiUrl}hunt/${huntId}/getAllAnswers`,
+        {
+          headers: {
+            sessionid: auth.sessionId,
+          },
+          withCredentials: true,
+        }
+      );
+      return response.data; // Directly return the fetched data
+    } catch (error) {
+      console.error("Error while fetching answers:", error);
+      return rejectWithValue(error);
     }
   }
 );

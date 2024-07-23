@@ -11,13 +11,12 @@ import {
   Modal,
   ModalClose,
   ModalDialog,
-  Sheet,
   Typography,
 } from "@mui/joy";
-import { ArrowRightAlt, InfoRounded } from "@mui/icons-material";
+import { ArrowRightAlt } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import GridItem from "../../components/GridItem";
 import CityPicker from "../../../General/CityPicker";
-import VerticalMultiSelect from "../../../General/VerticalMultipleSelect";
 import SelectionTable from "../../../General/SelectionTable/SelectionTable";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,16 +28,17 @@ import SwitchBox from "../../../General/SwitchBox/SwitchBox";
 
 export default function EditHuntModal({ modalName }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { modalState, closeModal } = useModal();
   const { modalProps } = modalState;
   const {
     huntId,
     handleSave,
     hunt = {},
-    titleText,
-    cancelText = "Cancel",
+    titleText = t("editHunt"),
+    cancelText = t("cancel"),
     cancelColor = "neutral",
-    saveText = "Save",
+    saveText = t("save"),
     saveColor = "primary",
   } = modalProps;
 
@@ -49,7 +49,6 @@ export default function EditHuntModal({ modalName }) {
   const [fieldHuntName, setFieldHuntName] = useState(hunt.huntName);
   const [fieldHuntTown, setFieldHuntTown] = useState(hunt.townName);
   const [fieldHuntLocationsIds, setFieldHuntLocationsIds] = useState();
-  ///New date of the current time
 
   const [fieldHuntStartTime, setFieldHuntStartTime] = useState(
     hunt.startTime ? new Date(hunt.startTime) : new Date()
@@ -67,7 +66,7 @@ export default function EditHuntModal({ modalName }) {
       const fetchHuntLocations = async () => {
         setLoading(true);
         try {
-          const {locations : huntLocations} = await dispatch(
+          const { locations: huntLocations } = await dispatch(
             getAllLocationsByHuntId(huntId)
           ).unwrap();
           setLocationsInHunt(huntLocations);
@@ -134,7 +133,6 @@ export default function EditHuntModal({ modalName }) {
           }}
         >
           <ModalClose variant="plain" size="md" onClick={handleClose} />
-
           <DialogTitle>
             {hunt.huntName ? (
               <React.Fragment>
@@ -151,7 +149,6 @@ export default function EditHuntModal({ modalName }) {
             )}
           </DialogTitle>
           <Divider />
-
           <DialogContent
             sx={{
               overflow: "hidden",
@@ -174,7 +171,7 @@ export default function EditHuntModal({ modalName }) {
               >
                 <Grid item xs={12} md={4}>
                   <GridItem
-                    label="Name"
+                    label={t("name")}
                     value={fieldHuntName}
                     onChange={setFieldHuntName}
                   />
@@ -182,39 +179,40 @@ export default function EditHuntModal({ modalName }) {
 
                 <Grid item xs={12} md={4}>
                   <CityPicker
-                    label="Town"
-                    value={hunt.townName}
+                    label={t("town")}
+                    value={fieldHuntTown}
                     onChange={setFieldHuntTown}
                   />
                 </Grid>
 
                 <Grid item xs={12} md={4} xl={2}>
                   <DatePick
-                    label="Start Time"
+                    label={t("startTime")}
                     onChange={setFieldHuntStartTime}
                     date={fieldHuntStartTime}
                   />
                 </Grid>
                 <Grid item xs={12} md={4} xl={2}>
                   <DatePick
-                    label="End Time"
+                    label={t("endTime")}
                     onChange={setFieldHuntEndTime}
                     date={fieldHuntEndTime}
                   />
                 </Grid>
-                <Grid item xs={12} md={4} xl={2}>
+                <Grid item xs={12} md={8} xl={4}>
                   <SwitchBox
-                    text="Are the answers ready to be shown?"
-                    helperText="They will be visible to all users"
-                    label="Show Answers"
+                    checkedText={t("yes")}
+                    uncheckedText={t("no")}
+                    text={t("showAnswersByDefault") + "?"}
+                    helperText={t("showAnswersHelper")}
+                    label={t("showAnswers")}
                     checked={fieldAreAnswersReady}
                     setChecked={setFieldAreAnswersReady}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <SelectionTable
-                    huntTown
-                    label="Locations"
+                    label={t("locations")}
                     locations={mergedLocations}
                     selectedLocations={locationsInHunt}
                     onChange={setFieldHuntLocationsIds}

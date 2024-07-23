@@ -15,7 +15,8 @@ import {
 import { useTranslation } from "react-i18next";
 
 export function getSidebarItems(t, isCurrent, completeHuntData) {
-  if (!completeHuntData || !Object.keys(completeHuntData).length) completeHuntData = null;
+  if (!completeHuntData || !Object.keys(completeHuntData).length)
+    completeHuntData = null;
   return [
     {
       type: "divider",
@@ -119,11 +120,6 @@ export function getSidebarItems(t, isCurrent, completeHuntData) {
       permissionLevel: "0x88",
       nested: true,
       children: [
-        {
-          title: `${t("answers")}`,
-          link: "/answers/adminView",
-          isCurrent: isCurrent("/answers/adminView"),
-        },
         {
           title: `${t("rolesPermissions")}`,
           link: "/user/roles",

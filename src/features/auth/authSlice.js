@@ -175,8 +175,8 @@ export const endHunt = createAsyncThunk(
 const initialState = {
   isLoggedIn: !!loadFromLocalStorage("sessionId"), //!! -> gets a boolean value from local storage
   sessionId: loadFromLocalStorage("sessionId"),
-  huntState: loadFromLocalStorage("huntState"),
-  currentHuntState: loadFromLocalStorage("currentHuntState"),
+  huntState: loadFromLocalStorage("huntState") || [],
+  currentHuntState: loadFromLocalStorage("currentHuntState") || [],
   user: loadFromLocalStorage("userInfo"),
   status: "idle", // "idle" , "loading" , "succeeded" , "failed",
   error: null,
