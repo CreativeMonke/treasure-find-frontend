@@ -39,7 +39,6 @@ export const getAllLocationsByUserHuntId = createAsyncThunk(
         },
         withCredentials: true,
       });
-      console.log("res", res);
       return {
         locations: res.data.data,
         huntId: auth.currentHuntState?.huntId,
@@ -75,10 +74,6 @@ export const getAllLocationsByAuthorId = createAsyncThunk(
   "locations/getAllLocationsByAuthorId",
   async (_, { getState, rejectWithValue }) => {
     const { auth } = getState();
-    if (!auth.isLoggedIn) {
-      console.log("Not logged in");
-      return rejectWithValue("Not logged in");
-    }
     try {
       const res = await axios.get(`${apiUrl}locations/authorid`, {
         headers: {

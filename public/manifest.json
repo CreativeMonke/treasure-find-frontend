@@ -1,0 +1,44 @@
+{
+  "short_name": "Roamify",
+  "name": "Roamify - Cultural Events",
+  "icons": [
+    {
+      "src": "icons/logo/logo.png",
+      "type": "image/png",
+      "sizes": "1880x932"
+    },
+    {
+      "src": "icons/logo/logo-Old.png",
+      "type": "image/png",
+      "sizes": "1106x1057"
+    },
+    {
+      "src": "icons/logo/logo-sm.png",
+      "type": "image/png",
+      "sizes": "1000x1000"
+    },
+    {
+      "src": "icons/logo/logo-tall.png",
+      "type": "image/png",
+      "sizes": "1080x1920"
+    }
+  ],
+  "start_url": ".",
+  "display": "fullscreen",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "screenshots": [
+    {
+      "src": "screenshots/desktop-screenshot.png",
+      "sizes": "2560x1440",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "screenshots/mobile-screenshot.png",
+      "sizes": "1290x2796",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

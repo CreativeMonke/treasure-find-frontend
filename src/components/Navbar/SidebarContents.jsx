@@ -50,7 +50,6 @@ function SidebarContents({
 
   return (
     <Sheet
-      invertedColors
       className="Sidebar"
       sx={{
         boxSizing: "border-box",
@@ -80,17 +79,11 @@ function SidebarContents({
         }}
         onClick={closeDrawer}
       />
-      <Box className="SidebarHeader" sx = {{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-  
-    
-      }}>
+      <Box className="SidebarHeader">
         <Typography
           level="title-lg"
           sx={{
-            maxWidth: "120px",
+            maxWidth: "110px",
             display: "flex",
             flexFlow: "column",
           }}
@@ -121,7 +114,7 @@ function SidebarContents({
                         <ListItemContent>
                           <Typography
                             level="title-md"
-                            color={open && "warning"}
+                            color={open ? "warning" : ""}
                           >
                             {sidebarItem.title}
                           </Typography>

@@ -1,7 +1,16 @@
-import { Typography, Card, CardContent, Divider, Avatar } from "@mui/joy";
+import {
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Avatar,
+  AspectRatio,
+} from "@mui/joy";
+import { useTranslation } from "react-i18next";
 const logoPath = process.env.PUBLIC_URL + "/icons/logo/logo.png";
 
 function TitleCard() {
+  const { t } = useTranslation();
   return (
     <Card
       size="lg"
@@ -13,14 +22,14 @@ function TitleCard() {
         alignItems: "center",
       }}
     >
-      <Avatar
+      <AspectRatio
+        minHeight={120}
+        sx={{ width: "200px" }}
+        objectFit="contain"
         variant="plain"
-        src={logoPath}
-        sx={{
-          height: "4rem",
-          width: "4rem",
-        }}
-      />
+      >
+        <img src={logoPath} alt="Logo" style={{ height: "100%" }} />
+      </AspectRatio>
       <CardContent
         sx={{
           display: "flex",
@@ -31,12 +40,12 @@ function TitleCard() {
         }}
       >
         <Typography color="primary" level="h3">
-          Vânătoare de comori culturală
+          {t("appDescription")}{" "}
         </Typography>
         <Typography color="primary" level="h5"></Typography>
-        <Divider></Divider>
-        <Typography color="primary" level="title-md">
-          OniGim 2024
+        <Divider />
+        <Typography color="primary" level="title-lg">
+          {t("appName")}{" "}
         </Typography>
       </CardContent>
     </Card>

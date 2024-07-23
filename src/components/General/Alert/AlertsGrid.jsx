@@ -24,11 +24,10 @@ export default function AlertsGrid() {
         minWidth: "max-content",
         overflowY: "hidden",
         overflowX: "hidden",
-        borderRadius: 4,
       }}
     >
-      {alerts.map((alert) => (
-        <Grid item key={alert.id}>
+      {alerts.map((alert,index) => (
+        <Grid item key = {index}>
           <AlertBox alert={alert} />
         </Grid>
       ))}

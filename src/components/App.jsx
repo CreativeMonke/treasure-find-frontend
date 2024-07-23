@@ -16,22 +16,26 @@ import theme from "../theme/theme.js";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(async () => {
-    try {
-      const action = await dispatch(checkLogin());
-      console.log("action",action);
-      if (action.error == null) {
-        dispatch(getAnswersByUserId());
-        dispatch(getAllLocationsByAuthorId());
-        dispatch(getAllLocationsByUserHuntId());
-        dispatch(getCurrentHunt());
+  useEffect(() => {
+    async function initializeApp() {
+      try {
+        const action = await dispatch(checkLogin());
+        console.log("action", action);
+        if (action.error == null) {
+          dispatch(getAnswersByUserId());
+          dispatch(getAllLocationsByAuthorId());
+          dispatch(getAllLocationsByUserHuntId());
+          dispatch(getCurrentHunt());
+        }
+      } catch (err) {
+        console.error("Failed to login: ", err);
+        const errorMessage =
+          err?.response?.data?.message || "An error occurred during login";
+        console.error(errorMessage);
       }
-    } catch (err) {
-      console.error("Failed to login: ", err);
-      const errorMessage =
-        err?.response?.data?.message || "An error occurred durin login";
-      console.error(errorMessage);
     }
+
+    initializeApp();
   }, [dispatch]);
   return (
     <CssVarsProvider theme={theme} defaultMode="system">
