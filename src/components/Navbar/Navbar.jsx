@@ -51,6 +51,7 @@ function NavBar() {
   const itemsMap = new Map();
 
   sidebarItems.forEach((item) => {
+    console.log(item, userInfo);
     if (item.permissionLevel > userInfo.role) return;
 
     const key = `${item.title}-${item.link}`;
@@ -116,9 +117,9 @@ function NavBar() {
               variant="outlined"
               color="neutral"
               size="sm"
-              sx = {{
-                left : 5,
-                position : "relative",
+              sx={{
+                left: 5,
+                position: "relative",
               }}
             >
               <MenuIcon />
