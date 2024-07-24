@@ -103,6 +103,7 @@ function SidebarContents({
         >
           {sidebarItems.map((sidebarItem, index) => {
             const baseKey = `${sidebarItem.type}-${sidebarItem.title}-${index}`;
+            if (sidebarItem.permissionLevel > userInfo.role) return null;
 
             return sidebarItem.type === "link" ? (
               sidebarItem.nested ? (
