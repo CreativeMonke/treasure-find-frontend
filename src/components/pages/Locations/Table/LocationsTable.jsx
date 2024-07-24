@@ -17,7 +17,7 @@ function LocationsTable() {
       setIsLoading(true);
 
       try {
-        dispatch(getAllLocationsByAuthorId());
+       await dispatch(getAllLocationsByAuthorId());
       } catch (err) {
         console.error("Failed to login: ", err);
         const errorMessage =
