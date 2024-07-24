@@ -1,6 +1,11 @@
 .SidebarDrawer {
   position: sticky;
 }
+
+.SidebarDrawer .MuiDrawer-content {
+  width: var(--Sidebar-width);
+}
+
 .Sidebar {
   display: flex;
   flex-direction: column;
@@ -10,11 +15,10 @@
 }
 .SidebarHeader {
   display: flex;
-  gap : 1rem;
+  gap: 1rem;
   padding: 0.3rem;
   align-items: center;
   justify-content: space-between;
-
 }
 .NavigationLinks {
   min-height: 0;

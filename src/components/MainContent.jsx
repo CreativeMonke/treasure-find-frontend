@@ -54,7 +54,7 @@ function MainContent() {
             [theme.breakpoints.up("md")]: {
               "--Header-height": "0px",
             },
-            "--Sidebar-width": "256px",
+            "--Sidebar-width": "265px",
           },
         })}
       />
