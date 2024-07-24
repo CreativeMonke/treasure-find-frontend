@@ -14,7 +14,11 @@ import {
 } from "@mui/joy";
 import "./LoginPage.css";
 import InputField from "../../components/InputField.jsx";
-import { fetchLocations } from "../../../../features/locations/locationSlice.js";
+import {
+  fetchLocations,
+  getAllLocationsByAuthorId,
+  getAllLocationsByUserHuntId,
+} from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
 import {
   getCurrentHunt,
@@ -37,6 +41,16 @@ function LoginPage(props) {
     ? "/icons/backgroundDark.jpg"
     : "/icons/backgroundLight.jpg";
 
+  async function initializeApp() {
+    try {
+      dispatch(getAnswersByUserId());
+      dispatch(getAllLocationsByAuthorId());
+      dispatch(getAllLocationsByUserHuntId());
+      dispatch(getCurrentHunt());
+    } catch (err) {
+      console.error("Failed to login: ", err);
+    }
+  }
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
@@ -44,11 +58,7 @@ function LoginPage(props) {
         .unwrap()
         .then(() => {
           navigate("/");
-          dispatch(getCurrentHunt()).then((action) => {
-            if (action.error == null) {
-              dispatch(getAnswersByUserId());
-            }
-          });
+          initializeApp();
         });
     } catch (err) {
       console.error("Failed to login: ", err);
