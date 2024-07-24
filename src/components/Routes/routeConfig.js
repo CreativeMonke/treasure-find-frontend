@@ -21,6 +21,9 @@ import CurrentHuntDetails from "../pages/Hunts/Other Pages/CurrentHuntDetails.js
 import GeneralHuntDetails from "../pages/Hunts/Other Pages/GeneralHuntDetails.jsx";
 import MyHunts from "../pages/Hunts/Other Pages/MyHunts/MyHunts.jsx";
 import UserSettingPage from "../pages/Settings/UserSetting/UserSettingPage.jsx";
+import ChangeEmailPage from "../pages/Settings/ChangeEmail/ChangeEmailPage.jsx";
+import ChangePasswordPage from "../pages/Settings/ChangePassword/ChangePasswordPage.jsx";
+import ResetPasswordPage from "../pages/Settings/ResetPassword/ResetPasswordPage.jsx";
 const routeConfig = [
   {
     path: "/user",
@@ -141,6 +144,24 @@ const routeConfig = [
     element: UserSettingPage,
     protected: true,
     permissionLevel: "0x01",
+  },
+  {
+    path: `/settings/changeEmail`,
+    element: ChangeEmailPage,
+    protected: true,
+    permissionLevel: "0x01",
+  },
+  {
+    path: `/settings/changePassword`,
+    element: ChangePasswordPage,
+    protected: true,
+    permissionLevel: "0x01",
+  },
+  {
+    path: `/settings/resetPassword`,
+    element: ResetPasswordPage,
+    protected: false,
+    permissionLevel: "0x00",
   },
 ];
 

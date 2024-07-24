@@ -172,6 +172,33 @@ export const endHunt = createAsyncThunk(
     }
   }
 );
+
+export const updateUserAttributes = createAsyncThunk(
+  "auth/updateUserAttributes",
+  async (attributes, { getState, rejectWithValue }) => {
+    const { sessionId, user } = getState().auth;
+    try {
+      const res = await axios.put(
+        `${apiUrl}users/editAccount/${user._id}`,
+        attributes,
+        {
+          headers: {
+            sessionid: sessionId,
+          },
+          withCredentials: true,
+        }
+      );
+      return {
+        user: res.data.data,
+        status: res.data.status,
+        message: res.data.message,
+      };
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const initialState = {
   isLoggedIn: !!loadFromLocalStorage("sessionId"), //!! -> gets a boolean value from local storage
   sessionId: loadFromLocalStorage("sessionId"),
@@ -347,6 +374,13 @@ const authSlice = createSlice({
           saveToLocalStorage("userInfo", state.user);
         }
         state.status = "idle";
+      })
+      .addCase(updateUserAttributes.fulfilled, (state, action) => {
+        const { user } = action.payload;
+        console.log("newUser", user);
+        state.user = user;
+        saveToLocalStorage("userInfo", user);
+        state.status = "succeeded";
       });
   },
 });

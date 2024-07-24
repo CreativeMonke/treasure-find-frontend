@@ -1,8 +1,8 @@
-import React from "react";
-import { useNavigate, Link as RouterLink } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import TitleCard from "./TitleCard";
 import WidgetCard from "./WidgetCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Sheet,
   Typography,
@@ -15,19 +15,28 @@ import {
   useTheme,
 } from "@mui/joy";
 import RemainingTime from "../components/RemainingTime";
-import { PeopleRounded } from "@mui/icons-material";
+import { PeopleRounded, PlaceRounded, TourRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import "./LandingPage.css";
+import { getPreviewData } from "../../../features/general/generalSlice";
+
 function LandingPage() {
   const navigate = useNavigate();
   const theme = useTheme();
-  const huntInfo = useSelector((state) => state.hunt.currentHuntInfo);
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
-
+  const { nrOfLocations, nrOfHunts, nrOfSignedUpUsers } = useSelector(
+    (state) => state.general.previewData
+  );
+  const loading = useSelector((state) => state.general.loading);
   const backgroundImageUrl = isDarkMode
     ? "./icons/backgroundDark.jpg"
     : "./icons/backgroundLight.jpg";
+
+  useEffect(() => {
+    dispatch(getPreviewData());
+  }, [dispatch]);
 
   return (
     <React.Fragment>
@@ -50,10 +59,7 @@ function LandingPage() {
           <Card size="lg">
             <CardContent>
               <Typography color="primary" level="body-lg">
-                Îmbină distracția și cultura într-o vânătoare de indicii prin
-                Iași! Observă, descoperă și răspunde provocărilor din cele mai
-                emblematice locuri ale orașului. Ești gata să demonstrezi cât de
-                atent poți fi?
+                {t("eventPlatformDescription")}
               </Typography>
             </CardContent>
           </Card>
@@ -64,21 +70,18 @@ function LandingPage() {
                   <CardContent
                     sx={{
                       display: "flex",
-                      flexDirection: "Row",
+                      flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
                       textAlign: "center",
                     }}
                   >
-                    <Typography level="body-lg">
-                      Ești gata de distracție? Autentifică-te sau creează un
-                      cont pentru a începe.
-                    </Typography>
+                    <Typography level="body-lg">{t("areYouReady")}</Typography>
                   </CardContent>
                   <CardContent
                     sx={{
                       display: "flex",
-                      flexDirection: "Row",
+                      flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
@@ -106,27 +109,30 @@ function LandingPage() {
                 </Card>
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
-                <WidgetCard title="Timp ramas">
-                  <RemainingTime />
-                </WidgetCard>
-              </Grid>
-              <Grid item xs={12} md={6} lg={3}>
                 <WidgetCard
-                  title="Câte locații?"
-                  status=""
-                  value={huntInfo.nrOfObjectives}
-                  ofWhat={t("locations").toLowerCase()}
+                  isLoading={loading}
+                  title={t("howManyHunts")}
+                  value={nrOfHunts}
+                  ofWhat={t("hunts").toLowerCase()}
+                  icon = {<TourRounded />}
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
                 <WidgetCard
-                  title="Câti utilizatori?"
-                  status=""
-                  value={huntInfo.nrOfSignedUpUsers}
-                  ofWhat={`nr de ${t("users").toLowerCase()} maxim`}
-                  howMany={350}
+                  isLoading={loading}
+                  title={t("howManyLocations")}
+                  value={nrOfLocations}
+                  ofWhat={t("locations").toLowerCase()}
+                  icon = {<PlaceRounded />}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={3}>
+                <WidgetCard
+                  isLoading={loading}
+                  title={t("howManyUsers")}
+                  value={nrOfSignedUpUsers}
+                  ofWhat={`${t("users").toLowerCase()}`}
                   icon={<PeopleRounded />}
-                  isPercent
                 />
               </Grid>
               <Grid item xs={12} md={6} lg={3}>
@@ -134,21 +140,18 @@ function LandingPage() {
                   <CardContent
                     sx={{
                       display: "flex",
-                      flexDirection: "Row",
+                      flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
                       textAlign: "center",
                     }}
                   >
-                    <Typography level="body-lg">
-                      Întâmpini probleme sau ai întrebări? Suntem aici să te
-                      ajutăm! Accesează pagina noastră de suport!
-                    </Typography>
+                    <Typography level="body-lg">{t("facingIssues")}</Typography>
                   </CardContent>
                   <CardContent
                     sx={{
                       display: "flex",
-                      flexDirection: "Row",
+                      flexDirection: "row",
                       justifyContent: "center",
                       alignItems: "center",
                     }}
@@ -168,10 +171,6 @@ function LandingPage() {
                   </CardContent>
                 </Card>
               </Grid>
-              {/*  <Grid item xs={12}>
-                <About />
-              </Grid>
-              */}
             </Grid>
           </Box>
         </Stack>
@@ -179,4 +178,5 @@ function LandingPage() {
     </React.Fragment>
   );
 }
+
 export default LandingPage;

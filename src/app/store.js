@@ -5,6 +5,7 @@ import answerReducer from "../features/answers/answerSlice.js";
 import huntReducer from "../features/hunt/huntSlice.js";
 import alertReducer from "../features/alert/alertSlice";
 import alertMiddleware from "../middleware/alertMiddleware";
+import generalReducer from "../features/general/generalSlice.js";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,6 +13,7 @@ export const store = configureStore({
     answers: answerReducer,
     hunt: huntReducer,
     alert: alertReducer,
+    general: generalReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

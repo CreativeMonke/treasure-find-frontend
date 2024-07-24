@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Box, CircularProgress } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 
 function WidgetCard({
+  isLoading = false,
   title,
   status,
   value,
@@ -13,22 +14,28 @@ function WidgetCard({
   children,
 }) {
   const userValue = howMany > 0 ? (value / howMany) * 100 : 0;
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   return (
     <Card
       variant="outlined"
       sx={{
         display: "flex",
-        maxWidth: "320px",
       }}
     >
-      <CardContent sx = {{
-        minHeight: "6rem",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}>
+      {!isPercent && (
+        <Box sx={{ position: "absolute", top: "0.875rem", left: "0.875rem" }}>
+          {icon}
+        </Box>
+      )}
+      <CardContent
+        sx={{
+          minHeight: "6rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Typography level="title-lg" fontSize="md" mb={1}>
           {title}
         </Typography>
@@ -37,33 +44,41 @@ function WidgetCard({
             {status}
           </Typography>
         )}
-        {value != null && (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            {isPercent ? (
-              <>
-                <CircularProgress determinate value={userValue} size="lg">
-                  {icon}
-                </CircularProgress>
-                <Box sx={{ ml: 2 }}>
-                <Typography level="body-md" color="neutral">
-                  <Typography color="primary" level="title-lg">
-                    {Math.round(userValue)}
+        {!isLoading ? (
+          value != null && (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {isPercent ? (
+                <>
+                  <CircularProgress determinate value={userValue} size="lg">
+                    {icon}
+                  </CircularProgress>
+                  <Box sx={{ ml: 2 }}>
+                    <Typography level="body-md" color="neutral">
+                      <Typography color="primary" level="title-lg">
+                        {Math.round(userValue)}
+                      </Typography>
+                      {` % ${t("outOf")} ${ofWhat}`}
+                    </Typography>
+                  </Box>
+                </>
+              ) : (
+                <Box>
+                  <Typography level="body-md" color="neutral">
+                    <Typography
+                      color="primary"
+                      level="title-lg"
+                      textAlign="center"
+                    >
+                      {value}
+                    </Typography>
+                    {` ${ofWhat}`}
                   </Typography>
-                  {` % ${t("outOf")} ${ofWhat}`}
-                </Typography>
                 </Box>
-              </>
-            ) : (
-              <Box>
-                <Typography level="body-md" color="neutral">
-                  <Typography color="primary" level="title-lg" textAlign="center">
-                    {value}
-                  </Typography>
-                  {` ${ofWhat}`}
-                </Typography>
-              </Box>
-            )}
-          </Box>
+              )}
+            </Box>
+          )
+        ) : (
+          <CircularProgress size="lg" />
         )}
         {children}
       </CardContent>

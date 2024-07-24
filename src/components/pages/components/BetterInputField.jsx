@@ -1,6 +1,6 @@
 import { InfoOutlined, Star } from "@mui/icons-material";
-import { FormControl, FormHelperText, FormLabel, Input } from "@mui/joy";
-import { useState } from "react";
+import { Box, FormControl, FormHelperText, FormLabel, Input } from "@mui/joy";
+import { Children, useState } from "react";
 
 export default function BetterInputField({
   setValue,
@@ -13,7 +13,10 @@ export default function BetterInputField({
   required = false,
   label,
   startDecorator,
+  endDecorator,
   helpMessage,
+  color = "neutral",
+  children,
 }) {
   const [hasError, setHasError] = useState(false);
 
@@ -39,14 +42,18 @@ export default function BetterInputField({
       </FormLabel>
       <Input
         startDecorator={startDecorator}
+        endDecorator={endDecorator}
         error={hasError}
+        color={color}
         type={type}
         variant={variant}
         onChange={handleChange}
         placeholder={placeholder || label}
         value={value}
+        required={required}
         disabled={disabled}
       />
+      {children && <Box mt={0.5}>{children}</Box>}
       {helpMessage && hasError && (
         <FormHelperText>
           <InfoOutlined /> {helpMessage}

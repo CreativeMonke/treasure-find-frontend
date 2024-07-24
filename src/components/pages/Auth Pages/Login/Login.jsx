@@ -34,8 +34,8 @@ function LoginPage(props) {
   const theme = useTheme(); // This hook provides the theme context
   const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
   const backgroundImageUrl = isDarkMode
-    ? "./icons/backgroundDark.jpg"
-    : "./icons/backgroundLight.jpg";
+    ? "/icons/backgroundDark.jpg"
+    : "/icons/backgroundLight.jpg";
 
   async function handleSubmit(evt) {
     evt.preventDefault();
@@ -118,11 +118,17 @@ function LoginPage(props) {
               {t("signIn")}{" "}
             </Button>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <Typography className="linkText">
-              {t("dontHaveAccount")}
               <Link component={RouterLink} to="/register">
                 {t("register")}
+              </Link>
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography className="linkText">
+              <Link component={RouterLink} to="/settings/resetPassword">
+                {t("resetPassword")}
               </Link>
             </Typography>
           </Grid>

@@ -193,7 +193,7 @@ export const deleteHuntById = createAsyncThunk(
 );
 
 export const getAllAnswersCsvByHuntId = createAsyncThunk(
-  "answer/getAllAnswersCsvByHuntId",
+  "hunt/getAllAnswersCsvByHuntId",
   async (huntId, { getState, rejectWithValue }) => {
     const { auth } = getState();
     try {
@@ -213,6 +213,8 @@ export const getAllAnswersCsvByHuntId = createAsyncThunk(
     }
   }
 );
+
+
 
 const initialState = {
   currentHuntInfo: {

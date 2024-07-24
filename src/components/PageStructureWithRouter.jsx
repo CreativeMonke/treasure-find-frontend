@@ -7,13 +7,20 @@ import AlertsGrid from "./General/Alert/AlertsGrid.jsx";
 
 function PageStructureWithRouter() {
   const location = useLocation();
-  const singleBodyPages = ["/login", "/register", "/landing" , "/verifyEmail","/docs/support"];
+  const singleBodyPages = [
+    "/login",
+    "/register",
+    "/landing",
+    "/verifyEmail",
+    "/docs/support",
+    "/settings/resetPassword",
+  ];
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <>
       {!singleBodyPages.includes(location.pathname) && isLoggedIn && <NavBar />}
       <MainContent />
-      <AlertsGrid/>
+      <AlertsGrid />
     </>
   );
 }

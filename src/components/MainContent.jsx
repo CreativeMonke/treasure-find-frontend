@@ -14,6 +14,7 @@ function MainContent() {
     "/verifyEmail",
     "/docs/support",
     "/landing",
+    "/settings/resetPassword",
   ];
   const shouldHideBox = hideForRoutes.includes(location.pathname);
   const theme = useTheme();
@@ -27,7 +28,7 @@ function MainContent() {
       className="MainContent"
       boxSizing="border-box"
       maxHeight="100vh"
-      maxWidth= "100vw"
+      maxWidth="100vw"
       sx={{
         backgroundColor: "background.body",
         backgroundImage: `url(${backgroundImageUrl})`,

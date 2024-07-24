@@ -4,7 +4,7 @@ import cities from "../../data/romanianCities.json";
 import { MoreHorizRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 
-export default function CityPicker({ onChange, label, value }) {
+export default function CityPicker({ onChange, label = "", value }) {
     const { t } = useTranslation();
   function handleChange(e,newValue) {
     onChange(newValue);
