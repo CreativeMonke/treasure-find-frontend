@@ -1,5 +1,11 @@
 import { setAlert } from "../features/alert/alertSlice";
 
+function betterLookingFunctionName(functionName = "") {
+  return functionName
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase());
+}
+
 const alertMiddleware = (store) => (next) => async (action) => {
   let result;
 
@@ -52,13 +58,13 @@ const alertMiddleware = (store) => (next) => async (action) => {
       //Get function name from 'type', and send it to actionName
       const typeParts = type.split("/");
       const functionName = typeParts[typeParts.length - 2];
-
-      if (true || severity !== "success") {
+      const prettyFunctionName = betterLookingFunctionName(functionName);
+      if (severity !== "success") {
         store.dispatch(
           setAlert({
             message,
             severity,
-            actionName: functionName,
+            actionName: prettyFunctionName,
           })
         );
       }
