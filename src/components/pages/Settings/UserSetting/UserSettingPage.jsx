@@ -73,7 +73,9 @@ function UserSettingPage() {
   return (
     <React.Fragment>
       <InnerPageSheet>
-        <Typography level="h1">{t("settings")}</Typography>
+        <Typography level="h1" sx={{ mb: 2 }}>
+          {t("settings")}
+        </Typography>
         <Card>
           <Box>
             <Typography level="title-lg">{t("personalInfo")}</Typography>
