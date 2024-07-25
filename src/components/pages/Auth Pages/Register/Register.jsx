@@ -45,6 +45,10 @@ function RegisterPage(props) {
     e.preventDefault();
     setErrorMsg(null);
 
+    if (!firstName || !lastName || !town || !email || !password) {
+      setErrorMsg(t("allFieldsRequired"));
+      return;
+    }
     if (password.length < minPasswordLength) {
       setErrorMsg(t("passwordTooShort"));
       return;
@@ -133,17 +137,14 @@ function RegisterPage(props) {
               required
             />
           </Grid>
-          <Grid item xs={8}>
-            <BetterInputField
-              label="Email"
-              setValue={setEmail}
-              type="email"
-              helpMessage={t("emptyErrorMessage")}
+
+          <Grid item xs={6} md={4}>
+            <CityPicker
+              label={t("town")}
+              onChange={setTown}
+              value={town}
               required
             />
-          </Grid>
-          <Grid item xs={4}>
-            <CityPicker label={t("town")} onChange={setTown} value={town} required/>
             {/*
             <Select
               placeholder={t("town")}
@@ -159,7 +160,15 @@ function RegisterPage(props) {
             </Select>
             */}
           </Grid>
-
+          <Grid item xs={12} md={8}>
+            <BetterInputField
+              label="Email"
+              setValue={setEmail}
+              type="email"
+              helpMessage={t("emptyErrorMessage")}
+              required
+            />
+          </Grid>
           <Grid item xs={12}>
             <BetterInputField
               label={t("passwordPlaceholder")}

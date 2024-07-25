@@ -176,5 +176,6 @@
   "emailPlaceholderMessage": "Introduceți emailul",
   "resetPassword": "Resetează parola",
   "personalInfo": "Informații personale",
-  "personalInfoDescription": "Actualizați detaliile dvs. personale mai jos."
+  "personalInfoDescription": "Actualizați detaliile dvs. personale mai jos.",
+  "allFieldsRequired": "Toate câmpurile sunt obligatorii"
 }

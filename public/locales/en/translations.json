@@ -176,5 +176,7 @@
   "emailPlaceholderMessage": "Enter your email",
   "resetPassword": "Reset Password",
   "personalInfo": "Personal Information",
-  "personalInfoDescription": "Update your personal details below."
+  "personalInfoDescription": "Update your personal details below.",
+  "allFieldsRequired": "All fields are required"
+
 }

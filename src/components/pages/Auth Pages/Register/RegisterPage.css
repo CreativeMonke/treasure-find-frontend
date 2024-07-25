@@ -14,13 +14,8 @@
     flex-basis: 70vw; /* Base width of the card is 70% of the viewport width, giving it a responsive feel */
     min-width: fit-content; /* Ensures card does not shrink beyond the content it contains */
     max-width: 400px; /* Ensures card does not grow beyond 400px, for better readability */
-    padding: 20px; /* Adds padding inside the card for spacing around form elements */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds a subtle shadow to lift the card off the page */
     border-radius: 8px; /* Rounds the corners of the card */
 }
-
-/* Additional styling to enhance the look and feel */
-
 
 
 /* Styling links for better visibility and interactivity */
