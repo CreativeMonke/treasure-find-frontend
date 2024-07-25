@@ -13,31 +13,49 @@ import {
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import React, { useState } from "react";
 import "./RegisterPage.css";
-import InputField from "../../components/InputField";
-import { useTranslation } from "react-i18next"; // Import useTranslation
+import BetterInputField from "../../components/BetterInputField";
+import { useTranslation } from "react-i18next";
 import cities from "../../../../data/romanianCities.json";
 import { useDispatch } from "react-redux";
 import { register } from "../../../../features/auth/authSlice";
+import PasswordMeter from "../../../General/PasswordMeter/PasswordMeter";
+import CityPicker from "../../../General/CityPicker";
+
 function RegisterPage(props) {
   const [isLoading, setIsLoading] = useState(false);
-  const [firstName, setFirstName] = useState(null);
-  const [lastName, setLastName] = useState(null);
-  const [town, setTown] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [town, setTown] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
-  const { t } = useTranslation(); // Initialize useTranslation hook
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const theme = useTheme(); // This hook provides the theme context
-  const isDarkMode = theme.palette.mode === "dark"; // Check if the theme mode is 'dark'
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === "dark";
   const backgroundImageUrl = isDarkMode
     ? "./icons/backgroundDark.jpg"
     : "./icons/backgroundLight.jpg";
 
+  const minPasswordLength = 8;
+
   async function handleSubmit(e) {
-    setIsLoading(true);
     e.preventDefault();
+    setErrorMsg(null);
+
+    if (password.length < minPasswordLength) {
+      setErrorMsg(t("passwordTooShort"));
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setErrorMsg(t("passwordsNotMatch"));
+      return;
+    }
+
+    setIsLoading(true);
     dispatch(
       register({
         first_name: firstName,
@@ -49,12 +67,17 @@ function RegisterPage(props) {
     )
       .unwrap()
       .then((response) => {
-        navigate("/verifyEmail" , { state: { fromRegistration: true } }); // navigate to verification page on success
+        navigate("/verifyEmail", { state: { fromRegistration: true } });
       })
       .catch((error) => {
-        if (error === "redirect") navigate("/verifyEmail" , { state: { fromRegistration: true } });
-        else console.error("Registration error:", error);
-        setErrorMsg(error || "An error occurred during registration.");
+        if (error === "redirect") {
+          navigate("/verifyEmail", { state: { fromRegistration: true } });
+        } else {
+          console.error("Registration error:", error);
+          setErrorMsg(
+            error || error.message || "An error occurred during registration."
+          );
+        }
         setIsLoading(false);
       });
   }
@@ -88,31 +111,45 @@ function RegisterPage(props) {
           {errorMsg && (
             <Grid item xs={12}>
               <Alert severity="error" color="danger">
-                {errorMsg}
+                {t(errorMsg)}
               </Alert>
             </Grid>
           )}
           <Grid item xs={6}>
-            <InputField
+            <BetterInputField
               label={t("firstName")}
-              id="firstname"
               setValue={setFirstName}
-              type="firstname"
+              type="text"
+              helpMessage={t("emptyErrorMessage")}
+              required
             />
           </Grid>
           <Grid item xs={6}>
-            <InputField
+            <BetterInputField
               label={t("lastName")}
-              id="lastname"
               setValue={setLastName}
-              type="lastname"
+              type="text"
+              helpMessage={t("emptyErrorMessage")}
+              required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
+            <BetterInputField
+              label="Email"
+              setValue={setEmail}
+              type="email"
+              helpMessage={t("emptyErrorMessage")}
+              required
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <CityPicker label={t("town")} onChange={setTown} value={town} required/>
+            {/*
             <Select
               placeholder={t("town")}
               onChange={(e) => setTown(e.target.textContent)}
               size="sm"
+              required
             >
               {cities.map((city) => (
                 <Option key={city.abr} value={city.nume}>
@@ -120,21 +157,30 @@ function RegisterPage(props) {
                 </Option>
               ))}
             </Select>
+            */}
           </Grid>
+
           <Grid item xs={12}>
-            <InputField
-              label="Email"
-              id="email"
-              setValue={setEmail}
-              type="email"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
+            <BetterInputField
               label={t("passwordPlaceholder")}
-              id="password"
               setValue={setPassword}
               type="password"
+              helpMessage={t("emptyErrorMessage")}
+              required
+            >
+              <PasswordMeter
+                value={password}
+                minLength={minPasswordLength * 2.5}
+              />
+            </BetterInputField>
+          </Grid>
+          <Grid item xs={12}>
+            <BetterInputField
+              label={t("confirmPassword")}
+              setValue={setConfirmPassword}
+              type="password"
+              helpMessage={t("emptyErrorMessage")}
+              required
             />
           </Grid>
           <Grid item xs={12}>
@@ -163,4 +209,5 @@ function RegisterPage(props) {
     </Box>
   );
 }
+
 export default RegisterPage;

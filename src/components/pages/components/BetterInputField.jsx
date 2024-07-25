@@ -36,7 +36,7 @@ export default function BetterInputField({
   }
 
   return (
-    <FormControl>
+    <FormControl component={type}>
       <FormLabel>
         {label} {required && <Star sx={{ fontSize: 12, ml: 0.5 }} />}
       </FormLabel>

@@ -5,6 +5,18 @@ import { useTranslation } from "react-i18next";
 function PasswordMeter({ value = "", minLength = 12 }) {
   const { t } = useTranslation();
 
+  const veryWeakThreshold = minLength * 0.25;
+  const weakThreshold = minLength * 0.5;
+  const strongThreshold = minLength * 0.75;
+
+  const getStrengthLabel = () => {
+    if (value.length < veryWeakThreshold) return t("veryWeak");
+    if (value.length >= veryWeakThreshold && value.length < weakThreshold)
+      return t("weak");
+    if (value.length >= weakThreshold && value.length < strongThreshold)
+      return t("strong");
+    if (value.length >= strongThreshold) return t("veryStrong");
+  };
   return (
     <React.Fragment>
       <Stack
@@ -25,10 +37,7 @@ function PasswordMeter({ value = "", minLength = 12 }) {
           level="body-xs"
           sx={{ alignSelf: "flex-end", color: "hsl(var(--hue) 80% 30%)" }}
         >
-          {value.length < 3 && t("veryWeak")}
-          {value.length >= 3 && value.length < 6 && t("weak")}
-          {value.length >= 6 && value.length < 10 && t("strong")}
-          {value.length >= 10 && t("veryStrong")}
+          {getStrengthLabel()}
         </Typography>
       </Stack>
     </React.Fragment>

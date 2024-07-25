@@ -166,6 +166,7 @@
   "currentPassword": "Parola curentă",
   "newPassword": "Parola nouă",
   "confirmNewPassword": "Confirmă parola nouă",
+  "confirmPassword": "Confirmă Parola",
   "passwordTooShort": "Parola este prea scurtă",
   "passwordsNotMatch": "Parolele nu se potrivesc",
   "veryWeak": "Foarte slab",

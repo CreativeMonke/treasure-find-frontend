@@ -13,20 +13,16 @@ import {
   useTheme,
 } from "@mui/joy";
 import "./LoginPage.css";
-import InputField from "../../components/InputField.jsx";
+import BetterInputField from "../../components/BetterInputField.jsx";
 import {
-  fetchLocations,
   getAllLocationsByAuthorId,
   getAllLocationsByUserHuntId,
 } from "../../../../features/locations/locationSlice.js";
 import { getAnswersByUserId } from "../../../../features/answers/answerSlice.js";
-import {
-  getCurrentHunt,
-  getGlobalHuntInfo,
-} from "../../../../features/hunt/huntSlice.js";
+import { getCurrentHunt } from "../../../../features/hunt/huntSlice.js";
 import { useTranslation } from "react-i18next";
 
-function LoginPage(props) {
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
@@ -43,27 +39,33 @@ function LoginPage(props) {
 
   async function initializeApp() {
     try {
-      dispatch(getAnswersByUserId());
-      dispatch(getAllLocationsByAuthorId());
-      dispatch(getAllLocationsByUserHuntId());
-      dispatch(getCurrentHunt());
+      await Promise.all([
+        dispatch(getAnswersByUserId()),
+        dispatch(getAllLocationsByAuthorId()),
+        dispatch(getAllLocationsByUserHuntId()),
+        dispatch(getCurrentHunt()),
+      ]);
     } catch (err) {
-      console.error("Failed to login: ", err);
+      console.error("Failed to initialize app: ", err);
     }
   }
+
   async function handleSubmit(evt) {
     evt.preventDefault();
+    setErrorMsg(null);
+    if (password.length < 8) {
+      setErrorMsg(t("passwordTooShort"));
+      return;
+    }
+
     try {
-      await dispatch(login({ email, password }))
-        .unwrap()
-        .then(() => {
-          navigate("/");
-          initializeApp();
-        });
+      await dispatch(login({ email, password })).unwrap();
+      navigate("/");
+      initializeApp();
     } catch (err) {
       console.error("Failed to login: ", err);
       const errorMessage =
-        err?.response?.data?.message || "An error occurred durin login";
+        err?.response?.data?.message || "An error occurred during login";
       setErrorMsg(errorMessage);
     }
   }
@@ -102,30 +104,33 @@ function LoginPage(props) {
             </Grid>
           )}
           <Grid item xs={12}>
-            <InputField
+            <BetterInputField
               label={t("emailPlaceholder")}
               type="email"
               placeholder={t("emailPlaceholder")}
+              required
               setValue={setEmail}
+              helpMessage={t("emptyErrorMessage")}
             />
           </Grid>
           <Grid item xs={12}>
-            <InputField
+            <BetterInputField
               label={t("passwordPlaceholder")}
               type="password"
-              placeholder={t("passwordPlaceholder")}
+              required
               setValue={setPassword}
+              helpMessage={t("emptyErrorMessage")}
             />
           </Grid>
           <Grid item xs={12}>
             <Button
               loading={isLoading}
-              onClick={(evt) => handleSubmit(evt)}
+              onClick={handleSubmit}
               variant="solid"
               color="primary"
               className="buttonSubmit"
             >
-              {t("signIn")}{" "}
+              {t("signIn")}
             </Button>
           </Grid>
           <Grid item xs={6}>
@@ -147,4 +152,5 @@ function LoginPage(props) {
     </Box>
   );
 }
+
 export default LoginPage;

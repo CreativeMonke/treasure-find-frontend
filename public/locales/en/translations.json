@@ -166,6 +166,7 @@
   "currentPassword": "Current Password",
   "newPassword": "New Password",
   "confirmNewPassword": "Confirm New Password",
+  "confirmPassword": "Confirm Password",
   "passwordTooShort": "Password is too short",
   "passwordsNotMatch": "Passwords do not match",
   "veryWeak": "Very weak",

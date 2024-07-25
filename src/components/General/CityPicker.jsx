@@ -4,9 +4,14 @@ import cities from "../../data/romanianCities.json";
 import { MoreHorizRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 
-export default function CityPicker({ onChange, label = "", value }) {
-    const { t } = useTranslation();
-  function handleChange(e,newValue) {
+export default function CityPicker({
+  onChange,
+  label = "",
+  value,
+  required = 0,
+}) {
+  const { t } = useTranslation();
+  function handleChange(e, newValue) {
     onChange(newValue);
   }
   return (
@@ -19,6 +24,8 @@ export default function CityPicker({ onChange, label = "", value }) {
           <MoreHorizRounded />
         </Divider>
         <Select
+          required={required}
+          name="town"
           placeholder={value}
           onChange={handleChange}
           size="md"
