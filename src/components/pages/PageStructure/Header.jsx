@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/joy";
 import { useTranslation } from "react-i18next";
 
 function Header() {
-  const logoPath = process.env.PUBLIC_URL + "/icons/logo/logo.png";
+  const logoPath = process.env.PUBLIC_URL + "/icons/logo/old/logo.png";
   const { t } = useTranslation();
   return (
     <React.Fragment>
