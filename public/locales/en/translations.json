@@ -122,6 +122,7 @@
   "huntName": "Hunt Name",
   "townName": "Town Name",
   "addLocationMessage": "Please add a location to view the map overview of locations!",
+  "clickOnALocationToAdd" : "Click on a location to add it",
   "details": "Details",
   "confirmExit": "Are you sure you want to exit this hunt?",
   "no": "No",

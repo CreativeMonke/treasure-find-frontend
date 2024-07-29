@@ -122,6 +122,7 @@
   "huntName": "Nume Vânătoare",
   "townName": "Nume Oraș",
   "addLocationMessage": "Vă rugăm să adăugați o locație pentru a vedea prezentarea generală a locațiilor pe hartă!",
+  "clickOnALocationToAdd": "Faceți clic pe o locație pentru a o adăuga",
   "details": "Detalii",
   "confirmExit": "Sigur doriți să părăsiți această vânătoare?",
   "no": "Nu",
@@ -178,5 +179,5 @@
   "personalInfo": "Informații personale",
   "personalInfoDescription": "Actualizați detaliile dvs. personale mai jos.",
   "allFieldsRequired": "Toate câmpurile sunt obligatorii",
-  "createANewLocationHere" : "Creează o noua Locație aici"
+  "createANewLocationHere": "Creează o noua Locație aici"
 }

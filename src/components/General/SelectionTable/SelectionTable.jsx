@@ -86,7 +86,7 @@ export default function SelectionTable({
             )}
           </Grid>
           <Grid item xs={12} md={6}>
-            {locationsInHunt.length ? (
+            {!availableLocations.length && locationsInHunt.length ? (
               <GenericTable
                 title={t("locationsInHunt")}
                 columns={columns}
@@ -95,8 +95,7 @@ export default function SelectionTable({
               />
             ) : (
               <WarningWithRedirect
-                message={t("createANewLocationHere")}
-                redirectLink="/locations/myLocations/edit"
+                message={t("clickOnALocationToAdd")}
               />
             )}
           </Grid>
