@@ -3,9 +3,7 @@ import Accordion from "@mui/joy/Accordion";
 import AccordionSummary from "@mui/joy/AccordionSummary";
 import AccordionDetails from "@mui/joy/AccordionDetails";
 import Typography from "@mui/joy/Typography";
-import { AccordionGroup, Button, Sheet } from "@mui/joy";
-import screenfull from "screenfull";
-import Box from "@mui/joy/Box";
+import { AccordionGroup, Sheet } from "@mui/joy";
 import "./Css/About.css";
 
 function About() {
