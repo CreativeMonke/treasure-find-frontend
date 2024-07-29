@@ -13,12 +13,12 @@
       "sizes": "816x838"
     },
     {
-      "src": "icons/logo/old/logo-sm.png",
+      "src": "icons/logo/cner/logo-sm.png",
       "type": "image/png",
       "sizes": "1000x1000"
     },
     {
-      "src": "icons/logo/old/logo.png",
+      "src": "icons/logo/cner/logo.png",
       "type": "image/png",
       "sizes": "1880x932"
     }
