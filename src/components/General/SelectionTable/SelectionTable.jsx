@@ -86,8 +86,6 @@ export default function SelectionTable({
             )}
           </Grid>
           <Grid item xs={12} md={6}>
-            {console.log(availableLocations)}
-            {console.log(locationsInHunt)}
             {locationsInHunt.length ? (
               <GenericTable
                 title={t("locationsInHunt")}
