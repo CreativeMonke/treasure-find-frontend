@@ -177,6 +177,6 @@
   "resetPassword": "Reset Password",
   "personalInfo": "Personal Information",
   "personalInfoDescription": "Update your personal details below.",
-  "allFieldsRequired": "All fields are required"
-
+  "allFieldsRequired": "All fields are required",
+  "createANewLocationHere" : "Create a new Location here"
 }

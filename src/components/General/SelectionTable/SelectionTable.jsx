@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Stack, Divider, Grid, Input } from "@mui/joy";
-import { MoreHorizRounded } from "@mui/icons-material";
+import { Typography, Stack, Divider, Grid, Input, Box } from "@mui/joy";
+import { MoreHorizRounded, WarningAmberRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import GenericTable from "../GenericTable/GenericTable";
+import WarningWithRedirect from "./WarningWithRedirect";
 
 export default function SelectionTable({
   label,
@@ -11,7 +12,7 @@ export default function SelectionTable({
   selectedLocations = [],
 }) {
   const { t } = useTranslation();
-  
+
   const columns = [
     { field: "name", headerName: t("name") },
     { field: "question", headerName: t("question") },
@@ -20,14 +21,13 @@ export default function SelectionTable({
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLocationIds, setSelectedLocationIds] = useState([]);
-  
+
   useEffect(() => {
     setSelectedLocationIds(selectedLocations.map((location) => location._id));
   }, [selectedLocations]);
 
   const availableLocations = locations.filter(
-    (location) =>
-      !selectedLocationIds.includes(location._id)
+    (location) => !selectedLocationIds.includes(location._id)
   );
 
   const locationsInHunt = locations.filter((location) =>
@@ -69,22 +69,36 @@ export default function SelectionTable({
         />
         <Grid container spacing={2} rowSpacing={8}>
           <Grid item xs={12} md={6}>
-            <GenericTable
-              title={t("availableLocations")}
-              columns={columns}
-              rows={availableLocations.filter((location) =>
-                location.name.toLowerCase().includes(searchTerm.toLowerCase())
-              )}
-              onSelect={handleSelect}
-            />
+            {availableLocations.length ? (
+              <GenericTable
+                title={t("availableLocations")}
+                columns={columns}
+                rows={availableLocations.filter((location) =>
+                  location.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )}
+                onSelect={handleSelect}
+              />
+            ) : (
+              <WarningWithRedirect
+                message={t("createANewLocationHere")}
+                redirectLink="/locations/myLocations/edit"
+              />
+            )}
           </Grid>
           <Grid item xs={12} md={6}>
-            <GenericTable
-              title={t("locationsInHunt")}
-              columns={columns}
-              rows={locationsInHunt}
-              onSelect={handleSelect}
-            />
+            {locationsInHunt.length ? (
+              <GenericTable
+                title={t("locationsInHunt")}
+                columns={columns}
+                rows={locationsInHunt}
+                onSelect={handleSelect}
+              />
+            ) : (
+              <WarningWithRedirect
+                message={t("createANewLocationHere")}
+                redirectLink="/locations/myLocations/edit"
+              />
+            )}
           </Grid>
         </Grid>
       </Stack>

@@ -177,5 +177,6 @@
   "resetPassword": "Resetează parola",
   "personalInfo": "Informații personale",
   "personalInfoDescription": "Actualizați detaliile dvs. personale mai jos.",
-  "allFieldsRequired": "Toate câmpurile sunt obligatorii"
+  "allFieldsRequired": "Toate câmpurile sunt obligatorii",
+  "createANewLocationHere" : "Creează o noua Locație aici"
 }
