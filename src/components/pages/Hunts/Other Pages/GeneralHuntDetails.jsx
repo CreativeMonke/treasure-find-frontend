@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HuntDetailsPage from "./HuntDetailsPage";
-import { Button, Box, Typography } from "@mui/joy";
 import { ModalProvider } from "../Context/modalContext";
 import { useLocation, useParams } from "react-router-dom";
 import { getAllLocationsByHuntId } from "../../../../features/locations/locationSlice";
