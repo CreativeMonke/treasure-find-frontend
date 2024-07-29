@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Typography, Stack, Divider, Grid, Input, Box } from "@mui/joy";
-import { MoreHorizRounded, WarningAmberRounded } from "@mui/icons-material";
+import { Typography, Stack, Divider, Grid, Input } from "@mui/joy";
+import { MoreHorizRounded } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import GenericTable from "../GenericTable/GenericTable";
 import WarningWithRedirect from "./WarningWithRedirect";
@@ -94,9 +94,7 @@ export default function SelectionTable({
                 onSelect={handleSelect}
               />
             ) : (
-              <WarningWithRedirect
-                message={t("clickOnALocationToAdd")}
-              />
+              <WarningWithRedirect message={t("clickOnALocationToAdd")} />
             )}
           </Grid>
         </Grid>
