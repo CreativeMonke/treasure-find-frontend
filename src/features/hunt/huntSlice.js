@@ -4,7 +4,6 @@ import {
   getAllLocationsByHuntId,
   getAllLocationsByUserHuntId,
 } from "../locations/locationSlice";
-import { useDispatch } from "react-redux";
 const apiUrl = process.env.REACT_APP_API_BASE_URL;
 export const editHuntOptionsById = createAsyncThunk(
   "/hunt/edit",

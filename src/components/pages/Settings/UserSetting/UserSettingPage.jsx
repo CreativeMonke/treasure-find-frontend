@@ -17,7 +17,6 @@ import BetterInputField from "../../components/BetterInputField";
 import {
   Person,
   Email,
-  EditRounded,
   OpenInNewRounded,
   MailRounded,
   KeyRounded,

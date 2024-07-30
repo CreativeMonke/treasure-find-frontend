@@ -4,10 +4,8 @@ import {
   CardContent,
   Typography,
   Box,
-  CircularProgress,
   Divider,
 } from "@mui/joy";
-import { useTranslation } from "react-i18next";
 
 function WidgetInfoCard({
   title,
@@ -17,7 +15,6 @@ function WidgetInfoCard({
   children,
   additionalText,
 }) {
-  const { t } = useTranslation();
   return (
     <Card
       variant="outlined"
