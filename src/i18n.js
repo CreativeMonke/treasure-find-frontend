@@ -16,7 +16,7 @@ i18n
     interpolation: {
       escapeValue: false,
     },
-    backend: { // Configuration for the backend plugin
+    backend: {
       loadPath: '/locales/{{lng}}/{{ns}}.json', // Path to the translation files
     },
   }, function (err, t) {

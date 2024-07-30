@@ -200,7 +200,7 @@ function SidebarContents({
           "--ListItem-radius": (theme) => theme.vars.radius.sm,
         }}
       >
-        {userInfo.role >= "0x60" && (
+        {/*userInfo.role >= "0x60" && (
           <ListItem>
             <ListItemButton
               component={Link}
@@ -212,7 +212,7 @@ function SidebarContents({
               {t("settings")}
             </ListItemButton>
           </ListItem>
-        )}
+        )*/}
         <ListItem>
           <ListItemButton
             onClick={() =>
